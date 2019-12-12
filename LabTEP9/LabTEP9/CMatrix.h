@@ -19,6 +19,7 @@ public:
 	bool bSetSize(int iNewSizeX, int iNewSizeY);
 	
 	bool bInitializeMatrixWithValues(double*** pdMatrix, int iSizeX, int iSizeY, double dValue);
+	bool vInitializeMatrixWithInitialValue(double*** pdMatrix, int iSizeX, int iSizeY);
 
 
 private:

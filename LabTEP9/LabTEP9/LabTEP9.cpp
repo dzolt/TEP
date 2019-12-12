@@ -5,29 +5,16 @@
 int main()
 {
 	int iSuppliers = 2;
-	int iFactories = 2;
-	int iWarehouses = 5;
-	int iSellers = 2;
-	bool success = true;
-	CMscnProblem cNewProblem(iSuppliers, iFactories, iWarehouses, iSellers, success);
+	int iFactories = 3;
+	int iWarehouses = 2;
+	int iSellers = 3;
+	
+	double** deliveryMatrix = new double*[iSuppliers];
+	double** factoryMatrix = new double*[iFactories];
+	double** warehouseMatrix = new double*[iWarehouses];
 	
 
-	int iSize = iSuppliers * iFactories + iFactories * iWarehouses + iWarehouses * iSellers;
-	double* pdSolution = new double[iSize];
-	
-	
-	for (int i = 0; i < iSize; i++)
-	{	
-		double random = ((double)rand() / (double)RAND_MAX);
-		pdSolution[i] = random;
-	}
 
-	for (int i = 0; i < iSize; i++)
-	{
-		std::cout << pdSolution[i] << " ";
-		if (i % 10 == 0) std::cout << std::endl;
-	}
-	
 
 	return 0;
 }

@@ -29,7 +29,11 @@ public:
 	bool bSetSellerCapacityAmmount(double dVal, int iIndex);
 	bool bSetSellerIncomeValAt(double dVal, int iIndex);
 
-	bool dGetQuality(double* pdSolution, int iSizeX, int iSizeY, double& profit);
+	bool dGetQuality(double* pdSolution, int iSize, double& profit);
+
+	double dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution);
+	double dCalculateTotalContractPrice();
+	double dCalculateTotalContractPriceForOneEntity(CTable& ctEntity);
 
 private:
 
