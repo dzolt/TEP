@@ -43,6 +43,7 @@ public:
 	bool bConstraintsSatisfied(double* pdSolution, int iSize);
 	bool bCheckMinMaxConstraint(double* pdSolution);
 	bool bCheckSolutionForNegativeNumbers(double* pdSolution, int iSize);
+	bool bCheckMaxCapacityOverload(double* pdSolution);
 
 	double dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution);
 	double dCalculateTotalContractPrice();

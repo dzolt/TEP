@@ -292,6 +292,53 @@ bool CMscnProblem::bCheckSolutionForNegativeNumbers(double * pdSolution, int iSi
 	return true;
 }//bool CMscnProblem::bCheckSolutionForNegativeNumbers(double * pdSolution)
 
+bool CMscnProblem::bCheckMaxCapacityOverload(double * pdSolution)
+{
+	int iCurrent = 0;
+	int LastIdx = 0;
+
+	for (int i = 0; i < i_suppliers_count; i++)
+	{	
+		double orderedAmmount = 0;
+		for (int j = 0; j < i_factories_count; j++)
+		{
+			iCurrent = i * i_factories_count + j;
+			orderedAmmount += (pdSolution)[LastIdx + iCurrent];
+			if (orderedAmmount > ct_suppliers_capacity_ammount.dGet(i)) return false;
+		}//for (int j = 0; j < i_factories_count; j++)
+	}//for (int i = 0; i < i_suppliers_count; i++)
+	LastIdx += iCurrent + 1;
+
+	for (int i = 0; i < i_factories_count; i++)
+	{	
+		double orderedAmmount = 0;
+		for (int j = 0; j < i_warehouses_count; j++)
+		{
+			iCurrent = i * i_warehouses_count + j;
+			orderedAmmount += (pdSolution)[LastIdx + iCurrent];
+			if (orderedAmmount > ct_factories_capacity_ammount.dGet(i)) return false;
+		}//for (int j = 0; j < i_warehouses_count; j++)
+	}//for (int i = 0; i < i_factories_count; i++)
+
+	LastIdx += iCurrent + 1;
+	for (int i = 0; i < i_warehouses_count; i++)
+	{	
+		double orderedAmmount = 0;
+		for (int j = 0; j < i_sellers_count; j++)
+		{
+			iCurrent = i * i_sellers_count + j;
+			orderedAmmount += (pdSolution)[LastIdx + iCurrent];
+			if (orderedAmmount > ct_warehouses_capacity_ammount.dGet(i)) return false;
+			
+		}//for (int j = 0; j < i_sellers_count; j++)
+	}//for (int i = 0; i < i_warehouses_count; i++)
+
+	//warunek na sumaryczna ilosc przedmiotow do danego sklepu
+
+
+	return true;
+}//bool CMscnProblem::bCheckMaxCapacityOverload(double * pdSolution)
+
 double CMscnProblem::dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution)
 {	
 	int iCurrent = 0;
