@@ -51,8 +51,16 @@ bool CMscnProblem::bInitMatrixes()
 {	
 	bool bSuccess = true;
 	cm_delivery_matrix = CMatrix(i_suppliers_count, i_factories_count, bSuccess);
+	cm_min_items_sent_from_supplier = CMatrix(i_suppliers_count, i_factories_count, bSuccess);
+	cm_max_items_sent_from_supplier = CMatrix(i_suppliers_count, i_factories_count, bSuccess);
+	
 	cm_factory_matrix =  CMatrix(i_factories_count, i_warehouses_count, bSuccess);
+	cm_min_items_sent_from_factory = CMatrix(i_factories_count, i_warehouses_count, bSuccess);
+	cm_max_items_sent_from_factory = CMatrix(i_factories_count, i_warehouses_count, bSuccess);
+	
 	cm_warehouse_matrix = CMatrix(i_warehouses_count, i_sellers_count, bSuccess);
+	cm_min_items_sent_from_warehouse = CMatrix(i_warehouses_count, i_sellers_count, bSuccess);
+	cm_max_items_sent_from_warehouse = CMatrix(i_warehouses_count, i_sellers_count, bSuccess);
 	if (bSuccess == true) return true;
 	return false;
 }//void CMscnProblem::vInitMatrixes()
@@ -68,6 +76,8 @@ bool CMscnProblem::bSetSuppliersCount(unsigned int iNewCount)
 	ct_suppliers_capacity_ammount.bSetSize(i_suppliers_count);
 
 	cm_delivery_matrix.bSetSize(i_suppliers_count, i_factories_count);
+	cm_max_items_sent_from_supplier.bSetSize(i_suppliers_count, i_factories_count);
+	cm_min_items_sent_from_supplier.bSetSize(i_suppliers_count, i_factories_count);
 	return true;
 }//void CMscnProblem::vSetSuppliersCount(unsigned int iNewValue)
 
@@ -81,7 +91,12 @@ bool CMscnProblem::bSetFactoriesCount(unsigned int iNewCount)
 	ct_factories_capacity_ammount.bSetSize(i_factories_count);
 
 	cm_delivery_matrix.bSetSize(i_suppliers_count, i_factories_count);
+	cm_min_items_sent_from_supplier.bSetSize(i_suppliers_count, i_factories_count);
+	cm_max_items_sent_from_supplier.bSetSize(i_suppliers_count, i_factories_count);
+	
 	cm_factory_matrix.bSetSize(i_factories_count, i_warehouses_count);
+	cm_min_items_sent_from_factory.bSetSize(i_factories_count, i_warehouses_count);
+	cm_max_items_sent_from_factory.bSetSize(i_factories_count, i_warehouses_count);
 	return true;
 }//void CMscnProblem::vSetFactoriesCount(unsigned int iNewValue)
 
@@ -95,6 +110,8 @@ bool CMscnProblem::bSetSellersCount(unsigned int iNewCount)
 	ct_sellers_income_value.bSetSize(i_sellers_count);
 
 	cm_warehouse_matrix.bSetSize(i_warehouses_count, i_sellers_count);
+	cm_min_items_sent_from_warehouse.bSetSize(i_warehouses_count, i_sellers_count);
+	cm_max_items_sent_from_warehouse.bSetSize(i_warehouses_count, i_sellers_count);
 	return true;
 }//void CMscnProblem::vSetSellersCount(unsigned int iNewValue)
 
@@ -108,7 +125,12 @@ bool CMscnProblem::bSetWarehousesCount(unsigned int iNewCount)
 	ct_warehouses_contract_prices.bSetSize(i_warehouses_count);
 
 	cm_warehouse_matrix.bSetSize(i_warehouses_count, i_sellers_count);
+	cm_min_items_sent_from_warehouse.bSetSize(i_warehouses_count, i_sellers_count);
+	cm_max_items_sent_from_warehouse.bSetSize(i_warehouses_count, i_sellers_count);
+	
 	cm_factory_matrix.bSetSize(i_factories_count, i_warehouses_count);
+	cm_min_items_sent_from_factory.bSetSize(i_factories_count, i_warehouses_count);
+	cm_max_items_sent_from_factory.bSetSize(i_factories_count, i_warehouses_count);
 	return true;
 }//void CMscnProblem::vSetWarehousesCount(unsigned int iNewValue)
 
@@ -126,6 +148,36 @@ bool CMscnProblem::bSetWarehouseMatrixValAt(double dValue, int i_xIndex, int i_y
 {
 	return cm_warehouse_matrix.bSet(dValue, i_xIndex, i_yIndex);
 }//bool CMscnProblem::bSetWarehouseMatrixVal(double dValue, int iSizeX, int iSizeY)
+
+bool CMscnProblem::bSetSupplierMinItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_min_items_sent_from_supplier.bSet(dValue,i_xIndex,i_yIndex);
+}//bool CMscnProblem::bSetSupplierMinItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+
+bool CMscnProblem::bSetFactoryMinItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_min_items_sent_from_factory.bSet(dValue, i_xIndex,i_yIndex);
+}//bool CMscnProblem::bSetFactoryMinItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+
+bool CMscnProblem::bSetWarehouseMinItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_min_items_sent_from_warehouse.bSet(dValue, i_xIndex, i_yIndex);
+}//bool CMscnProblem::bSetWarehouseMinItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+
+bool CMscnProblem::bSetSupplierMaxItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_max_items_sent_from_supplier.bSet(dValue, i_xIndex, i_yIndex);
+}//bool CMscnProblem::bSetSupplierMaxItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+
+bool CMscnProblem::bSetFactoryMaxItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_max_items_sent_from_factory.bSet(dValue, i_xIndex, i_yIndex);
+}//bool CMscnProblem::bSetFactoryMaxItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+
+bool CMscnProblem::bSetWarehouseMaxItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_max_items_sent_from_warehouse.bSet(dValue, i_xIndex, i_yIndex);
+}//bool CMscnProblem::bSetWarehouseMaxItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
 
 bool CMscnProblem::bSetSupplierCapacityAmmount(double dVal, int iIndex)
 {
@@ -152,9 +204,10 @@ bool CMscnProblem::bSetSellerIncomeValAt(double dVal, int iIndex)
 	return ct_sellers_income_value.bSet(dVal, iIndex);
 }//bool CMscnProblem::bSetSellerIncomeValAt(double dVal, int iIndex)
 
-bool CMscnProblem::dGetQuality(double* pdSolution, int iSize, double& profit)
-{
-	if (pdSolution == NULL || iSize <= 0 ) return false;
+bool CMscnProblem::bGetQuality(double* pdSolution, int iSize, double& profit)
+{	
+
+	if (pdSolution == NULL || iSize <= 0 || bConstraintsSatisfied(pdSolution, iSize) == false) return false;
 	double shopIncome = 0;
 	double totalDeliveryCost = 0;
 	double totalContractPrice = 0;
@@ -170,6 +223,12 @@ bool CMscnProblem::dGetQuality(double* pdSolution, int iSize, double& profit)
 	
 	return true;
 }//double CMscnProblem::dGetQuality(double*** pdSolution)
+
+bool CMscnProblem::bConstraintsSatisfied(double* pdSolution, int iSize)
+{
+	
+	return false;
+}//bool CMscnProblem::bConstraintsSatisfied(double * pdSolution, int iSize)
 
 double CMscnProblem::dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution)
 {	

@@ -1,8 +1,8 @@
 ﻿  CMscnProblems.cpp
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(180): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(182): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(189): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(191): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(198): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(200): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(239): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(241): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(248): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(250): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(257): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(259): warning C4018: '<': signed/unsigned mismatch
   LabTEP9.vcxproj -> C:\Users\Damian\source\repos\TEP\LabTEP9\Debug\LabTEP9.exe
