@@ -11,7 +11,7 @@ public:
 	~CMatrix();
 	void vDelete();
 
-	double vGet(int iSizeX, int iSizeY);
+	double dGet(int iSizeX, int iSizeY);
 	unsigned int iGetSizeX() { return i_size_x; };
 	unsigned int iGetSizeY() { return i_size_y; };
 

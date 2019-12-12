@@ -38,11 +38,11 @@ public:
 	bool bSetFactoryContractPriceAt(double dVal, int iIndex);
 	bool bSetWarehouseContractPriceAt(double dVal, int iIndex);
 
-
-
 	bool bGetQuality(double* pdSolution, int iSize, double& profit);
 
 	bool bConstraintsSatisfied(double* pdSolution, int iSize);
+	bool bCheckMinMaxConstraint(double* pdSolution);
+	bool bCheckSolutionForNegativeNumbers(double* pdSolution, int iSize);
 
 	double dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution);
 	double dCalculateTotalContractPrice();

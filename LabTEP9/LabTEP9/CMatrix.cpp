@@ -36,7 +36,7 @@ void CMatrix::vDelete()
 	delete[] pd_matrix;
 }//void CMatrix::vDelete()
 
-double CMatrix::vGet(int iSizeX, int iSizeY)
+double CMatrix::dGet(int iSizeX, int iSizeY)
 {	
 	if (iSizeX < 0 || iSizeX >= i_size_x || iSizeY < 0 || iSizeY >= i_size_y) return -1;
 	return pd_matrix[iSizeX][iSizeY];
