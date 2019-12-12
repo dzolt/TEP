@@ -204,6 +204,21 @@ bool CMscnProblem::bSetSellerIncomeValAt(double dVal, int iIndex)
 	return ct_sellers_income_value.bSet(dVal, iIndex);
 }//bool CMscnProblem::bSetSellerIncomeValAt(double dVal, int iIndex)
 
+bool CMscnProblem::bSetSupplierContractPriceAt(double dVal, int iIndex)
+{
+	return ct_suppliers_contract_prices.bSet(dVal, iIndex);
+}//bool CMscnProblem::bSetSupplierContractPriceAt(double dVal, int iIndex)
+
+bool CMscnProblem::bSetFactoryContractPriceAt(double dVal, int iIndex)
+{
+	return ct_factories_contract_prices.bSet(dVal,iIndex);
+}//bool CMscnProblem::bSetFactoryContractPriceAt(double dVal, int iIndex)
+
+bool CMscnProblem::bSetWarehouseContractPriceAt(double dVal, int iIndex)
+{
+	return ct_warehouses_contract_prices.bSet(dVal, iIndex);
+}//bool CMscnProblem::bSetWarehouseContractPriceAt(double dVal, int iIndex)
+
 bool CMscnProblem::bGetQuality(double* pdSolution, int iSize, double& profit)
 {	
 
