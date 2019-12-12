@@ -67,3 +67,17 @@ bool CTable::bSetSize(int iNewSize)
 	i_size = iNewSize;
 	return true;
 }//bool CTable::bSetSize(int iNewSize)
+
+bool CTable::bSet(double dValue, int iIndex)
+{	
+	if (dValue < 0 || iIndex < 0 || iIndex >= i_size) return false;
+	pd_table[iIndex] = dValue;
+	return true;
+}//bool CTable::bSet(double dValue, int iIndex)
+
+double CTable::dGet(int iIndex)
+{
+	if (iIndex < 0 || iIndex >= i_size) return - 1;
+	return pd_table[iIndex];
+}//double CTable::dGet(int iIndex)
+

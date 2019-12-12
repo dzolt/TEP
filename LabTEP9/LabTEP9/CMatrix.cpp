@@ -1,8 +1,5 @@
 #include "CMatrix.h"
 
-
-
-
 CMatrix::CMatrix()
 {
 	i_size_x = DEFAULT_MATRIX_SIZE;

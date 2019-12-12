@@ -9,9 +9,14 @@ public:
 	CTable(int iSize, bool& bSuccess);
 	~CTable();
 
+	int iGetSize() { return i_size; };
+
 	bool bFillTableWithValue(double dValue);
 	bool bFillTableWithValue(double** pdTable, double dValue, int iSize);
 	bool bSetSize(int iNewSize);
+	bool bSet(double dValue, int iIndex);
+	
+	double dGet(int iIndex);
 
 
 private:

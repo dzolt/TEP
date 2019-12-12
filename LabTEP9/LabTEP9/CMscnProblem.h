@@ -8,26 +8,34 @@ class CMscnProblem
 public:
 
 	CMscnProblem();
-	CMscnProblem(unsigned int iSuppliersCount, unsigned int iFactoriesCount, unsigned int iSellersCount, unsigned int iWarehousesCount, bool& bSuccess);
-	
+	CMscnProblem(unsigned int iSuppliersCount, unsigned int iFactoriesCount, unsigned int iWarehousesCount, unsigned int iSellersCount, bool& bSuccess);
 	~CMscnProblem();
+	
 
-	bool bInitTables();	
-	bool bInitMatrixes();
 
 	bool bSetSuppliersCount(unsigned int iNewValue);
+	bool bSetWarehousesCount(unsigned int iNewValue);
 	bool bSetFactoriesCount(unsigned int iNewValue);
 	bool bSetSellersCount(unsigned int iNewValue);
-	bool bSetWarehousesCount(unsigned int iNewValue);
 
-	bool bSetShopProfitVal(double dVal, int iIndex);
 
-	bool bSetDeliveryMatrixVal(double dValue, int iSizeX, int iSizeY);//zamien na index
-	bool bSetFactoryMatrixVal(double dValue, int iSizeX, int iSizeY);
-	bool bSetWarehouseMatrixVal(double dValue, int iSizeX, int iSizeY);
+	bool bSetDeliveryMatrixValAt(double dValue, int i_xIndex, int i_yIndex);//zamien na index
+	bool bSetFactoryMatrixValAt(double dValue, int i_xIndex, int i_yIndex);
+	bool bSetWarehouseMatrixValAt(double dValue, int i_xIndex, int i_yIndex);
+
+	bool bSetSupplierCapacityAmmount(double dVal, int iIndex);
+	bool bSetFactoryCapacityAmmount(double dVal, int iIndex);
+	bool bSetWarehouseCapacityAmmount(double dVal, int iIndex);
+	bool bSetSellerCapacityAmmount(double dVal, int iIndex);
+	bool bSetSellerIncomeValAt(double dVal, int iIndex);
+
+	bool dGetQuality(double* pdSolution, int iSizeX, int iSizeY, double& profit);
 
 private:
 
+	bool bInitTables();	
+	bool bInitMatrixes();
+	
 	unsigned int i_suppliers_count;
 	unsigned int i_factories_count;
 	unsigned int i_sellers_count;
