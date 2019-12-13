@@ -320,6 +320,7 @@ bool CMscnProblem::bCheckMaxCapacityOverload(double * pdSolution)
 		}//for (int j = 0; j < i_warehouses_count; j++)
 	}//for (int i = 0; i < i_factories_count; i++)
 
+	
 	LastIdx += iCurrent + 1;
 	for (int i = 0; i < i_warehouses_count; i++)
 	{	
@@ -334,7 +335,16 @@ bool CMscnProblem::bCheckMaxCapacityOverload(double * pdSolution)
 	}//for (int i = 0; i < i_warehouses_count; i++)
 
 	//warunek na sumaryczna ilosc przedmiotow do danego sklepu
-
+	int helperIndex = LastIdx;
+	for (int j = 0; j < i_sellers_count; j++)
+	{	
+		double orderedAmmount = 0;
+		for (int i = 0; i < i_warehouses_count; i++)
+		{
+			orderedAmmount += pdSolution[LastIdx + i * i_sellers_count + j];
+			if (orderedAmmount > ct_sellers_capacity_ammount.dGet(j)) return false;
+		}//for (int i = 0; i < i_warehouses_count; i++)
+	}//for (int j = 0; j < i_sellers_count; j++)
 
 	return true;
 }//bool CMscnProblem::bCheckMaxCapacityOverload(double * pdSolution)

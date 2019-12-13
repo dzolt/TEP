@@ -1,27 +1,22 @@
-﻿  CMatrix.cpp
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(32): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(41): warning C4018: '>=': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(50): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(53): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(77): warning C4018: '>=': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(85): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(86): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(91): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(93): warning C4018: '<': signed/unsigned mismatch
-  CMscnProblems.cpp
+﻿  CMscnProblems.cpp
 c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(254): warning C4018: '<': signed/unsigned mismatch
 c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(256): warning C4018: '<': signed/unsigned mismatch
 c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(264): warning C4018: '<': signed/unsigned mismatch
 c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(266): warning C4018: '<': signed/unsigned mismatch
 c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(274): warning C4018: '<': signed/unsigned mismatch
 c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(276): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(301): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(300): warning C4018: '<': signed/unsigned mismatch
 c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(303): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(311): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(313): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(321): warning C4018: '<': signed/unsigned mismatch
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(323): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(312): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(315): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(324): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(327): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(348): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(350): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(358): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(360): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(368): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(370): warning C4018: '<': signed/unsigned mismatch
   LabTEP9.cpp
   Generating Code...
-c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(103): warning C4715: 'CMatrix::bSetSize': not all control paths return a value
   LabTEP9.vcxproj -> C:\Users\Damian\source\repos\TEP\LabTEP9\Debug\LabTEP9.exe
