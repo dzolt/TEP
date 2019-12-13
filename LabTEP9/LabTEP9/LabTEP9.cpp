@@ -9,6 +9,7 @@ int main()
 	int iWarehouses = 2;
 	int iSellers = 3;
 	int iSize = iSuppliers * iFactories + iFactories * iWarehouses + iWarehouses * iSellers;
+	bool bsucc = true;
 	double** deliveryMatrix = new double*[iSuppliers];
 	double** factoryMatrix = new double*[iFactories];
 	double** warehouseMatrix = new double*[iWarehouses];
@@ -16,10 +17,10 @@ int main()
 
 	for (int i = 0; i < iSize; i++) pdSolution[i] = i;
 
-	
+	CMscnProblem problem = CMscnProblem();
 	
 	//                                          initialize
-	for (int i = 0; i < iSuppliers; i++)
+	/*for (int i = 0; i < iSuppliers; i++)
 	{
 		
 		for (int j = 0; j < iFactories; j++)
@@ -125,7 +126,11 @@ int main()
 		}//for (int j = 0; j < i_factories_count; j++)
 		std::cout << std::endl;
 
-	}//for (int i = 0; i < i_suppliers_count; i++)
+	}//for (int i = 0; i < i_suppliers_count; i++)*/
+	
+
+
+
 
 	return 0;
 }

@@ -241,7 +241,8 @@ bool CMscnProblem::bGetQuality(double* pdSolution, int iSize, double& profit)
 
 bool CMscnProblem::bConstraintsSatisfied(double* pdSolution, int iSize)
 {
-	if (pdSolution == NULL || iSize < 0 || bCheckMinMaxConstraint(pdSolution) == false || bCheckSolutionForNegativeNumbers(pdSolution, iSize) == false )return false;
+	if (pdSolution == NULL || iSize < 0 || bCheckMinMaxConstraint(pdSolution) == false || bCheckSolutionForNegativeNumbers(pdSolution, iSize) == false 
+		|| bCheckMaxCapacityOverload(pdSolution) == false || bCheckSufficientProductAmmountDelivery(pdSolution)) return false;
 
 	return true;
 }//bool CMscnProblem::bConstraintsSatisfied(double * pdSolution, int iSize)
@@ -348,6 +349,11 @@ bool CMscnProblem::bCheckMaxCapacityOverload(double * pdSolution)
 
 	return true;
 }//bool CMscnProblem::bCheckMaxCapacityOverload(double * pdSolution)
+
+bool CMscnProblem::bCheckSufficientProductAmmountDelivery(double* pdSolution)
+{
+	return true;
+}//bool CMscnProblem::bCheckSufficientProductAmmountDelivery(double* pdSolution)
 
 double CMscnProblem::dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution)
 {	
