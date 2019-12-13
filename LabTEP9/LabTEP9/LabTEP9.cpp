@@ -18,6 +18,10 @@ int main()
 	for (int i = 0; i < iSize; i++) pdSolution[i] = i;
 
 	CMscnProblem problem = CMscnProblem();
+	//CMscnProblem problem;
+
+
+
 	
 	//                                          initialize
 	/*for (int i = 0; i < iSuppliers; i++)

@@ -50,6 +50,8 @@ public:
 	double dCalculateTotalContractPrice();
 	double dCalculateTotalContractPriceForOneEntity(CTable& ctEntity);
 
+	double dGetMinValueAt();
+
 private:
 
 	bool bInitTables();	

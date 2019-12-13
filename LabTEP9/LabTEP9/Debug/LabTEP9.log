@@ -1,2 +1,41 @@
-﻿  LabTEP9.cpp
+﻿  CMatrix.cpp
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(47): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(56): warning C4018: '>=': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(64): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(66): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(91): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(93): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(107): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(109): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(118): warning C4018: '>=': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(126): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(127): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(133): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(135): warning C4018: '<': signed/unsigned mismatch
+  CMscnProblems.cpp
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(255): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(257): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(265): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(267): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(275): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(277): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(301): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(304): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(313): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(316): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(326): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(329): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(340): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(343): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(364): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(366): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(374): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(376): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(384): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmscnproblems.cpp(386): warning C4018: '<': signed/unsigned mismatch
+  CTable.cpp
+c:\users\damian\source\repos\tep\labtep9\labtep9\ctable.cpp(70): warning C4018: '<': signed/unsigned mismatch
+  LabTEP9.cpp
+  Generating Code...
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.cpp(38): warning C4715: 'CMatrix::bCreateMatrix': not all control paths return a value
   LabTEP9.vcxproj -> C:\Users\Damian\source\repos\TEP\LabTEP9\Debug\LabTEP9.exe

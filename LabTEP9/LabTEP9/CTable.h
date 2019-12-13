@@ -13,12 +13,14 @@ public:
 
 	bool bFillTableWithValue(double dValue);
 	bool bFillTableWithValue(double** pdTable, double dValue, int iSize);
+	bool bFillTableWithInitialValue(double** pdTable, int iSize);
 	bool bSetSize(int iNewSize);
 	bool bSet(double dValue, int iIndex);
 	
 	double dGet(int iIndex);
 
-
+	void operator=(const CTable& pcOther);
+	void vCopy(const CTable& pcOther);
 private:
 	double* pd_table;
 	int i_size;
