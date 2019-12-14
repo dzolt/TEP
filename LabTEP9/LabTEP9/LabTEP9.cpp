@@ -132,9 +132,5 @@ int main()
 
 	}//for (int i = 0; i < i_suppliers_count; i++)*/
 	
-
-
-
-
 	return 0;
 }

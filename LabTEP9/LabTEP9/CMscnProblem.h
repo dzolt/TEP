@@ -47,10 +47,10 @@ public:
 	bool bCheckSufficientProductAmmountDelivery(double* pdSolution);
 
 	double dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution);
-	double dCalculateTotalContractPrice();
-	double dCalculateTotalContractPriceForOneEntity(CTable& ctEntity);
+	double dCalculateTotalContractPrice(double** pdSolution);
 
-	double dGetMinValueAt();
+	double dGetMinValueAt(int i_xIndex, int i_yIndex);
+	double dGetMaxValueAt(int i_xIndex, int i_yIndex);
 
 private:
 

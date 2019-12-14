@@ -50,6 +50,14 @@ bool CMscnProblem::bInitTables()
 bool CMscnProblem::bInitMatrixes()
 {	
 	bool bSuccess = true;
+
+
+
+	//set min for 0 and max for capacity
+
+
+
+
 	cm_delivery_matrix = CMatrix(i_suppliers_count, i_factories_count, bSuccess);
 	cm_min_items_sent_from_supplier = CMatrix(i_suppliers_count, i_factories_count, bSuccess);
 	cm_max_items_sent_from_supplier = CMatrix(i_suppliers_count, i_factories_count, bSuccess);
@@ -233,7 +241,7 @@ bool CMscnProblem::bGetQuality(double* pdSolution, int iSize, double& profit)
 	}//for (int i = 0; i < ct_sellers_income_value.iGetSize(); i++)
 
 	totalDeliveryCost = dMultiplyDeliveryCostPerItemsOrdered(&pdSolution);
-	totalContractPrice = dCalculateTotalContractPrice();
+	totalContractPrice = dCalculateTotalContractPrice(&pdSolution);
 	profit = shopIncome - totalDeliveryCost - totalContractPrice;
 	
 	return true;
@@ -352,7 +360,7 @@ bool CMscnProblem::bCheckMaxCapacityOverload(double * pdSolution)
 
 bool CMscnProblem::bCheckSufficientProductAmmountDelivery(double* pdSolution)
 {
-	return true;
+	//rozwiazanie do dwoch ostatnich p-odpunktow tabeli
 }//bool CMscnProblem::bCheckSufficientProductAmmountDelivery(double* pdSolution)
 
 double CMscnProblem::dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution)
@@ -392,27 +400,58 @@ double CMscnProblem::dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution)
 	return totalDeliveryCost;
 }//bool CMscnProblem::bMultiplyDeliveryCostPerItemsOrdered(double** pdSolution)
 
-double CMscnProblem::dCalculateTotalContractPrice()
-{
-	double totalContractPrice = 0;
-
-	totalContractPrice += dCalculateTotalContractPriceForOneEntity(ct_suppliers_contract_prices);
-	totalContractPrice += dCalculateTotalContractPriceForOneEntity(ct_factories_contract_prices);
-	totalContractPrice += dCalculateTotalContractPriceForOneEntity(ct_warehouses_contract_prices);
-
-	return totalContractPrice;
-}//double CMscnProblem::dCalculateTotalContractPrice()
-
-double CMscnProblem::dCalculateTotalContractPriceForOneEntity(CTable& ctEntity)
+double CMscnProblem::dCalculateTotalContractPrice(double** pdSolution)
 {	
 	double totalContractPrice = 0;
 
-	for (int i = 0; i < ctEntity.iGetSize(); i++)
+	int iCurrent = 0;
+	int LastIdx = 0;
+
+	for (int i = 0; i < i_suppliers_count; i++)
 	{
-		totalContractPrice += ctEntity.dGet(i);
-	}//for (int i = 0; i < ctEntity.iGetSize(); i++)
+		for (int j = 0; j < i_factories_count; j++)
+		{	
+			iCurrent = i * i_factories_count + j;
+			if ((*pdSolution)[LastIdx + iCurrent] > 0)
+			{
+				totalContractPrice += ct_suppliers_contract_prices.dGet(i);
+				break;
+			}//if ((*pdSolution)[LastIdx + iCurrent] > 0)
+		}//for (int j = 0; j < i_factories_count; j++)
+	}//for (int i = 0; i < i_suppliers_count; i++)
+
+	LastIdx += iCurrent + 1;
+	for (int i = 0; i < i_factories_count; i++)
+	{
+		for (int j = 0; j < i_warehouses_count; j++)
+		{
+			iCurrent = i * i_warehouses_count + j;
+			if ((*pdSolution)[LastIdx + iCurrent] > 0)
+			{
+				totalContractPrice += ct_factories_contract_prices.dGet(i);
+				break;
+			}//if ((*pdSolution)[LastIdx + iCurrent] > 0)
+		}//for (int j = 0; j < i_warehouses_count; j++)
+	}//for (int i = 0; i < i_factories_count; i++)
+
+	LastIdx += iCurrent + 1;
+	for (int i = 0; i < i_warehouses_count; i++)
+	{
+		for (int j = 0; j < i_sellers_count; j++)
+		{
+			iCurrent = i * i_sellers_count + j;
+			if ((*pdSolution)[LastIdx + iCurrent] > 0)
+			{
+				totalContractPrice += ct_warehouses_contract_prices.dGet(i);
+				break;
+			}//if ((*pdSolution)[LastIdx + iCurrent] > 0)
+		}//for (int j = 0; j < i_sellers_count; j++)
+	}//for (int i = 0; i < i_warehouses_count; i++)
+
+	
 	return totalContractPrice;
-}//double CMscnProblem::dCalculateTotalContractPriceForOneEntity(CTable& Entity)
+}//double CMscnProblem::dCalculateTotalContractPrice()
+
 
 
 
