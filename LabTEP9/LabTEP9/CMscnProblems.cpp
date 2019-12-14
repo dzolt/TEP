@@ -249,7 +249,8 @@ bool CMscnProblem::bGetQuality(double* pdSolution, int iSize, double& profit)
 
 bool CMscnProblem::bConstraintsSatisfied(double* pdSolution, int iSize)
 {
-	if (pdSolution == NULL || iSize < 0 || bCheckMinMaxConstraint(pdSolution) == false || bCheckSolutionForNegativeNumbers(pdSolution, iSize) == false 
+	if (pdSolution == NULL || iSize < 0 || iSize > i_suppliers_count*i_factories_count + i_factories_count*i_warehouses_count + i_warehouses_count*i_sellers_count 
+		|| bCheckMinMaxConstraint(pdSolution) == false || bCheckSolutionForNegativeNumbers(pdSolution, iSize) == false 
 		|| bCheckMaxCapacityOverload(pdSolution) == false || bCheckSufficientProductAmmountDelivery(pdSolution)) return false;
 
 	return true;
@@ -293,7 +294,7 @@ bool CMscnProblem::bCheckMinMaxConstraint(double* pdSolution)
 
 bool CMscnProblem::bCheckSolutionForNegativeNumbers(double * pdSolution, int iSize)
 {	
-	if (pdSolution == NULL || iSize < 0) return false;
+	if (pdSolution == NULL || iSize < 0 || iSize > i_suppliers_count*i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count ) return false;
 	for (int i = 0; i < iSize; i++)
 	{
 		if (pdSolution[i] < 0) return false;
@@ -361,6 +362,8 @@ bool CMscnProblem::bCheckMaxCapacityOverload(double * pdSolution)
 bool CMscnProblem::bCheckSufficientProductAmmountDelivery(double* pdSolution)
 {
 	//rozwiazanie do dwoch ostatnich p-odpunktow tabeli
+
+
 }//bool CMscnProblem::bCheckSufficientProductAmmountDelivery(double* pdSolution)
 
 double CMscnProblem::dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution)
@@ -452,6 +455,79 @@ double CMscnProblem::dCalculateTotalContractPrice(double** pdSolution)
 	return totalContractPrice;
 }//double CMscnProblem::dCalculateTotalContractPrice()
 
+double CMscnProblem::dGetMinValueAt(double* pdSolution, int iIndex)
+{
+	if (iIndex < 0 || iIndex >= i_suppliers_count*i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count) return -1;
+
+	int iCurrent = 0;
+	int LastIdx = 0;
+
+	for (int i = 0; i < i_suppliers_count; i++)
+	{
+		for (int j = 0; j < i_factories_count; j++)
+		{
+			iCurrent = i * i_factories_count + j;
+			if (LastIdx + iCurrent == iIndex) return cm_min_items_sent_from_supplier.dGet(i, j);
+		}//for (int j = 0; j < i_factories_count; j++)
+	}//for (int i = 0; i < i_suppliers_count; i++)
+	LastIdx += iCurrent + 1;
+
+	for (int i = 0; i < i_factories_count; i++)
+	{
+		for (int j = 0; j < i_warehouses_count; j++)
+		{
+			iCurrent = i * i_warehouses_count + j;
+			if (LastIdx + iCurrent == iIndex) return cm_min_items_sent_from_factory.dGet(i, j);
+		}//for (int j = 0; j < i_warehouses_count; j++)
+	}//for (int i = 0; i < i_factories_count; i++)
+
+	LastIdx += iCurrent + 1;
+	for (int i = 0; i < i_warehouses_count; i++)
+	{
+		for (int j = 0; j < i_sellers_count; j++)
+		{
+			iCurrent = i * i_sellers_count + j;
+			if (LastIdx + iCurrent == iIndex) return cm_min_items_sent_from_warehouse.dGet(i, j);
+		}//for (int j = 0; j < i_sellers_count; j++)
+	}//for (int i = 0; i < i_warehouses_count; i++)
+}//double CMscnProblem::dGetMinValueAt(double* pdSolution, int iIndex)
+
+double CMscnProblem::dGetMaxValueAt(double* pdSolution, int iIndex)
+{
+	if (iIndex < 0 || iIndex >= i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count) return -1;
+
+	int iCurrent = 0;
+	int LastIdx = 0;
+
+	for (int i = 0; i < i_suppliers_count; i++)
+	{
+		for (int j = 0; j < i_factories_count; j++)
+		{
+			iCurrent = i * i_factories_count + j;
+			if (LastIdx + iCurrent == iIndex) return cm_max_items_sent_from_supplier.dGet(i, j);
+		}//for (int j = 0; j < i_factories_count; j++)
+	}//for (int i = 0; i < i_suppliers_count; i++)
+	LastIdx += iCurrent + 1;
+
+	for (int i = 0; i < i_factories_count; i++)
+	{
+		for (int j = 0; j < i_warehouses_count; j++)
+		{
+			iCurrent = i * i_warehouses_count + j;
+			if (LastIdx + iCurrent == iIndex) return cm_max_items_sent_from_factory.dGet(i, j);
+		}//for (int j = 0; j < i_warehouses_count; j++)
+	}//for (int i = 0; i < i_factories_count; i++)
+
+	LastIdx += iCurrent + 1;
+	for (int i = 0; i < i_warehouses_count; i++)
+	{
+		for (int j = 0; j < i_sellers_count; j++)
+		{
+			iCurrent = i * i_sellers_count + j;
+			if (LastIdx + iCurrent == iIndex) return cm_max_items_sent_from_warehouse.dGet(i, j);
+		}//for (int j = 0; j < i_sellers_count; j++)
+	}//for (int i = 0; i < i_warehouses_count; i++)
+}//double CMscnProblem::dGetMaxValueAt(double* pdSolution, int iIndex)
 
 
 
