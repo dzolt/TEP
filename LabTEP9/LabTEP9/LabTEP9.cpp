@@ -6,131 +6,68 @@ int main()
 {
 	int iSuppliers = 2;
 	int iFactories = 3;
-	int iWarehouses = 2;
-	int iSellers = 3;
+	int iWarehouses = 3;
+	int iSellers = 2;
 	int iSize = iSuppliers * iFactories + iFactories * iWarehouses + iWarehouses * iSellers;
 	bool bsucc = true;
-	double** deliveryMatrix = new double*[iSuppliers];
-	double** factoryMatrix = new double*[iFactories];
-	double** warehouseMatrix = new double*[iWarehouses];
 	double* pdSolution = new double[iSize];
 
-	for (int i = 0; i < iSize; i++) pdSolution[i] = i;
+	for (int i = 0; i < iSize; i++) pdSolution[i] = 3;
 
-	CMscnProblem problem = CMscnProblem();
-	//CMscnProblem problem;
+	for (int i = 0; i < iSuppliers*iFactories; i++) pdSolution[i] = 3;
+	for (int i = iSuppliers*iFactories; i < iSuppliers*iFactories + iFactories*iWarehouses; i++) pdSolution[i] = 2;
+	for (int i = iSuppliers * iFactories + iFactories * iWarehouses; i < iSize; i++) pdSolution[i] = 2;
 
+	CMscnProblem problem(iSuppliers,iFactories, iWarehouses,iSellers,bsucc);
+	if (bsucc == true)
+	{	
+		double result = 0;
 
-
-	
-	//                                          initialize
-	/*for (int i = 0; i < iSuppliers; i++)
-	{
+		problem.bSetSupplierCapacityAmmount(1000, 0);
+		problem.bSetSupplierCapacityAmmount(1000, 1);
+		problem.bSetFactoryCapacityAmmount(1000, 0);
+		problem.bSetFactoryCapacityAmmount(1000, 1);
+		problem.bSetFactoryCapacityAmmount(1000, 2);
+		problem.bSetWarehouseCapacityAmmount(1000, 0);
+		problem.bSetWarehouseCapacityAmmount(1000, 1);
+		problem.bSetWarehouseCapacityAmmount(1000, 2);
+		problem.bSetSellerCapacityAmmount(1000, 0);
+		problem.bSetSellerCapacityAmmount(1000, 1);
 		
-		for (int j = 0; j < iFactories; j++)
+		for (int i = 0; i < iSuppliers; i++) problem.bSetSupplierContractPriceAt(300 + i, i);
+		for (int i = 0; i < iFactories; i++) problem.bSetFactoryContractPriceAt(200 + i, i);
+		for (int i = 0; i < iWarehouses; i++) problem.bSetWarehouseContractPriceAt(100 + i, i);
+		for (int i = 0; i < iSellers; i++) problem.bSetSellerIncomeValAt(100 + 100 * i, i);
+		
+		for (int i = 0; i < iSuppliers; i++)
 		{
-			deliveryMatrix[i] = new double[iFactories];
-		}//for (int j = 0; j < i_factories_count; j++)
-	}//for (int i = 0; i < i_suppliers_count; i++)
-
-
-	for (int i = 0; i < iFactories; i++)
-	{
-
-		for (int j = 0; j < iWarehouses; j++)
+			for (int j = 0; j < iFactories; j++)
+			{
+				problem.bSetDeliveryMatrixValAt(2, i, j);
+			}
+		}
+		for (int i = 0; i < iFactories; i++)
 		{
-			factoryMatrix[i] = new double[iWarehouses];
-		}//for (int j = 0; j < i_factories_count; j++)
-	}//for (int i = 0; i < i_suppliers_count; i++)
-
-	for (int i = 0; i < iWarehouses; i++)
-	{
-
-		for (int j = 0; j < iSellers; j++)
+			for (int j = 0; j < iWarehouses; j++)
+			{
+				problem.bSetFactoryMatrixValAt(3, i, j);
+			}
+		}
+		for (int i = 0; i < iWarehouses; i++)
 		{
-			warehouseMatrix[i] = new double[iSellers];
-		}//for (int j = 0; j < i_factories_count; j++)
-	}//for (int i = 0; i < i_suppliers_count; i++)
+			for (int j = 0; j < iSellers; j++)
+			{
+				problem.bSetWarehouseMatrixValAt(4, i, j);
+			}
+		}
 
 
 
-	//										Fill
-	int iCurrent = 0;
-	int LastIdx = 0;
+		problem.bGetQuality(pdSolution, iSize, result);
+		std::cout << result << std::endl;
+	}
+	else { std::cout << "error"; }
 
-
-	for (int i = 0; i < iSuppliers; i++)
-	{
-
-		for (int j = 0; j < iFactories; j++)
-		{	
-			iCurrent = i * iFactories + j;
-			deliveryMatrix[i][j] = pdSolution[LastIdx + iCurrent];
-		}//for (int j = 0; j < i_factories_count; j++)
-	}//for (int i = 0; i < i_suppliers_count; i++)
-
-	LastIdx += iCurrent + 1;
-	for (int i = 0; i < iFactories; i++)
-	{
-
-		for (int j = 0; j < iWarehouses; j++)
-		{
-			iCurrent = i * iWarehouses + j;
-			factoryMatrix[i][j] = pdSolution[LastIdx + iCurrent];
-		}//for (int j = 0; j < i_factories_count; j++)
-	}//for (int i = 0; i < i_suppliers_count; i++)
-
-	LastIdx += iCurrent + 1;
-	for (int i = 0; i < iWarehouses; i++)
-	{
-
-		for (int j = 0; j < iSellers; j++)
-		{
-			iCurrent = i * iSellers + j;
-			warehouseMatrix[i][j] = pdSolution[LastIdx + iCurrent];
-		}//for (int j = 0; j < i_factories_count; j++)
-	}//for (int i = 0; i < i_suppliers_count; i++)
-
-
-	//              print
-
-	 iCurrent = 0;
-	 LastIdx = 0;
-
-
-	for (int i = 0; i < iSuppliers; i++)
-	{
-
-		for (int j = 0; j < iFactories; j++)
-		{
-			std::cout << deliveryMatrix[i][j] << " ";
-		}//for (int j = 0; j < i_factories_count; j++)
-		std::cout << std::endl;
-	}//for (int i = 0; i < i_suppliers_count; i++)
-
-	LastIdx += iCurrent + 1;
-	for (int i = 0; i < iFactories; i++)
-	{
-
-		for (int j = 0; j < iWarehouses; j++)
-		{
-			std::cout << factoryMatrix[i][j] << " ";
-		}//for (int j = 0; j < i_factories_count; j++)
-		std::cout << std::endl;
-
-	}//for (int i = 0; i < i_suppliers_count; i++)
-
-	LastIdx += iCurrent + 1;
-	for (int i = 0; i < iWarehouses; i++)
-	{
-
-		for (int j = 0; j < iSellers; j++)
-		{
-			std::cout << warehouseMatrix[i][j] << " ";
-		}//for (int j = 0; j < i_factories_count; j++)
-		std::cout << std::endl;
-
-	}//for (int i = 0; i < i_suppliers_count; i++)*/
 	
 	return 0;
 }

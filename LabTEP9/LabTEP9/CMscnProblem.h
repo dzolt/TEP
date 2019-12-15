@@ -16,7 +16,7 @@ public:
 	bool bSetFactoriesCount(unsigned int iNewValue);
 	bool bSetSellersCount(unsigned int iNewValue);
 
-	bool bSetDeliveryMatrixValAt(double dValue, int i_xIndex, int i_yIndex);//zamien na index
+	bool bSetDeliveryMatrixValAt(double dValue, int i_xIndex, int i_yIndex);
 	bool bSetFactoryMatrixValAt(double dValue, int i_xIndex, int i_yIndex);
 	bool bSetWarehouseMatrixValAt(double dValue, int i_xIndex, int i_yIndex);
 
@@ -41,6 +41,20 @@ public:
 	bool bGetQuality(double* pdSolution, int iSize, double& profit);
 
 	bool bConstraintsSatisfied(double* pdSolution, int iSize);
+
+	double dGetMinValueAt(double* pdSolution, int iIndex);
+	double dGetMaxValueAt(double* pdSolution, int iIndex);
+
+	bool bSetEveryMinimalCostTo(CMatrix* pdMatrix, int iSizex, int iSizeY, double dValue);
+	void vSetEveryMaximalCostAtCapacity();
+private:
+
+	bool bInitTables();	
+	bool bInitMatrixes();
+	bool bInitMinMaxMatrixes();
+
+	bool bSetEveryMaximalCostTo(double*** pdMatrix, int iSizex, int iSizeY, double dValue);
+	
 	bool bCheckMinMaxConstraint(double* pdSolution);
 	bool bCheckSolutionForNegativeNumbers(double* pdSolution, int iSize);
 	bool bCheckMaxCapacityOverload(double* pdSolution);
@@ -49,14 +63,6 @@ public:
 	double dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution);
 	double dCalculateTotalContractPrice(double** pdSolution);
 	double dCalculateTotalIncomeFromSellers(double** pdSolution, int iSize);
-
-	double dGetMinValueAt(double* pdSolution, int iIndex);
-	double dGetMaxValueAt(double* pdSolution, int iIndex);
-
-private:
-
-	bool bInitTables();	
-	bool bInitMatrixes();
 	
 	unsigned int i_suppliers_count;
 	unsigned int i_factories_count;
