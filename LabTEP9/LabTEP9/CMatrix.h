@@ -11,14 +11,20 @@ public:
 	~CMatrix();
 	void vDelete();
 
-	double vGet(int iSizeX, int iSizeY);
-	
+	bool bCreateMatrix(double*** pdMatrix, int iSizeX, int iSizeY);
+
+	double dGet(int iSizeX, int iSizeY);
+	unsigned int iGetSizeX() { return i_size_x; };
+	unsigned int iGetSizeY() { return i_size_y; };
+
 	bool bSet(double dValue, int iSizeX, int iSizeY);
 	bool bSetSize(int iNewSizeX, int iNewSizeY);
 	
-	bool bInitializeMatrixWithValues(double*** pdMatrix, int iSizeX, int iSizeY, double dValue);
+	bool bInitializeMatrixWithValue(double*** pdMatrix, int iSizeX, int iSizeY, double dValue);
+	bool vInitializeMatrixWithInitialValue(double*** pdMatrix, int iSizeX, int iSizeY);
+	bool vInitializeMatrixWithValue(int iSizeX, int iSizeY, double dValue);
 
-
+	void operator=(const CMatrix& pcOther);
 private:
 	double** pd_matrix;
 	unsigned int i_size_x;
