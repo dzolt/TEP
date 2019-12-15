@@ -48,6 +48,7 @@ public:
 
 	double dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution);
 	double dCalculateTotalContractPrice(double** pdSolution);
+	double dCalculateTotalIncomeFromSellers(double** pdSolution, int iSize);
 
 	double dGetMinValueAt(double* pdSolution, int iIndex);
 	double dGetMaxValueAt(double* pdSolution, int iIndex);

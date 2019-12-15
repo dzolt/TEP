@@ -234,18 +234,121 @@ bool CMscnProblem::bGetQuality(double* pdSolution, int iSize, double& profit)
 	double shopIncome = 0;
 	double totalDeliveryCost = 0;
 	double totalContractPrice = 0;
-
-	for (int i = 0; i < ct_sellers_income_value.iGetSize(); i++)
-	{
-		shopIncome += ct_sellers_income_value.dGet(i);
-	}//for (int i = 0; i < ct_sellers_income_value.iGetSize(); i++)
-
+	double totalProfit = 0;
+	
+	shopIncome = dCalculateTotalIncomeFromSellers(&pdSolution, iSize);
 	totalDeliveryCost = dMultiplyDeliveryCostPerItemsOrdered(&pdSolution);
 	totalContractPrice = dCalculateTotalContractPrice(&pdSolution);
 	profit = shopIncome - totalDeliveryCost - totalContractPrice;
 	
 	return true;
 }//double CMscnProblem::dGetQuality(double*** pdSolution)
+
+double CMscnProblem::dCalculateTotalIncomeFromSellers(double** pdSolution, int iSize)
+{	
+	if (iSize < 0 || iSize > i_suppliers_count*i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count) return 0;
+	double totalShopIncome = 0;
+	int iBegginingIndexForWarehouseShop = i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count;
+
+	for (int i = 0; i < i_warehouses_count; i++)
+	{
+		for (int j = 0; j < i_sellers_count; j++)
+		{
+			totalShopIncome += (*pdSolution)[iBegginingIndexForWarehouseShop] * ct_sellers_income_value.dGet(j);
+			iBegginingIndexForWarehouseShop++;
+		}//for (int j = 0; j < i_sellers_count; j++)
+	}//for (int i = 0; i < i_warehouses_count; i++)
+	return totalShopIncome;
+}
+
+double CMscnProblem::dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution)
+{	
+	int iCurrent = 0;
+	int LastIdx = 0;
+	double totalDeliveryCost = 0;
+
+	for (int i = 0; i < i_suppliers_count; i++)
+	{
+		for (int j = 0; j < i_factories_count; j++)
+		{
+			iCurrent = i * i_factories_count + j;
+			totalDeliveryCost += cm_delivery_matrix.dGet(i, j) * (*pdSolution)[LastIdx + iCurrent];
+		}//for (int j = 0; j < i_factories_count; j++)
+	}//for (int i = 0; i < i_suppliers_count; i++)
+
+	LastIdx += iCurrent + 1;
+	for (int i = 0; i < i_factories_count; i++)
+	{
+		for (int j = 0; j < i_warehouses_count; j++)
+		{
+			iCurrent = i * i_warehouses_count + j;
+			totalDeliveryCost += cm_factory_matrix.dGet(i, j) * (*pdSolution)[LastIdx + iCurrent];
+		}//for (int j = 0; j < i_warehouses_count; j++)
+	}//for (int i = 0; i < i_factories_count; i++)
+
+	LastIdx += iCurrent + 1;
+	for (int i = 0; i < i_warehouses_count; i++)
+	{
+		for (int j = 0; j < i_sellers_count; j++)
+		{
+			iCurrent = i * i_sellers_count + j;
+			totalDeliveryCost += cm_warehouse_matrix.dGet(i, j) * (*pdSolution)[LastIdx + iCurrent];
+		}//for (int j = 0; j < i_sellers_count; j++)
+	}//for (int i = 0; i < i_warehouses_count; i++)
+	return totalDeliveryCost;
+}//bool CMscnProblem::bMultiplyDeliveryCostPerItemsOrdered(double** pdSolution)
+
+double CMscnProblem::dCalculateTotalContractPrice(double** pdSolution)
+{	
+	double totalContractPrice = 0;
+
+	int iCurrent = 0;
+	int LastIdx = 0;
+
+	for (int i = 0; i < i_suppliers_count; i++)
+	{
+		for (int j = 0; j < i_factories_count; j++)
+		{	
+			iCurrent = i * i_factories_count + j;
+			if ((*pdSolution)[LastIdx + iCurrent] > 0)
+			{
+				totalContractPrice += ct_suppliers_contract_prices.dGet(i);
+				break;
+			}//if ((*pdSolution)[LastIdx + iCurrent] > 0)
+		}//for (int j = 0; j < i_factories_count; j++)
+	}//for (int i = 0; i < i_suppliers_count; i++)
+
+	LastIdx += iCurrent + 1;
+	for (int i = 0; i < i_factories_count; i++)
+	{
+		for (int j = 0; j < i_warehouses_count; j++)
+		{
+			iCurrent = i * i_warehouses_count + j;
+			if ((*pdSolution)[LastIdx + iCurrent] > 0)
+			{
+				totalContractPrice += ct_factories_contract_prices.dGet(i);
+				break;
+			}//if ((*pdSolution)[LastIdx + iCurrent] > 0)
+		}//for (int j = 0; j < i_warehouses_count; j++)
+	}//for (int i = 0; i < i_factories_count; i++)
+
+	LastIdx += iCurrent + 1;
+	for (int i = 0; i < i_warehouses_count; i++)
+	{
+		for (int j = 0; j < i_sellers_count; j++)
+		{
+			iCurrent = i * i_sellers_count + j;
+			if ((*pdSolution)[LastIdx + iCurrent] > 0)
+			{
+				totalContractPrice += ct_warehouses_contract_prices.dGet(i);
+				break;
+			}//if ((*pdSolution)[LastIdx + iCurrent] > 0)
+		}//for (int j = 0; j < i_sellers_count; j++)
+	}//for (int i = 0; i < i_warehouses_count; i++)
+
+	
+	return totalContractPrice;
+}//double CMscnProblem::dCalculateTotalContractPrice()
 
 bool CMscnProblem::bConstraintsSatisfied(double* pdSolution, int iSize)
 {
@@ -363,97 +466,59 @@ bool CMscnProblem::bCheckSufficientProductAmmountDelivery(double* pdSolution)
 {
 	//rozwiazanie do dwoch ostatnich p-odpunktow tabeli
 
-
-}//bool CMscnProblem::bCheckSufficientProductAmmountDelivery(double* pdSolution)
-
-double CMscnProblem::dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution)
-{	
+	double quantityOfItemsGoingToTheEnitity = 0;
+	double quantityOfItemsGoingOutOfTheEnitity = 0;
 	int iCurrent = 0;
 	int LastIdx = 0;
-	double totalDeliveryCost = 0;
-
-	for (int i = 0; i < i_suppliers_count; i++)
-	{
-		for (int j = 0; j < i_factories_count; j++)
+	//przechodzimy najpierw po danej fabryce i sprawdzamy ile dostala przedmiorow od dostawcow potem przehcodzimy po magazynach i sprawdzamy ile przedmiotow zostalo wyslanych z fabryki j
+	for (int j = 0; j < i_factories_count; j++)
+	{	
+		//petla po wszystkich dostawcach dla danej fabryki
+		for (int i = 0; i < i_suppliers_count; i++)
 		{
 			iCurrent = i * i_factories_count + j;
-			totalDeliveryCost += cm_delivery_matrix.dGet(i, j) * (*pdSolution)[LastIdx + iCurrent];
+			quantityOfItemsGoingToTheEnitity += (pdSolution)[LastIdx + iCurrent];
 		}//for (int j = 0; j < i_factories_count; j++)
+		//petla po wszystkich magazynach dla danej fabryki
+
+		int iIndexOfFirstFabric = i_suppliers_count * i_factories_count;
+		for (int i = 0; i < i_factories_count; i++)
+		{
+			for (int j = 0; j < i_warehouses_count; i++)
+			{	
+				iCurrent = i * i_warehouses_count + j;
+				quantityOfItemsGoingOutOfTheEnitity += pdSolution[iIndexOfFirstFabric + iCurrent];
+			}//for (int j = 0; j < i_warehouses_count; i++)
+		}//for (int i = 0; i < i_factories_count; i++)
+		if (quantityOfItemsGoingOutOfTheEnitity > quantityOfItemsGoingToTheEnitity) return false;
 	}//for (int i = 0; i < i_suppliers_count; i++)
 
-	LastIdx += iCurrent + 1;
-	for (int i = 0; i < i_factories_count; i++)
+	LastIdx = i_suppliers_count * i_factories_count;
+	//przechodzimy najpierw po danej fabryce i sprawdzamy ile dostala przedmiorow od dostawcow potem przehcodzimy po magazynach i sprawdzamy ile przedmiotow zostalo wyslanych z fabryki j
+	for (int j = 0; j < i_warehouses_count; j++)
 	{
-		for (int j = 0; j < i_warehouses_count; j++)
+		//petla po wszystkich dostawcach dla danego magazynu
+		for (int i = 0; i < i_factories_count; i++)
 		{
 			iCurrent = i * i_warehouses_count + j;
-			totalDeliveryCost += cm_factory_matrix.dGet(i, j) * (*pdSolution)[LastIdx + iCurrent];
-		}//for (int j = 0; j < i_warehouses_count; j++)
-	}//for (int i = 0; i < i_factories_count; i++)
-
-	LastIdx += iCurrent + 1;
-	for (int i = 0; i < i_warehouses_count; i++)
-	{
-		for (int j = 0; j < i_sellers_count; j++)
-		{
-			iCurrent = i * i_sellers_count + j;
-			totalDeliveryCost += cm_warehouse_matrix.dGet(i, j) * (*pdSolution)[LastIdx + iCurrent];
-		}//for (int j = 0; j < i_sellers_count; j++)
-	}//for (int i = 0; i < i_warehouses_count; i++)
-	return totalDeliveryCost;
-}//bool CMscnProblem::bMultiplyDeliveryCostPerItemsOrdered(double** pdSolution)
-
-double CMscnProblem::dCalculateTotalContractPrice(double** pdSolution)
-{	
-	double totalContractPrice = 0;
-
-	int iCurrent = 0;
-	int LastIdx = 0;
-
-	for (int i = 0; i < i_suppliers_count; i++)
-	{
-		for (int j = 0; j < i_factories_count; j++)
-		{	
-			iCurrent = i * i_factories_count + j;
-			if ((*pdSolution)[LastIdx + iCurrent] > 0)
-			{
-				totalContractPrice += ct_suppliers_contract_prices.dGet(i);
-				break;
-			}//if ((*pdSolution)[LastIdx + iCurrent] > 0)
+			quantityOfItemsGoingToTheEnitity += (pdSolution)[LastIdx + iCurrent];
 		}//for (int j = 0; j < i_factories_count; j++)
+		//petla po wszystkich magazynach dla danej fabryki
+
+		int iIndexOfFirstWarehouse = i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count;
+		for (int i = 0; i < i_warehouses_count; i++)
+		{
+			for (int j = 0; j < i_sellers_count; i++)
+			{
+				iCurrent = i * i_sellers_count + j;
+				quantityOfItemsGoingOutOfTheEnitity += pdSolution[iIndexOfFirstWarehouse + iCurrent];
+			}//for (int j = 0; j < i_warehouses_count; i++)
+		}//for (int i = 0; i < i_factories_count; i++)
+		if (quantityOfItemsGoingOutOfTheEnitity > quantityOfItemsGoingToTheEnitity) return false;
 	}//for (int i = 0; i < i_suppliers_count; i++)
-
-	LastIdx += iCurrent + 1;
-	for (int i = 0; i < i_factories_count; i++)
-	{
-		for (int j = 0; j < i_warehouses_count; j++)
-		{
-			iCurrent = i * i_warehouses_count + j;
-			if ((*pdSolution)[LastIdx + iCurrent] > 0)
-			{
-				totalContractPrice += ct_factories_contract_prices.dGet(i);
-				break;
-			}//if ((*pdSolution)[LastIdx + iCurrent] > 0)
-		}//for (int j = 0; j < i_warehouses_count; j++)
-	}//for (int i = 0; i < i_factories_count; i++)
-
-	LastIdx += iCurrent + 1;
-	for (int i = 0; i < i_warehouses_count; i++)
-	{
-		for (int j = 0; j < i_sellers_count; j++)
-		{
-			iCurrent = i * i_sellers_count + j;
-			if ((*pdSolution)[LastIdx + iCurrent] > 0)
-			{
-				totalContractPrice += ct_warehouses_contract_prices.dGet(i);
-				break;
-			}//if ((*pdSolution)[LastIdx + iCurrent] > 0)
-		}//for (int j = 0; j < i_sellers_count; j++)
-	}//for (int i = 0; i < i_warehouses_count; i++)
-
 	
-	return totalContractPrice;
-}//double CMscnProblem::dCalculateTotalContractPrice()
+	return true;
+}//bool CMscnProblem::bCheckSufficientProductAmmountDelivery(double* pdSolution)
 
 double CMscnProblem::dGetMinValueAt(double* pdSolution, int iIndex)
 {
