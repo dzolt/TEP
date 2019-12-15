@@ -45,7 +45,7 @@ public:
 	double dGetMinValueAt(double* pdSolution, int iIndex);
 	double dGetMaxValueAt(double* pdSolution, int iIndex);
 
-	bool bSetEveryMinimalCostTo(CMatrix* pdMatrix, int iSizex, int iSizeY, double dValue);
+	bool bSetEveryMinimalCostTo(CMatrix** pdMatrix, int iSizex, int iSizeY, double dValue);
 	void vSetEveryMaximalCostAtCapacity();
 private:
 
@@ -69,27 +69,27 @@ private:
 	unsigned int i_sellers_count;
 	unsigned int i_warehouses_count;
 
-	CTable ct_suppliers_contract_prices;
-	CTable ct_factories_contract_prices;
-	CTable ct_warehouses_contract_prices;
+	CTable* ct_suppliers_contract_prices;
+	CTable* ct_factories_contract_prices;
+	CTable* ct_warehouses_contract_prices;
 	
-	CTable ct_sellers_income_value;
+	CTable* ct_sellers_income_value;
 
-	CTable ct_suppliers_capacity_ammount;
-	CTable ct_factories_capacity_ammount;
-	CTable ct_warehouses_capacity_ammount;
-	CTable ct_sellers_capacity_ammount;
+	CTable* ct_suppliers_capacity_ammount;
+	CTable* ct_factories_capacity_ammount;
+	CTable* ct_warehouses_capacity_ammount;
+	CTable* ct_sellers_capacity_ammount;
 
-	CMatrix cm_min_items_sent_from_supplier;
-	CMatrix cm_max_items_sent_from_supplier;
+	CMatrix* cm_min_items_sent_from_supplier;
+	CMatrix* cm_max_items_sent_from_supplier;
 
-	CMatrix cm_min_items_sent_from_factory;
-	CMatrix cm_max_items_sent_from_factory;
+	CMatrix* cm_min_items_sent_from_factory;
+	CMatrix* cm_max_items_sent_from_factory;
 	
-	CMatrix cm_min_items_sent_from_warehouse;
-	CMatrix cm_max_items_sent_from_warehouse;
+	CMatrix* cm_min_items_sent_from_warehouse;
+	CMatrix* cm_max_items_sent_from_warehouse;
 
-	CMatrix cm_delivery_matrix;
-	CMatrix cm_factory_matrix;
-	CMatrix cm_warehouse_matrix;
+	CMatrix* cm_delivery_matrix;
+	CMatrix* cm_factory_matrix;
+	CMatrix* cm_warehouse_matrix;
 };

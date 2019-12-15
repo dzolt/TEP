@@ -25,7 +25,7 @@ CTable::CTable(int iSize, bool& bSuccess)
 
 CTable::~CTable()
 {
-	delete pd_table;
+	delete[] pd_table;
 }//CTable::~CTable()
 
 bool CTable::bFillTableWithValue(double dValue)
@@ -92,7 +92,7 @@ double CTable::dGet(int iIndex)
 
 void CTable::operator=(const CTable& pcOther)
 {
-	delete pd_table;
+	delete[] pd_table;
 	vCopy(pcOther);
 }//void CTable::operator=(const CTable & pcOther)
 

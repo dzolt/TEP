@@ -25,6 +25,7 @@ public:
 	bool vInitializeMatrixWithValue(int iSizeX, int iSizeY, double dValue);
 
 	void operator=(const CMatrix& pcOther);
+	void vCopy(const CMatrix& pcOther);
 private:
 	double** pd_matrix;
 	unsigned int i_size_x;

@@ -2,6 +2,9 @@
 #include "CMscnProblem.h"
 #include <random>
 
+
+
+
 int main()
 {
 	int iSuppliers = 2;
