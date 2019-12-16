@@ -1,4 +1,4 @@
-#pragma once
+#pragma warning(disable:4996)
 #include "CMatrix.h"
 #include "CTable.h"
 #include <iostream>
@@ -60,8 +60,8 @@ public:
 
 	void vSetEveryMaximalCostAtCapacity();
 
-	bool bWriteToFile(std::string sFileName);
-	bool bReadFromFile(std::string sFileName);
+	bool bWriteProblemToFile(std::string sFileName);
+	bool bReadProblemFromFile(std::string sFileName);
 private:
 
 	inline bool bInitTables();	

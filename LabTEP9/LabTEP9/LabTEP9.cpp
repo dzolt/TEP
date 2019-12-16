@@ -19,12 +19,13 @@ int main()
 	for (int i = iSuppliers*iFactories; i < iSuppliers*iFactories + iFactories*iWarehouses; i++) pdSolution[i] = 2;
 	for (int i = iSuppliers * iFactories + iFactories * iWarehouses; i < iSize; i++) pdSolution[i] = 2;
 
-	CMscnProblem problem(iSuppliers,iFactories, iWarehouses,iSellers,bsucc);
+	//CMscnProblem problem(iSuppliers,iFactories, iWarehouses,iSellers,bsucc);
+	CMscnProblem problem;
 	if (bsucc == true)
 	{	
 		double result = 0;
 
-		problem.bSetSupplierCapacityAmmount(1000, 0);
+		/*problem.bSetSupplierCapacityAmmount(1000, 0);
 		problem.bSetSupplierCapacityAmmount(1000, 1);
 		problem.bSetFactoryCapacityAmmount(1000, 0);
 		problem.bSetFactoryCapacityAmmount(1000, 1);
@@ -62,12 +63,15 @@ int main()
 			{
 				problem.bSetWarehouseMatrixValAt(4, i, j);
 			}
-		}
+		}*/
+		problem.bReadProblemFromFile("Problem.txt");
 
 
 
 		problem.bGetQuality(pdSolution, iSize, result);
 		std::cout << result << std::endl;
+		std::cout << "Satisfied: " << problem.bConstraintsSatisfied(pdSolution, iSize);
+		//problem.bWriteProblemToFile("Problem.txt");
 	}
 	else { std::cout << "error"; }
 
