@@ -5,7 +5,7 @@ CMatrix::CMatrix()
 	i_size_x = DEFAULT_MATRIX_SIZE;
 	i_size_y = DEFAULT_MATRIX_SIZE;
 	bCreateMatrix(&pd_matrix, i_size_x, i_size_y);
-	vInitializeMatrixWithInitialValue(&pd_matrix, i_size_x, i_size_y);
+	//vInitializeMatrixWithInitialValue(&pd_matrix, i_size_x, i_size_y);
 }//CMatrix::CMatrix()
 
 CMatrix::CMatrix(unsigned int iSizeX, unsigned int iSizeY, bool& bSuccess)
@@ -20,7 +20,7 @@ CMatrix::CMatrix(unsigned int iSizeX, unsigned int iSizeY, bool& bSuccess)
 		i_size_x = iSizeX;
 		i_size_y = iSizeY;
 		bCreateMatrix(&pd_matrix, i_size_x, i_size_y);
-		vInitializeMatrixWithInitialValue(&pd_matrix, i_size_x, i_size_y);
+		//vInitializeMatrixWithInitialValue(&pd_matrix, i_size_x, i_size_y);
 	}//else if (iSizeX < 0 || iSizeY < 0)
 }//CMatrix::CMatrix(unsigned int iSizeX, unsigned int iSizeY)
 
@@ -57,7 +57,7 @@ double CMatrix::dGet(int iSizeX, int iSizeY)
 	return pd_matrix[iSizeX][iSizeY];
 }//double CMatrix::vGet(int iSizeX, int iSizeY)
 
-bool CMatrix::bInitializeMatrixWithValue(double*** pdMatrix, int iSizeX, int iSizeY, double dValue)
+bool CMatrix::bInitializeMatrixWithValue(double** pdMatrix, int iSizeX, int iSizeY, double dValue)
 {	
 	if (iSizeX < 1 || iSizeY < 1 || dValue < 0) return false;
 
@@ -65,20 +65,20 @@ bool CMatrix::bInitializeMatrixWithValue(double*** pdMatrix, int iSizeX, int iSi
 	{
 		for (int j = 0; j < i_size_y; j++)
 		{
-			(*pdMatrix)[i][j] = dValue;
+			(pdMatrix)[i][j] = dValue;
 		}//for (int j = 0; j < iSizeY; j++)
 	}//for (int i = 0; i < iSizeX; i++)
 	return true;
 }//void CMatrix::vInitializeMatrix(double dValue)
 
-bool CMatrix::vInitializeMatrixWithInitialValue(double*** pdMatrix, int iSizeX, int iSizeY)
+bool CMatrix::vInitializeMatrixWithInitialValue(double** pdMatrix, int iSizeX, int iSizeY)
 {
 	if (iSizeX < 1 || iSizeY < 1) return false;
 	for (int i = 0; i < iSizeX; i++)
 	{
 		for (int j = 0; j < iSizeY; j++)
 		{
-			(*pdMatrix)[i][j] = INITIAL_MATRIX_VALUE;
+			(pdMatrix)[i][j] = INITIAL_MATRIX_VALUE;
 		}//for (int j = 0; j < iSizeY; j++)
 	}//for (int i = 0; i < iSizeX; i++)
 	return true;
@@ -118,7 +118,6 @@ void CMatrix::vCopy(const CMatrix& pcOther)
 	}//	for (int i = 0; i < i_size_x; i++)
 }//void CMatrix::vCopy(const CMatrix& pcOther)
 
-
 bool CMatrix::bSet(double dValue, int iSizeX, int iSizeY)
 {
 	if (dValue < 0 || iSizeX < 0 || iSizeX >= i_size_x || iSizeY < 0 || iSizeY >= i_size_y) return false;
@@ -134,7 +133,7 @@ bool CMatrix::bSetSize(int iNewSizeX, int iNewSizeY)
 
 	double** newMatrix;
 	bCreateMatrix(&newMatrix, iNewSizeX, iNewSizeY);
-	vInitializeMatrixWithInitialValue(&newMatrix, iNewSizeX, iNewSizeY);
+	vInitializeMatrixWithInitialValue(newMatrix, iNewSizeX, iNewSizeY);
 
 	for (int i = 0; i < uiTempXSize; i++)
 	{

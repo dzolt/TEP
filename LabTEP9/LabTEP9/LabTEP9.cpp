@@ -15,8 +15,6 @@ int main()
 	bool bsucc = true;
 	double* pdSolution = new double[iSize];
 
-	for (int i = 0; i < iSize; i++) pdSolution[i] = 3;
-
 	for (int i = 0; i < iSuppliers*iFactories; i++) pdSolution[i] = 3;
 	for (int i = iSuppliers*iFactories; i < iSuppliers*iFactories + iFactories*iWarehouses; i++) pdSolution[i] = 2;
 	for (int i = iSuppliers * iFactories + iFactories * iWarehouses; i < iSize; i++) pdSolution[i] = 2;
@@ -36,6 +34,8 @@ int main()
 		problem.bSetWarehouseCapacityAmmount(1000, 2);
 		problem.bSetSellerCapacityAmmount(1000, 0);
 		problem.bSetSellerCapacityAmmount(1000, 1);
+		problem.vSetEveryMaximalCostAtCapacity();
+		
 		
 		for (int i = 0; i < iSuppliers; i++) problem.bSetSupplierContractPriceAt(300 + i, i);
 		for (int i = 0; i < iFactories; i++) problem.bSetFactoryContractPriceAt(200 + i, i);

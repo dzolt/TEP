@@ -4,7 +4,7 @@ CTable::CTable()
 {
 	pd_table = new double[DEFAULT_TAB_LENGTH];
 	i_size = DEFAULT_TAB_LENGTH;
-	bFillTableWithInitialValue(&pd_table, i_size);
+	//bFillTableWithInitialValue(&pd_table, i_size);
 }//CTable::CTable()
 
 CTable::CTable(int iSize, bool& bSuccess)
@@ -18,10 +18,9 @@ CTable::CTable(int iSize, bool& bSuccess)
 	{
 		pd_table = new double[iSize];
 		i_size = iSize;
-		bFillTableWithInitialValue(&pd_table, i_size);
+		//bFillTableWithInitialValue(&pd_table, i_size);
 	}//else if (iSize < 1)
 }//CTable::CTable(int iSize, bool& bSuccess)
-
 
 CTable::~CTable()
 {

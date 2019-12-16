@@ -45,20 +45,33 @@ public:
 	double dGetMinValueAt(double* pdSolution, int iIndex);
 	double dGetMaxValueAt(double* pdSolution, int iIndex);
 
-	bool bSetEveryMinimalCostTo(CMatrix** pdMatrix, int iSizex, int iSizeY, double dValue);
+	inline bool bSetMinValueForSupplierItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
+	inline bool bSetMinValueForFactoryItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
+	inline bool bSetMinValueForWarehouseItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
+	inline bool bSetMaxValueForSupplierItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
+	inline bool bSetMaxValueForFactoryItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
+	inline bool bSetMaxValueForWarehouseItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
+
+	double dGetMinValueSupplierItemQuantity(int i_xIndex, int i_yIndex);
+	double dGetMinValueFactoryItemQuantity(int i_xIndex, int i_yIndex);
+	double dGetMinValueWarehouseItemQuantity(int i_xIndex, int i_yIndex);
+	double dGetMaxValueSupplierItemQuantity(int i_xIndex, int i_yIndex);
+	double dGetMaxValueFactoryItemQuantity(int i_xIndex, int i_yIndex);
+	double dGetMaxValueWarehouseItemQuantity(int i_xIndex, int i_yIndex);
+
 	void vSetEveryMaximalCostAtCapacity();
 private:
 
-	bool bInitTables();	
-	bool bInitMatrixes();
-	bool bInitMinMaxMatrixes();
+	inline bool bInitTables();	
+	inline bool bInitMatrixes();
+	inline bool bInitMinMaxMatrixes();
 
-	bool bSetEveryMaximalCostTo(double*** pdMatrix, int iSizex, int iSizeY, double dValue);
+	inline bool bSetEveryMinimalCostTo(CMatrix** pdMatrix, int iSizex, int iSizeY, double dValue);
 	
-	bool bCheckMinMaxConstraint(double* pdSolution);
-	bool bCheckSolutionForNegativeNumbers(double* pdSolution, int iSize);
-	bool bCheckMaxCapacityOverload(double* pdSolution);
-	bool bCheckSufficientProductAmmountDelivery(double* pdSolution);
+	inline bool bCheckMinMaxConstraint(double* pdSolution);
+	inline bool bCheckSolutionForNegativeNumbers(double* pdSolution, int iSize);
+	inline bool bCheckMaxCapacityOverload(double* pdSolution);
+	inline bool bCheckSufficientProductAmmountDelivery(double* pdSolution);
 
 	double dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution);
 	double dCalculateTotalContractPrice(double** pdSolution);
@@ -93,3 +106,150 @@ private:
 	CMatrix* cm_factory_matrix;
 	CMatrix* cm_warehouse_matrix;
 };
+
+
+inline bool CMscnProblem::bSetDeliveryMatrixValAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_delivery_matrix->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetDeliveryMatrixVal(double dValue, int iSizeX, int iSizeY)
+
+inline bool CMscnProblem::bSetFactoryMatrixValAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_factory_matrix->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetFactoryMatrixVal(double dValue, int iSizeX, int iSizeY)
+
+inline bool CMscnProblem::bSetWarehouseMatrixValAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_warehouse_matrix->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetWarehouseMatrixVal(double dValue, int iSizeX, int iSizeY)
+
+inline bool CMscnProblem::bSetSupplierMinItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_min_items_sent_from_supplier->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetSupplierMinItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+
+inline bool CMscnProblem::bSetFactoryMinItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_min_items_sent_from_factory->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetFactoryMinItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+
+inline bool CMscnProblem::bSetWarehouseMinItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_min_items_sent_from_warehouse->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetWarehouseMinItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+
+inline bool CMscnProblem::bSetSupplierMaxItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_max_items_sent_from_supplier->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetSupplierMaxItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+
+inline bool CMscnProblem::bSetFactoryMaxItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_max_items_sent_from_factory->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetFactoryMaxItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+
+inline bool CMscnProblem::bSetWarehouseMaxItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_max_items_sent_from_warehouse->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetWarehouseMaxItemsSentAt(double dValue, int i_xIndex, int i_yIndex)
+
+inline bool CMscnProblem::bSetSupplierCapacityAmmount(double dVal, int iIndex)
+{
+	return ct_suppliers_capacity_ammount->bSet(dVal, iIndex);
+}//inline bool CMscnProblem::bSetSupplierCapacityAmmount(double dVal, int iIndex)
+
+inline bool CMscnProblem::bSetFactoryCapacityAmmount(double dVal, int iIndex)
+{
+	return ct_factories_capacity_ammount->bSet(dVal, iIndex);
+}//inline bool CMscnProblem::bSetFactoryCapacityAmmount(double dVal, int iIndex)
+
+inline bool CMscnProblem::bSetWarehouseCapacityAmmount(double dVal, int iIndex)
+{
+	 return ct_warehouses_capacity_ammount->bSet(dVal, iIndex);
+}//inline bool CMscnProblem::bSetWarehouseCapacityAmmount(double dVal, int iIndex)
+
+inline bool CMscnProblem::bSetSellerCapacityAmmount(double dVal, int iIndex)
+{
+	return ct_sellers_capacity_ammount->bSet(dVal, iIndex);
+}//inline bool CMscnProblem::bSetSellerCapacityAmmount(double dVal, int iIndex)
+
+inline bool CMscnProblem::bSetSellerIncomeValAt(double dVal, int iIndex)
+{
+	return ct_sellers_income_value->bSet(dVal, iIndex);
+}//inline bool CMscnProblem::bSetSellerIncomeValAt(double dVal, int iIndex)
+
+inline bool CMscnProblem::bSetSupplierContractPriceAt(double dVal, int iIndex)
+{
+	return ct_suppliers_contract_prices->bSet(dVal, iIndex);
+}//inline bool CMscnProblem::bSetSupplierContractPriceAt(double dVal, int iIndex)
+
+inline bool CMscnProblem::bSetFactoryContractPriceAt(double dVal, int iIndex)
+{
+	return ct_factories_contract_prices->bSet(dVal, iIndex);
+}//inline bool CMscnProblem::bSetFactoryContractPriceAt(double dVal, int iIndex)
+
+inline bool CMscnProblem::bSetWarehouseContractPriceAt(double dVal, int iIndex)
+{
+	return ct_warehouses_contract_prices->bSet(dVal, iIndex);
+}//inline bool CMscnProblem::bSetWarehouseContractPriceAt(double dVal, int iIndex)
+
+inline bool CMscnProblem::bSetMinValueForSupplierItemQuantityAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_min_items_sent_from_supplier->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetMinValueForSupplierItemQuantityAt(double dValue, int i_xIndex, int i_yIndex)
+
+inline bool CMscnProblem::bSetMinValueForFactoryItemQuantityAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_min_items_sent_from_factory->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetMinValueForFactoryItemQuantityAt(double dValue, int i_xIndex, int i_yIndex)
+
+inline bool CMscnProblem::bSetMinValueForWarehouseItemQuantityAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_min_items_sent_from_warehouse->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetMinValueForWarehouseItemQuantityAt(double dValue, int i_xIndex, int i_yIndex)
+
+inline bool CMscnProblem::bSetMaxValueForSupplierItemQuantityAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_max_items_sent_from_supplier->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetMaxValueForSupplierItemQuantityAt(double dValue, int i_xIndex, int i_yIndex)
+
+inline bool CMscnProblem::bSetMaxValueForFactoryItemQuantityAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_max_items_sent_from_factory->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetMaxValueForFactoryItemQuantityAt(double dValue, int i_xIndex, int i_yIndex)
+
+inline bool CMscnProblem::bSetMaxValueForWarehouseItemQuantityAt(double dValue, int i_xIndex, int i_yIndex)
+{
+	return cm_max_items_sent_from_warehouse->bSet(dValue, i_xIndex, i_yIndex);
+}//inline bool CMscnProblem::bSetMaxValueForWarehouseItemQuantityAt(double dValue, int i_xIndex, int i_yIndex)
+
+inline double CMscnProblem::dGetMinValueSupplierItemQuantity(int i_xIndex, int i_yIndex)
+{
+	return cm_min_items_sent_from_supplier->dGet(i_xIndex, i_yIndex);
+}//inline double CMscnProblem::dGetMinValueSupplierItemQuantity(int i_xIndex, int i_yIndex)
+
+inline double CMscnProblem::dGetMinValueFactoryItemQuantity(int i_xIndex, int i_yIndex)
+{
+	return cm_min_items_sent_from_factory->dGet(i_xIndex, i_yIndex);
+}//inline double CMscnProblem::dGetMinValueFactoryItemQuantity(int i_xIndex, int i_yIndex)
+
+inline double CMscnProblem::dGetMinValueWarehouseItemQuantity(int i_xIndex, int i_yIndex)
+{
+	return cm_min_items_sent_from_warehouse->dGet(i_xIndex, i_yIndex);
+}//inline double CMscnProblem::dGetMinValueWarehouseItemQuantity(int i_xIndex, int i_yIndex)
+
+inline double CMscnProblem::dGetMaxValueSupplierItemQuantity(int i_xIndex, int i_yIndex)
+{
+	return cm_max_items_sent_from_supplier->dGet(i_xIndex, i_yIndex);
+}//inline double CMscnProblem::dGetMaxValueSupplierItemQuantity(int i_xIndex, int i_yIndex)
+
+inline double CMscnProblem::dGetMaxValueFactoryItemQuantity(int i_xIndex, int i_yIndex)
+{
+	return cm_max_items_sent_from_factory->dGet(i_xIndex, i_yIndex);
+}//inline double CMscnProblem::dGetMaxValueFactoryItemQuantity(int i_xIndex, int i_yIndex)
+
+inline double CMscnProblem::dGetMaxValueWarehouseItemQuantity(int i_xIndex, int i_yIndex)
+{
+	return cm_max_items_sent_from_warehouse->dGet(i_xIndex, i_yIndex);
+}//inline double CMscnProblem::dGetMaxValueWarehouseItemQuantity(int i_xIndex, int i_yIndex)
+
