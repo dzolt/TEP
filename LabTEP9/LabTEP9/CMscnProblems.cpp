@@ -224,6 +224,7 @@ bool CMscnProblem::bGetQuality(double* pdSolution, int iSize, double& profit)
 {	
 
 	//if (bConstraintsSatisfied(pdSolution, iSize) == false) return false;
+	if (iSize != i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count || pdSolution == NULL) return false;
 	double shopIncome = 0;
 	double totalDeliveryCost = 0;
 	double totalContractPrice = 0;
