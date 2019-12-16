@@ -600,153 +600,152 @@ bool CMscnProblem::bReadProblemFromFile(std::string sFileName)
 	if (pf_file != NULL) fclose(pf_file);
 	pf_file = fopen(sFileName.c_str(), "r");
 	if (pf_file == NULL) return false;
-	std::string sCurrentObjectToLoad;
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
-	fscanf(pf_file, "%f", &i_suppliers_count);
+	char cCurrentLineLoaded[10000];
+	
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
+	fscanf(pf_file, "%i", &i_suppliers_count);
 	bSetSuppliersCount(i_suppliers_count);
 	
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
-	fscanf(pf_file, "%f", &i_factories_count);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
+	fscanf(pf_file, "%i", &i_factories_count);
 	bSetFactoriesCount(i_factories_count);
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
-	fscanf(pf_file, "%f", &i_warehouses_count);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
+	fscanf(pf_file, "%i", &i_warehouses_count);
 	bSetWarehousesCount(i_warehouses_count);
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
-	fscanf(pf_file, "%f", &i_sellers_count);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
+	fscanf(pf_file, "%i", &i_sellers_count);
 	bSetSellersCount(i_sellers_count);
 
 	double dTempValue;
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_suppliers_count; i++)
 	{	
-		fscanf(pf_file, "%f ", &dTempValue);
+		fscanf(pf_file, "%lf ", &dTempValue);
 		ct_suppliers_capacity_ammount->bSet(dTempValue, i);
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_factories_count; i++)
 	{
-		fscanf(pf_file, "%f ", &dTempValue);
+		fscanf(pf_file, "%lf ", &dTempValue);
 		ct_factories_capacity_ammount->bSet(dTempValue, i);
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_warehouses_count; i++)
 	{
-		fscanf(pf_file, "%f ", &dTempValue);
+		fscanf(pf_file, "%lf ", &dTempValue);
 		ct_warehouses_capacity_ammount->bSet(dTempValue, i);
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_suppliers_count; i++)
 	{
-		fscanf(pf_file, "%f ", &dTempValue);
+		fscanf(pf_file, "%lf ", &dTempValue);
 		ct_sellers_capacity_ammount->bSet(dTempValue, i);
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_suppliers_count; i++)
 	{
 		for (int j = 0; j < i_factories_count; j++)
 		{
-			fscanf(pf_file, "%f ", &dTempValue);
+			fscanf(pf_file, "%lf ", &dTempValue);
 			cm_delivery_matrix->bSet(dTempValue, i, j);
 		}
 		//fprintf(pf_file, "\n");
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_factories_count; i++)
 	{
 		for (int j = 0; j < i_warehouses_count; j++)
 		{
-			fscanf(pf_file, "%f ", &dTempValue);
+			fscanf(pf_file, "%lf ", &dTempValue);
 			cm_factory_matrix->bSet(dTempValue, i, j);
 		}
 		//fprintf(pf_file, "\n");
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_warehouses_count; i++)
 	{
 		for (int j = 0; j < i_sellers_count; j++)
 		{
-			fscanf(pf_file, "%f ", &dTempValue);
+			fscanf(pf_file, "%lf ", &dTempValue);
 			cm_warehouse_matrix->bSet(dTempValue, i, j);
 		}
 		//fprintf(pf_file, "\n");
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_suppliers_count; i++)
 	{
-		fscanf(pf_file, "%f", &dTempValue);
+		fscanf(pf_file, "%lf", &dTempValue);
 		ct_suppliers_contract_prices->bSet(dTempValue, i);
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_factories_count; i++)
 	{
-		fscanf(pf_file, "%f", &dTempValue);
+		fscanf(pf_file, "%lf", &dTempValue);
 		ct_factories_contract_prices->bSet(dTempValue, i);
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_warehouses_count; i++)
 	{	
-		fscanf(pf_file, "%f", &dTempValue);
+		fscanf(pf_file, "%lf", &dTempValue);
 		ct_warehouses_contract_prices->bSet(dTempValue, i);
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_sellers_count; i++)
 	{	
-		fscanf(pf_file, "%f", &dTempValue);
+		fscanf(pf_file, "%lf", &dTempValue);
 		ct_sellers_income_value->bSet(dTempValue, i);
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_suppliers_count; i++)
 	{
 		for (int j = 0; j < i_factories_count; j++)
 		{	
-			fscanf(pf_file, "%f", &dTempValue);
+			fscanf(pf_file, "%lf", &dTempValue);
 			cm_min_items_sent_from_supplier->bSet(dTempValue, i, j);
 			
-			fscanf(pf_file, "%f", &dTempValue);
+			fscanf(pf_file, "%lf", &dTempValue);
 			cm_max_items_sent_from_supplier->bSet(dTempValue, i, j);
 		}
 		//fprintf(pf_file, "\n");
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_factories_count; i++)
 	{
 		for (int j = 0; j < i_warehouses_count; j++)
 		{	
-			fscanf(pf_file, "%f", &dTempValue);
+			fscanf(pf_file, "%lf", &dTempValue);
 			cm_min_items_sent_from_factory->bSet(dTempValue, i, j);
 			
-			fscanf(pf_file, "%f", &dTempValue);
+			fscanf(pf_file, "%lf", &dTempValue);
 			cm_max_items_sent_from_factory->bSet(dTempValue, i, j);
 		}
 		//fprintf(pf_file, "\n");
 	}
 
-	fscanf(pf_file, "%s", &sCurrentObjectToLoad);
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_warehouses_count; i++)
 	{
 		for (int j = 0; j < i_sellers_count; j++)
 		{	
-			fscanf(pf_file, "%f", &dTempValue);
+			fscanf(pf_file, "%lf", &dTempValue);
 			cm_min_items_sent_from_warehouse->bSet(dTempValue, i, j);
 			
-			fscanf(pf_file, "%f", &dTempValue);
+			fscanf(pf_file, "%lf", &dTempValue);
 			cm_max_items_sent_from_warehouse->bSet(dTempValue, i, j);
 		}
 		//fprintf(pf_file, "\n");
@@ -785,7 +784,12 @@ bool CMscnProblem::bWriteProblemToFile(std::string sFileName)
 	for (int i = 0; i < i_warehouses_count; i++)
 	{
 		fprintf(pf_file, "%f ", ct_warehouses_capacity_ammount->dGet(i));
+	}
 
+	fprintf(pf_file, "\nss\n");
+	for (int i = 0; i < i_sellers_count; i++)
+	{
+		fprintf(pf_file, "%f ", ct_sellers_capacity_ammount->dGet(i));
 	}
 	
 	fprintf(pf_file, "\ncd\n");
