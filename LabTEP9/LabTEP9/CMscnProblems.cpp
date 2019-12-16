@@ -594,6 +594,28 @@ double CMscnProblem::dGetMaxValueAt(double* pdSolution, int iIndex)
 	}//else
 	return -1;
 }//double CMscnProblem::dGetMaxValueAt(double* pdSolution, int iIndex)
+
+bool CMscnProblem::bReadFromFile(std::string sFileName)
+{
+	if (pf_file != NULL) fclose(pf_file);
+	fopen(sFileName.c_str(), "w+");
+
+
+	fclose(pf_file);
+	pf_file = NULL;
+	
+}//bool CMscnProblem::bReadFromFile(std::string sFileName)
+
+bool CMscnProblem::bWriteToFile(std::string sFileName)
+{
+	if (pf_file != NULL) fclose(pf_file);
+	fopen(sFileName.c_str(), "w+");
+
+
+	fclose(pf_file);
+	pf_file = NULL;
+}//bool CMscnProblem::bWriteToFile(std::string sFileName)
+
 /*
 double CMscnProblem::dGetMinValueAt(double* pdSolution, int iIndex)
 {

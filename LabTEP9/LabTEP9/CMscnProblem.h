@@ -59,6 +59,9 @@ public:
 	double dGetMaxValueWarehouseItemQuantity(int i_xIndex, int i_yIndex);
 
 	void vSetEveryMaximalCostAtCapacity();
+
+	bool bWriteToFile(std::string sFileName);
+	bool bReadFromFile(std::string sFileName);
 private:
 
 	inline bool bInitTables();	
