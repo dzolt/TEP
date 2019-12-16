@@ -7,6 +7,7 @@ CMscnProblem::CMscnProblem()
 	i_factories_count = DEFAULT_TAB_LENGTH;
 	i_warehouses_count = DEFAULT_TAB_LENGTH;
 	i_sellers_count = DEFAULT_TAB_LENGTH;
+	pf_file = NULL;
 	bInitTables();
 	bInitMatrixes();
 	bInitMinMaxMatrixes();
@@ -25,6 +26,7 @@ CMscnProblem::CMscnProblem(unsigned int iSuppliersCount, unsigned int iFactories
 		i_factories_count = iFactoriesCount;
 		i_sellers_count = iSellersCount;
 		i_warehouses_count = iWarehousesCount;
+		pf_file = NULL;
 		if( bInitTables() == true && bInitMatrixes() == true && bInitMinMaxMatrixes()) bSuccess = true;
 		else bSuccess = false;
 	}//else if (iSuppliersCount < 1 || iFactoriesCount < 1 || iSellersCount < 1 || iWarehousesCount < 1)
@@ -55,6 +57,8 @@ CMscnProblem::~CMscnProblem()
 	delete cm_delivery_matrix;
 	delete cm_factory_matrix;
 	delete cm_warehouse_matrix;
+
+	delete pf_file;
 }//CMscnProblem::~CMscnProblem()
 
 bool CMscnProblem::bInitTables()
@@ -590,10 +594,6 @@ double CMscnProblem::dGetMaxValueAt(double* pdSolution, int iIndex)
 	}//else
 	return -1;
 }//double CMscnProblem::dGetMaxValueAt(double* pdSolution, int iIndex)
-
-
-
-
 /*
 double CMscnProblem::dGetMinValueAt(double* pdSolution, int iIndex)
 {

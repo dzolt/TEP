@@ -1,16 +1,15 @@
 #pragma once
 #include "CMatrix.h"
 #include "CTable.h"
+#include <iostream>
 
 class CMscnProblem
 {
-
 public:
-
 	CMscnProblem();
 	CMscnProblem(unsigned int iSuppliersCount, unsigned int iFactoriesCount, unsigned int iWarehousesCount, unsigned int iSellersCount, bool& bSuccess);
 	~CMscnProblem();
-	
+
 	bool bSetSuppliersCount(unsigned int iNewValue);
 	bool bSetWarehousesCount(unsigned int iNewValue);
 	bool bSetFactoriesCount(unsigned int iNewValue);
@@ -45,12 +44,12 @@ public:
 	double dGetMinValueAt(double* pdSolution, int iIndex);
 	double dGetMaxValueAt(double* pdSolution, int iIndex);
 
-	inline bool bSetMinValueForSupplierItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
-	inline bool bSetMinValueForFactoryItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
-	inline bool bSetMinValueForWarehouseItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
-	inline bool bSetMaxValueForSupplierItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
-	inline bool bSetMaxValueForFactoryItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
-	inline bool bSetMaxValueForWarehouseItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
+	bool bSetMinValueForSupplierItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
+	bool bSetMinValueForFactoryItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
+	bool bSetMinValueForWarehouseItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
+	bool bSetMaxValueForSupplierItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
+	bool bSetMaxValueForFactoryItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
+	bool bSetMaxValueForWarehouseItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
 
 	double dGetMinValueSupplierItemQuantity(int i_xIndex, int i_yIndex);
 	double dGetMinValueFactoryItemQuantity(int i_xIndex, int i_yIndex);
@@ -105,6 +104,8 @@ private:
 	CMatrix* cm_delivery_matrix;
 	CMatrix* cm_factory_matrix;
 	CMatrix* cm_warehouse_matrix;
+
+	FILE* pf_file;
 };
 
 
