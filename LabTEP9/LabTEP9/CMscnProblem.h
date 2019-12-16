@@ -3,6 +3,8 @@
 #include "CTable.h"
 #include <iostream>
 
+#define MAX_CHARACTER_NUMBER 1000
+
 class CMscnProblem
 {
 public:
@@ -82,8 +84,18 @@ private:
 	double dCalculateTotalContractPrice(double** pdSolution);
 	double dCalculateTotalIncomeFromSellers(double** pdSolution, int iSize);
 
-	bool bReadEntitiesFromFile(FILE* pfFile);
+	bool bReadEntitiesFromProblemFile(FILE* pfFile);
+	bool bReadCapacitiesFromProblemFile(FILE* pfFile);
+	bool bReadTransportMatrixesFromProblemFile(FILE* pfFile);
+	bool bReadContractValuesFromProblemFile(FILE* pfFile);
+	bool bReadMinMaxValuesFromProblemFile(FILE* pfFile);
 	
+	bool bWriteEntitiesToProblemFile(FILE* pfFile);
+	bool bWriteCapacitiesToProblemFile(FILE* pfFile);
+	bool bWriteTransportMatrixesToProblemFile(FILE* pfFile);
+	bool bWriteContractValuesToProblemFile(FILE* pfFile);
+	bool bWriteMinMaxValuesToProblemFile(FILE* pfFile);
+
 	unsigned int i_suppliers_count;
 	unsigned int i_factories_count;
 	unsigned int i_sellers_count;

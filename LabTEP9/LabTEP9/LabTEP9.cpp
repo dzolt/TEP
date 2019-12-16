@@ -75,7 +75,7 @@ void vTest()
 
 int main()
 {
-	int iSuppliers = 2;
+	/*int iSuppliers = 2;
 	int iFactories = 3;
 	int iWarehouses = 3;
 	int iSellers = 2;
@@ -100,8 +100,8 @@ int main()
 		std::cout << "bConstraintsSatisfied: " << std::boolalpha << problem.bConstraintsSatisfied(pdSolution, iSize);
 		//problem.bWriteProblemToFile("Problem.txt");
 	}
-	else { std::cout << "error"; }
+	else { std::cout << "error"; }*/
 
-	
+	vTest();
 	return 0;
 }
