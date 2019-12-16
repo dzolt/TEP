@@ -1,5 +1,4 @@
 #pragma once
-#pragma disable(warning:4018)
 #define DEFAULT_TAB_LENGTH 1
 #define INITIAL_TAB_VALUE -1
 

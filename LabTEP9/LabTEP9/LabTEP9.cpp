@@ -75,33 +75,29 @@ void vTest()
 
 int main()
 {
-	/*int iSuppliers = 2;
+	int iSuppliers = 2;
 	int iFactories = 3;
 	int iWarehouses = 3;
 	int iSellers = 2;
-	int iSize = iSuppliers * iFactories + iFactories * iWarehouses + iWarehouses * iSellers;
 	bool bsucc = true;
-	double* pdSolution = new double[iSize];
 
-	for (int i = 0; i < iSuppliers*iFactories; i++) pdSolution[i] = 3;
-	for (int i = iSuppliers*iFactories; i < iSuppliers*iFactories + iFactories*iWarehouses; i++) pdSolution[i] = 2;
-	for (int i = iSuppliers * iFactories + iFactories * iWarehouses; i < iSize; i++) pdSolution[i] = 2;
-
-	//CMscnProblem problem(iSuppliers,iFactories, iWarehouses,iSellers,bsucc);
 	CMscnProblem problem;
 	if (bsucc == true)
 	{	
+		int iSize = 0;
 		double result = 0;
+		double* pdSolution;
 
 		problem.bReadProblemFromFile("Problem.txt");
+		problem.bReadSolutionFromFile("Solution.txt",&pdSolution,iSize);
 
 		problem.bGetQuality(pdSolution, iSize, result);
 		std::cout << "bGetQuality = " << result << std::endl;
 		std::cout << "bConstraintsSatisfied: " << std::boolalpha << problem.bConstraintsSatisfied(pdSolution, iSize);
 		//problem.bWriteProblemToFile("Problem.txt");
 	}
-	else { std::cout << "error"; }*/
+	else { std::cout << "error"; }
 
-	vTest();
+	//vTest();
 	return 0;
 }

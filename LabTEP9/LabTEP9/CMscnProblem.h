@@ -65,8 +65,8 @@ public:
 	bool bWriteProblemToFile(std::string sFileName);
 	bool bReadProblemFromFile(std::string sFileName);
 
-	bool bWriteSolutionToFile(std::string sFileName);
-	bool bReadSolutionToFile(std::string sFileName);
+	bool bWriteSolutionToFile(std::string sFileName, double* pdSolution);
+	bool bReadSolutionFromFile(std::string sFileName, double** pdSolution, int& iSize);
 private:
 
 	inline bool bInitTables();	
@@ -95,6 +95,12 @@ private:
 	bool bWriteTransportMatrixesToProblemFile(FILE* pfFile);
 	bool bWriteContractValuesToProblemFile(FILE* pfFile);
 	bool bWriteMinMaxValuesToProblemFile(FILE* pfFile);
+
+	bool bReadEntitiesFromSolutionFile(FILE* pfFile, int& iSize);
+	bool bReadSolutionValuesFromSolutionFile(FILE* pfFile, double* pdSolution);
+
+	bool bWriteEntitiesToSolutionFile(FILE* pfFile);
+	bool bWriteSolutionValuesToSolutionFile(FILE* pfFile, double* pdSolution);
 
 	unsigned int i_suppliers_count;
 	unsigned int i_factories_count;

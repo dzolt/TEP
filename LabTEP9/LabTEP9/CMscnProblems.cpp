@@ -223,7 +223,7 @@ bool CMscnProblem::bSetWarehousesCount(unsigned int iNewCount)
 bool CMscnProblem::bGetQuality(double* pdSolution, int iSize, double& profit)
 {	
 
-	if (bConstraintsSatisfied(pdSolution, iSize) == false) return false;
+	//if (bConstraintsSatisfied(pdSolution, iSize) == false) return false;
 	double shopIncome = 0;
 	double totalDeliveryCost = 0;
 	double totalContractPrice = 0;
@@ -316,16 +316,14 @@ double CMscnProblem::dCalculateTotalContractPrice(double** pdSolution)
 			}//if ((*pdSolution)[LastIdx + iCurrent] > 0)
 		}//for (int j = 0; j < i_sellers_count; j++)
 	}//for (int i = 0; i < i_warehouses_count; i++)
-
-	
 	return totalContractPrice;
 }//double CMscnProblem::dCalculateTotalContractPrice()
 
 bool CMscnProblem::bConstraintsSatisfied(double* pdSolution, int iSize)
 {
 	if (pdSolution == NULL || iSize < 0 || iSize > i_suppliers_count*i_factories_count + i_factories_count*i_warehouses_count + i_warehouses_count*i_sellers_count 
-		||bCheckMaxCapacityOverload(pdSolution) == false || bCheckMinMaxConstraint(pdSolution) == false || bCheckSolutionForNegativeNumbers(pdSolution, iSize) == false
-		|| bCheckSufficientProductAmmountDelivery(pdSolution) == false) return false;
+		|| bCheckMinMaxConstraint(pdSolution) == false || bCheckSolutionForNegativeNumbers(pdSolution, iSize) == false
+		|| bCheckMaxCapacityOverload(pdSolution) == false || bCheckSufficientProductAmmountDelivery(pdSolution) == false) return false;
 	return true;
 }//bool CMscnProblem::bConstraintsSatisfied(double * pdSolution, int iSize)
 
@@ -584,12 +582,12 @@ bool CMscnProblem::bReadProblemFromFile(std::string sFileName)
 	if (pf_file == NULL) return false;
 	char cCurrentLineLoaded[MAX_CHARACTER_NUMBER];
 	double dTempValue;
-
-	bReadEntitiesFromProblemFile(pf_file);
-	bReadCapacitiesFromProblemFile(pf_file);
-	bReadTransportMatrixesFromProblemFile(pf_file);
-	bReadContractValuesFromProblemFile(pf_file);
-
+	if (
+		bReadEntitiesFromProblemFile(pf_file) == false
+		|| bReadCapacitiesFromProblemFile(pf_file) == false
+		|| bReadTransportMatrixesFromProblemFile(pf_file) == false
+		|| bReadContractValuesFromProblemFile(pf_file) == false
+		)return false;
 	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_sellers_count; i++)
 	{	
@@ -597,7 +595,7 @@ bool CMscnProblem::bReadProblemFromFile(std::string sFileName)
 		ct_sellers_income_value->bSet(dTempValue, i);
 	}
 
-	bReadMinMaxValuesFromProblemFile(pf_file);
+	if (bReadMinMaxValuesFromProblemFile(pf_file) == false) return false;
 	
 	fclose(pf_file);
 	pf_file = NULL;
@@ -630,7 +628,7 @@ bool CMscnProblem::bReadEntitiesFromProblemFile(FILE* pfFile)
 
 bool CMscnProblem::bReadCapacitiesFromProblemFile(FILE* pfFile)
 {	
-	if (pf_file == NULL);
+	if (pf_file == NULL) return false;
 	char cCurrentLineLoaded[MAX_CHARACTER_NUMBER];
 	double dTempValue;
 
@@ -656,7 +654,7 @@ bool CMscnProblem::bReadCapacitiesFromProblemFile(FILE* pfFile)
 	}
 
 	fscanf(pf_file, "%s", cCurrentLineLoaded);
-	for (int i = 0; i < i_suppliers_count; i++)
+	for (int i = 0; i < i_sellers_count; i++)
 	{
 		fscanf(pf_file, "%lf ", &dTempValue);
 		ct_sellers_capacity_ammount->bSet(dTempValue, i);
@@ -781,19 +779,20 @@ bool CMscnProblem::bWriteProblemToFile(std::string sFileName)
 	if (pf_file != NULL) fclose(pf_file);
 	pf_file = fopen(sFileName.c_str(), "w+");
 	if (pf_file == NULL) return false;
-	
-	bWriteEntitiesToProblemFile(pf_file);
-	bWriteCapacitiesToProblemFile(pf_file);
-	bWriteTransportMatrixesToProblemFile(pf_file);
-	bWriteContractValuesToProblemFile(pf_file);
+	if (
+		bWriteEntitiesToProblemFile(pf_file) == false
+		||bWriteCapacitiesToProblemFile(pf_file) == false
+		||bWriteTransportMatrixesToProblemFile(pf_file) == false
+		||bWriteContractValuesToProblemFile(pf_file) == false
+		) return false;
 
 	fprintf(pf_file, "\np\n");
 	for (int i = 0; i < i_sellers_count; i++)
 	{
-		fprintf(pf_file, "%f ", ct_sellers_income_value->dGet(i));
+		fprintf(pf_file, "%lf ", ct_sellers_income_value->dGet(i));
 	}
 	
-	bWriteMinMaxValuesToProblemFile(pf_file);
+	if (bWriteMinMaxValuesToProblemFile(pf_file) == false) return false;
 
 	fclose(pf_file);
 	pf_file = NULL;
@@ -817,25 +816,25 @@ bool CMscnProblem::bWriteCapacitiesToProblemFile(FILE * pfFile)
 	fprintf(pf_file, "sd\n");
 	for (int i = 0; i < i_suppliers_count; i++)
 	{
-		fprintf(pf_file, "%f ", ct_suppliers_capacity_ammount->dGet(i));
+		fprintf(pf_file, "%lf ", ct_suppliers_capacity_ammount->dGet(i));
 	}
 
 	fprintf(pf_file, "\nsf\n");
 	for (int i = 0; i < i_factories_count; i++)
 	{
-		fprintf(pf_file, "%f ", ct_factories_capacity_ammount->dGet(i));
+		fprintf(pf_file, "%lf ", ct_factories_capacity_ammount->dGet(i));
 	}
 
 	fprintf(pf_file, "\nsm\n");
 	for (int i = 0; i < i_warehouses_count; i++)
 	{
-		fprintf(pf_file, "%f ", ct_warehouses_capacity_ammount->dGet(i));
+		fprintf(pf_file, "%lf ", ct_warehouses_capacity_ammount->dGet(i));
 	}
 
 	fprintf(pf_file, "\nss\n");
 	for (int i = 0; i < i_sellers_count; i++)
 	{
-		fprintf(pf_file, "%f ", ct_sellers_capacity_ammount->dGet(i));
+		fprintf(pf_file, "%lf ", ct_sellers_capacity_ammount->dGet(i));
 	}
 	return true;
 }//bool CMscnProblem::bWriteCapacitiesToProblemFile(FILE * pfFile)
@@ -848,7 +847,7 @@ bool CMscnProblem::bWriteTransportMatrixesToProblemFile(FILE * pfFile)
 	{
 		for (int j = 0; j < i_factories_count; j++)
 		{
-			fprintf(pf_file, "%f ", cm_delivery_matrix->dGet(i, j));
+			fprintf(pf_file, "%lf ", cm_delivery_matrix->dGet(i, j));
 		}
 		fprintf(pf_file, "\n");
 	}
@@ -858,7 +857,7 @@ bool CMscnProblem::bWriteTransportMatrixesToProblemFile(FILE * pfFile)
 	{
 		for (int j = 0; j < i_warehouses_count; j++)
 		{
-			fprintf(pf_file, "%f ", cm_factory_matrix->dGet(i, j));
+			fprintf(pf_file, "%lf ", cm_factory_matrix->dGet(i, j));
 		}
 		fprintf(pf_file, "\n");
 	}
@@ -868,7 +867,7 @@ bool CMscnProblem::bWriteTransportMatrixesToProblemFile(FILE * pfFile)
 	{
 		for (int j = 0; j < i_sellers_count; j++)
 		{
-			fprintf(pf_file, "%f ", cm_warehouse_matrix->dGet(i, j));
+			fprintf(pf_file, "%lf ", cm_warehouse_matrix->dGet(i, j));
 		}
 		fprintf(pf_file, "\n");
 	}
@@ -881,19 +880,19 @@ bool CMscnProblem::bWriteContractValuesToProblemFile(FILE * pfFile)
 	fprintf(pf_file, "ud\n");
 	for (int i = 0; i < i_suppliers_count; i++)
 	{
-		fprintf(pf_file, "%f ", ct_suppliers_contract_prices->dGet(i));
+		fprintf(pf_file, "%lf ", ct_suppliers_contract_prices->dGet(i));
 	}
 
 	fprintf(pf_file, "\nuf\n");
 	for (int i = 0; i < i_factories_count; i++)
 	{
-		fprintf(pf_file, "%f ", ct_factories_contract_prices->dGet(i));
+		fprintf(pf_file, "%lf ", ct_factories_contract_prices->dGet(i));
 	}
 
 	fprintf(pf_file, "\num\n");
 	for (int i = 0; i < i_warehouses_count; i++)
 	{
-		fprintf(pf_file, "%f ", ct_warehouses_contract_prices->dGet(i));
+		fprintf(pf_file, "%lf ", ct_warehouses_contract_prices->dGet(i));
 	}
 	return true;
 }//bool CMscnProblem::bWriteContractValuesToProblemFile(FILE * pfFile)
@@ -906,8 +905,8 @@ bool CMscnProblem::bWriteMinMaxValuesToProblemFile(FILE * pfFile)
 	{
 		for (int j = 0; j < i_factories_count; j++)
 		{
-			fprintf(pf_file, "%f ", cm_min_items_sent_from_supplier->dGet(i, j));
-			fprintf(pf_file, "%f ", cm_max_items_sent_from_supplier->dGet(i, j));
+			fprintf(pf_file, "%lf ", cm_min_items_sent_from_supplier->dGet(i, j));
+			fprintf(pf_file, "%lf ", cm_max_items_sent_from_supplier->dGet(i, j));
 		}
 		fprintf(pf_file, "\n");
 	}
@@ -917,8 +916,8 @@ bool CMscnProblem::bWriteMinMaxValuesToProblemFile(FILE * pfFile)
 	{
 		for (int j = 0; j < i_warehouses_count; j++)
 		{
-			fprintf(pf_file, "%f ", cm_min_items_sent_from_factory->dGet(i, j));
-			fprintf(pf_file, "%f ", cm_max_items_sent_from_factory->dGet(i, j));
+			fprintf(pf_file, "%lf ", cm_min_items_sent_from_factory->dGet(i, j));
+			fprintf(pf_file, "%lf ", cm_max_items_sent_from_factory->dGet(i, j));
 		}
 		fprintf(pf_file, "\n");
 	}
@@ -928,93 +927,167 @@ bool CMscnProblem::bWriteMinMaxValuesToProblemFile(FILE * pfFile)
 	{
 		for (int j = 0; j < i_sellers_count; j++)
 		{
-			fprintf(pf_file, "%f ", cm_min_items_sent_from_warehouse->dGet(i, j));
-			fprintf(pf_file, "%f ", cm_max_items_sent_from_warehouse->dGet(i, j));
+			fprintf(pf_file, "%lf ", cm_min_items_sent_from_warehouse->dGet(i, j));
+			fprintf(pf_file, "%lf ", cm_max_items_sent_from_warehouse->dGet(i, j));
 		}
 		fprintf(pf_file, "\n");
 	}
 	return true;
 }//bool CMscnProblem::bWriteMinMaxValuesToProblemFile(FILE * pfFile)
 
-/*
-double CMscnProblem::dGetMinValueAt(double* pdSolution, int iIndex)
-{
-	if (iIndex < 0 || iIndex >= i_suppliers_count*i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count) return -1;
-
-	int iCurrentIndex = 0;
-	int LastIdx = 0;
+bool CMscnProblem::bReadSolutionFromFile(std::string sFileName, double** pdSolution, int& iSize)
+{	
+	if (pf_file != NULL) fclose(pf_file);
+	pf_file = fopen(sFileName.c_str(), "r");
+	if (pf_file == NULL) return false;
 	
+	bReadEntitiesFromSolutionFile(pf_file, iSize);
+	*pdSolution = new double[iSize];
+	bReadSolutionValuesFromSolutionFile(pf_file, *pdSolution);
+
+	fclose(pf_file);
+	pf_file = NULL;
+	if (pf_file != NULL) return false;
+	return true;
+}//bool CMscnProblem::bReadSolutionToFile(std::string sFileName)
+
+bool CMscnProblem::bReadEntitiesFromSolutionFile(FILE* pfFile, int& iSize)
+{
+	if (pfFile == NULL) return false;
+	char cCurrentLineLoaded[MAX_CHARACTER_NUMBER];
+	int iSolutionSuppliers;
+	int iSolutionFactories;
+	int iSolutionWarehouses;
+	int iSolutionSellers;
+
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
+	fscanf(pf_file, "%i", &iSolutionSuppliers);
+	
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
+	fscanf(pf_file, "%i", &iSolutionFactories);
+
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
+	fscanf(pf_file, "%i", &iSolutionWarehouses);
+
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
+	fscanf(pf_file, "%i", &iSolutionSellers);
+
+	if (iSolutionSuppliers != i_suppliers_count || iSolutionFactories != i_factories_count
+		|| iSolutionWarehouses != i_warehouses_count || iSolutionSellers != i_sellers_count) return false;
+	iSize = iSolutionSuppliers * iSolutionFactories + iSolutionFactories * iSolutionWarehouses + iSolutionWarehouses * iSolutionSellers;
+	return true;
+}//bool CMscnProblem::bReadEntitiesFromSolutionFile(FILE* pfFile)
+
+bool CMscnProblem::bReadSolutionValuesFromSolutionFile(FILE* pfFile, double* pdSolution)
+{
+	if (pfFile == NULL) return false;
+
+	char cCurrentLineLoaded[MAX_CHARACTER_NUMBER];
+	double dTempValue;
+	int iLastIndex = 0;
+	int iCurrentIndex = 0;
+
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_suppliers_count; i++)
 	{
 		for (int j = 0; j < i_factories_count; j++)
 		{
 			iCurrentIndex = i * i_factories_count + j;
-			if (LastIdx + iCurrentIndex == iIndex) return cm_min_items_sent_from_supplier->dGet(i, j);
-		}//for (int j = 0; j < i_factories_count; j++)
-	}//for (int i = 0; i < i_suppliers_count; i++)
-	LastIdx += iCurrentIndex + 1;
+			fscanf(pf_file, "%lf", &dTempValue);
+			pdSolution[iLastIndex + iCurrentIndex] = dTempValue;
+		}
+	}
 
+	iLastIndex += iCurrentIndex + 1;
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_factories_count; i++)
 	{
 		for (int j = 0; j < i_warehouses_count; j++)
 		{
 			iCurrentIndex = i * i_warehouses_count + j;
-			if (LastIdx + iCurrentIndex == iIndex) return cm_min_items_sent_from_factory->dGet(i, j);
-		}//for (int j = 0; j < i_warehouses_count; j++)
-	}//for (int i = 0; i < i_factories_count; i++)
+			fscanf(pf_file, "%lf", &dTempValue);
+			pdSolution[iLastIndex + iCurrentIndex] = dTempValue;
+		}
+	}
 
-	LastIdx += iCurrentIndex + 1;
+	iLastIndex += iCurrentIndex + 1;
+	fscanf(pf_file, "%s", cCurrentLineLoaded);
 	for (int i = 0; i < i_warehouses_count; i++)
 	{
 		for (int j = 0; j < i_sellers_count; j++)
 		{
 			iCurrentIndex = i * i_sellers_count + j;
-			if (LastIdx + iCurrentIndex == iIndex) return cm_min_items_sent_from_warehouse->dGet(i, j);
-		}//for (int j = 0; j < i_sellers_count; j++)
-	}//for (int i = 0; i < i_warehouses_count; i++)
-	return -1;
-}//double CMscnProblem::dGetMinValueAt(double* pdSolution, int iIndex)
+			fscanf(pf_file, "%lf", &dTempValue);
+			pdSolution[iLastIndex + iCurrentIndex] = dTempValue;
+		}
+	}
+	return true;
+}//bool CMscnProblem::bReadSolutionValuesFromSolutionFile(FILE* pfFile, double* pdSolution)
 
-double CMscnProblem::dGetMaxValueAt(double* pdSolution, int iIndex)
+bool CMscnProblem::bWriteSolutionToFile(std::string sFileName, double* pdSolution)
 {
-	if (iIndex < 0 || iIndex >= i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count) return -1;
+	if (pf_file != NULL) fclose(pf_file);
+	pf_file = fopen(sFileName.c_str(), "w+");
+	if (pf_file == NULL) return false;
 
-	int iCurrent = 0;
-	int LastIdx = 0;
+	if (
+		bWriteEntitiesToSolutionFile(pf_file) == false
+	||  bWriteSolutionValuesToSolutionFile(pf_file, pdSolution) == false
+		) return false;
 
+	fclose(pf_file);
+	pf_file = NULL;
+	if (pf_file != NULL) return false;
+	return true;
+}//bool CMscnProblem::bWriteSolutionToFile(std::string sFileName)
+
+bool CMscnProblem::bWriteEntitiesToSolutionFile(FILE* pfFile)
+{
+	if (pfFile == NULL) return false;
+	fprintf(pf_file, "D %d\n", i_suppliers_count);
+	fprintf(pf_file, "F %d\n", i_factories_count);
+	fprintf(pf_file, "M %d\n", i_warehouses_count);
+	fprintf(pf_file, "S %d\n", i_sellers_count);
+	return true;
+}//bool CMscnProblem::bWriteEntitiesToSolutionFile(FILE* pfFile)
+
+bool CMscnProblem::bWriteSolutionValuesToSolutionFile(FILE* pfFile, double* pdSolution)
+{
+	if (pfFile == NULL) return false;
+	int iCurrentIndex = 0;
+	int iLastIndex = 0;
+
+	fprintf(pf_file, "xd\n");
 	for (int i = 0; i < i_suppliers_count; i++)
 	{
 		for (int j = 0; j < i_factories_count; j++)
 		{
-			iCurrent = i * i_factories_count + j;
-			if (LastIdx + iCurrent == iIndex) return cm_max_items_sent_from_supplier->dGet(i, j);
-		}//for (int j = 0; j < i_factories_count; j++)
-	}//for (int i = 0; i < i_suppliers_count; i++)
-	LastIdx += iCurrent + 1;
+			iCurrentIndex = i * i_factories_count + j;
+			fprintf(pf_file, "%lf ", pdSolution[iLastIndex + iCurrentIndex]);
+		}
+	}
 
+	iLastIndex += iCurrentIndex + 1;
+	fprintf(pf_file, "xf\n");
 	for (int i = 0; i < i_factories_count; i++)
 	{
 		for (int j = 0; j < i_warehouses_count; j++)
 		{
-			iCurrent = i * i_warehouses_count + j;
-			if (LastIdx + iCurrent == iIndex) return cm_max_items_sent_from_factory->dGet(i, j);
-		}//for (int j = 0; j < i_warehouses_count; j++)
-	}//for (int i = 0; i < i_factories_count; i++)
+			iCurrentIndex = i * i_warehouses_count + j;
+			fprintf(pf_file, "%lf ", pdSolution[iLastIndex + iCurrentIndex]);
+		}
+	}
 
-	LastIdx += iCurrent + 1;
+	iLastIndex += iCurrentIndex + 1;
+	fprintf(pf_file, "xm\n");
 	for (int i = 0; i < i_warehouses_count; i++)
 	{
 		for (int j = 0; j < i_sellers_count; j++)
 		{
-			iCurrent = i * i_sellers_count + j;
-			if (LastIdx + iCurrent == iIndex) return cm_max_items_sent_from_warehouse->dGet(i, j);
-		}//for (int j = 0; j < i_sellers_count; j++)
-	}//for (int i = 0; i < i_warehouses_count; i++)
-	return -1;
-}//double CMscnProblem::dGetMaxValueAt(double* pdSolution, int iIndex)
-*/
-
-
-
-
+			iCurrentIndex = i * i_sellers_count + j;
+			fprintf(pf_file, "%lf ", pdSolution[iLastIndex + iCurrentIndex]);
+		}
+	}
+	return true;
+}//bool CMscnProblem::bWriteSolutionValuesToSolutionFile(FILE* pfFile)
 
