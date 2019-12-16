@@ -35,6 +35,7 @@ bool CMatrix::bCreateMatrix(double*** pdMatrix, int iSizeX, int iSizeY)
 			(*pdMatrix)[i] = new double[iSizeY];
 		}//for (int j = 0; j < iSizeY; j++)
 	}//for (int i = 0; i < iSizeX; i++)
+	return true;
 }//bool CMatrix::bCreateMatrix(double*** pdMatrix, int iSizeX, int iSizeY)
 
 CMatrix::~CMatrix()
@@ -149,5 +150,22 @@ bool CMatrix::bSetSize(int iNewSizeX, int iNewSizeY)
 	i_size_y = iNewSizeY;
 	return true;
 }//bool CMatrix::bSetSize(int iNewSizeX, int iNewSizeY)
+
+bool CMatrix::bGetWholeDeliveryCost(double* pdSolution, int iStartIndex, double& dDeliveryCost)
+{
+	if (pdSolution == nullptr || iStartIndex < 0 || dDeliveryCost < 0 ) return false;
+	int iCurrrentIndex = 0;
+	for (int i = 0; i < i_size_x; i++)
+	{
+		for (int j = 0; j < i_size_y; j++)
+		{	
+			iCurrrentIndex = i * i_size_y + j;
+			dDeliveryCost += pd_matrix[i][j] * pdSolution[iStartIndex + iCurrrentIndex];
+		}//for (int j = 0; j < i_size_y; j++)
+	}//for (int i = 0; i < i_size_x; i++)
+	return true;
+}//double CMatrix::dGetWholeDeliveryCost(double* pdSolution, int iStartIndex)
+
+
 
 

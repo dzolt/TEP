@@ -62,6 +62,9 @@ public:
 
 	bool bWriteProblemToFile(std::string sFileName);
 	bool bReadProblemFromFile(std::string sFileName);
+
+	bool bWriteSolutionToFile(std::string sFileName);
+	bool bReadSolutionToFile(std::string sFileName);
 private:
 
 	inline bool bInitTables();	
@@ -78,6 +81,8 @@ private:
 	double dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution);
 	double dCalculateTotalContractPrice(double** pdSolution);
 	double dCalculateTotalIncomeFromSellers(double** pdSolution, int iSize);
+
+	bool bReadEntitiesFromFile(FILE* pfFile);
 	
 	unsigned int i_suppliers_count;
 	unsigned int i_factories_count;

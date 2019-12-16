@@ -27,7 +27,7 @@ public:
 	void operator=(const CMatrix& pcOther);
 	void vCopy(const CMatrix& pcOther);
 
-	double d_get_whole_delivery_cost(double* pdSolution, int iStartIndex);
+	bool bGetWholeDeliveryCost(double* pdSolution, int iStartIndex, double& dDeliveryCost);
 private:
 	double** pd_matrix;
 	unsigned int i_size_x;
