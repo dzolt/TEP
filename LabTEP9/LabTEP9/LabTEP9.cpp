@@ -83,25 +83,22 @@ int main()
 	bool bsucc = true;
 
 	CMscnProblem problem;
-	if (bsucc == true)
-	{	
-		int iSize = 0;
-		double result = 0;
-		CSolution* pcSolution;
-		pcSolution = new CSolution();
-		pcSolution->bReadSolutionFromFile("Solution.txt");
+	CSolution* pcSolution;
+	
+	double result = 0;
+	pcSolution = new CSolution();
+	pcSolution->bReadSolutionFromFile("Solution.txt");
 		
-		problem.bReadProblemFromFile("Problem.txt");
-		problem.vSetSolution(pcSolution);
+	problem.bReadProblemFromFile("Problem.txt");
+	problem.vSetSolution(pcSolution);
 
-		problem.bGetQuality(*pcSolution, result);
-		std::cout << "bGetQuality = " << result << std::endl;
-		std::cout << "bConstraintsSatisfied: " << std::boolalpha << problem.bConstraintsSatisfied(*pcSolution);
-		//problem.bWriteProblemToFile("Problem.txt");
-	}
-	else { std::cout << "error"; }
-
-
-	vTest();
+	problem.bGetQuality(*pcSolution, result);
+	std::cout << "bGetQuality = " << result << std::endl;
+	std::cout << "bConstraintsSatisfied: " << std::boolalpha << problem.bConstraintsSatisfied(*pcSolution);
+	//delete pcSolution;
+	//problem.bWriteProblemToFile("Problem.txt");
+	
+	//vTest();
 	return 0;
+
 }

@@ -32,7 +32,7 @@ CSolution::CSolution(unsigned int uiSuppliersCount, unsigned int uiFactoriesCoun
 
 CSolution::~CSolution()
 {
-	delete[] pd_solution;
+	delete pd_solution;
 
 	delete cm_xdMatrix;
 	delete cm_xfMatrix;
@@ -107,7 +107,7 @@ bool CSolution::bReadEntitiesFromSolutionFile(FILE* pfFile)
 	i_size = i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count;
 	cm_xdMatrix->bSetSize(i_suppliers_count, i_factories_count);
 	cm_xfMatrix->bSetSize(i_factories_count, i_warehouses_count);
-	cm_xmMatrix->bSetSize(i_warehouses_count, i_factories_count);
+	cm_xmMatrix->bSetSize(i_warehouses_count, i_sellers_count);
 	return true;
 }//bool CMscnProblem::bReadEntitiesFromSolutionFile(FILE* pfFile)
 
