@@ -153,7 +153,10 @@
   <ItemGroup>
     <ClCompile Include="CMatrix.cpp" />
     <ClCompile Include="CMscnProblems.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="CRandom.cpp" />
+=======
+>>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
     <ClCompile Include="CSolution.cpp" />
     <ClCompile Include="CTable.cpp" />
     <ClCompile Include="LabTEP9.cpp" />
@@ -161,7 +164,10 @@
   <ItemGroup>
     <ClInclude Include="CMatrix.h" />
     <ClInclude Include="CMscnProblem.h" />
+<<<<<<< HEAD
     <ClInclude Include="CRandom.h" />
+=======
+>>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
     <ClInclude Include="CSolution.h" />
     <ClInclude Include="CTable.h" />
   </ItemGroup>

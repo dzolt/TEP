@@ -30,9 +30,12 @@
     <ClCompile Include="CSolution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="CRandom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+=======
+>>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMscnProblem.h">
@@ -47,8 +50,11 @@
     <ClInclude Include="CSolution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="CRandom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+=======
+>>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
   </ItemGroup>
 </Project>

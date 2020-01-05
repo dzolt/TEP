@@ -2,7 +2,10 @@
 #include"CMatrix.h"
 #include "CTable.h"
 #include <iostream>
+<<<<<<< HEAD
 
+=======
+>>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
 #define DEFAULT_ENTITY_NUMBER 1
 #define MAX_CHARACTER_NUMBER 1000
 
@@ -22,13 +25,20 @@ public:
 	bool bWriteSolutionToFile(std::string sFileName);
 	bool bReadSolutionFromFile(std::string sFileName);
 
+<<<<<<< HEAD
+=======
+	bool bWriteSolutionMatrixToFile(FILE* pfFile, CMatrix* pcMatrix);
+>>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
 private:
 	bool bReadEntitiesFromSolutionFile(FILE* pfFile);
 	bool bReadSolutionValuesFromSolutionFile(FILE* pfFile);
 
 	bool bWriteEntitiesToSolutionFile(FILE* pfFile);
 	bool bWriteSolutionValuesToSolutionFile(FILE* pfFile);
+<<<<<<< HEAD
 	bool bWriteSolutionMatrixToFile(FILE* pfFile, CMatrix* pcMatrix);
+=======
+>>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
 	void vFillMatrixes();
 	void vFillMatrixWithSolutionValues(CMatrix* cmMatrix, int iSolutionStartingIndex);
 
@@ -37,7 +47,11 @@ private:
 	unsigned int i_sellers_count;
 	unsigned int i_warehouses_count;
 
+<<<<<<< HEAD
 	int i_size;
+=======
+	unsigned int i_size;
+>>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
 
 	CTable* pd_solution;
 	CMatrix* cm_xdMatrix;

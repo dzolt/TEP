@@ -1,6 +1,18 @@
+<<<<<<< HEAD
 ﻿  CRandom.cpp
   LabTEP9.cpp
 c:\users\legion\source\repos\labtep9\labtep9\cmatrix.h(35): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
 c:\users\legion\source\repos\labtep9\labtep9\cmatrix.h(37): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
   Generowanie kodu...
   LabTEP9.vcxproj -> C:\Users\Legion\source\repos\LabTEP9\Debug\LabTEP9.exe
+=======
+﻿  CSolution.cpp
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.h(35): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.h(37): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\csolution.cpp(46): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\csolution.cpp(48): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\csolution.cpp(121): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\csolution.cpp(182): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\csolution.cpp(184): warning C4018: '<': signed/unsigned mismatch
+  LabTEP9.vcxproj -> C:\Users\Damian\source\repos\TEP\LabTEP9\Debug\LabTEP9.exe
+>>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e

@@ -8,8 +8,11 @@ CSolution::CSolution()
 	i_warehouses_count = DEFAULT_ENTITY_NUMBER;
 	i_sellers_count = DEFAULT_ENTITY_NUMBER;
 	i_size = i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count;
+<<<<<<< HEAD
 	bool bSuccess = true;
 	pd_solution = new CTable(i_size, bSuccess);
+=======
+>>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
 	cm_xdMatrix = new CMatrix();
 	cm_xfMatrix = new CMatrix();
 	cm_xmMatrix = new CMatrix();
@@ -70,7 +73,15 @@ bool CSolution::bReadSolutionFromFile(std::string sFileName)
 
 	bReadEntitiesFromSolutionFile(pf_file);
 
+<<<<<<< HEAD
 	pd_solution->bSetSize(i_size);
+=======
+	delete pd_solution;
+	bool bSuccess = true;
+	pd_solution = new CTable(i_size, bSuccess);
+	if (bSuccess == false) return false;
+
+>>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
 
 	bReadSolutionValuesFromSolutionFile(pf_file);
 

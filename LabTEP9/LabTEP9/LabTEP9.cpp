@@ -110,4 +110,5 @@ int main()
 		std::cout << random.dGenerateNumber() << " ";
 	}
 	return 0;
+
 }
