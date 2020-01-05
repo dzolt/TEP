@@ -27,11 +27,7 @@ public:
 	void operator=(const CMatrix& pcOther);
 	void vCopy(const CMatrix& pcOther);
 
-<<<<<<< HEAD
 	double dMultiplyMatrixProduct(const CMatrix& cmOtherMatrix);
-=======
-	double dMultiplyMatrixProduct(CMatrix& cmOtherMatrix);
->>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
 	double dSumInRowOrColumn(char cFlag, int irowOrColumnIndex);
 
 	void vPrint()
