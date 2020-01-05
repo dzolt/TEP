@@ -256,12 +256,6 @@ double CMscnProblem::dCalculateTotalIncomeFromSellers(CSolution& pcSolution)
 
 double CMscnProblem::dMultiplyDeliveryCostPerItemsOrdered(CSolution& pcSolution)
 {
-<<<<<<< HEAD
-=======
-	int iStartingIndex = 0;
-	int iStartingIndexOfFactoryWarehouseMatrix = i_suppliers_count * i_factories_count;
-	int iStartingIndexOfWarehouseSellerMatrix = iStartingIndexOfFactoryWarehouseMatrix + i_factories_count * i_warehouses_count;
->>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
 	double totalDeliveryCost = 0;
 	totalDeliveryCost += cm_delivery_matrix->dMultiplyMatrixProduct(*pcSolution.pmGetXdMatrix());
 	totalDeliveryCost += cm_factory_matrix->dMultiplyMatrixProduct(*pcSolution.pmGetXfMatrix());
@@ -313,11 +307,7 @@ double CMscnProblem::dCalculateTotalContractPrice(CSolution& pcSolution)
 
 bool CMscnProblem::bConstraintsSatisfied(CSolution& pcSolution)
 {
-<<<<<<< HEAD
 	if (pcSolution.pdGetPdSolution() == NULL|| pcSolution.iGetSize() != i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count
-=======
-	if (pcSolution.iGetSize() != i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count
->>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
 		|| bCheckMinMaxConstraint(pcSolution) == false || bCheckSolutionForNegativeNumbers(pcSolution) == false
 		|| bCheckMaxCapacityOverload(pcSolution) == false || bCheckSufficientProductAmmountDelivery(pcSolution) == false) return false;
 	return true;
@@ -794,36 +784,7 @@ bool CMscnProblem::bWriteTransportMatrixesToProblemFile(FILE * pfFile)
 
 	fprintf(pfFile, "cm\n");
 	bWriteMatrixToFile(pfFile, cm_warehouse_matrix);
-<<<<<<< HEAD
-	
-=======
-	/*for (int i = 0; i < i_suppliers_count; i++)
-	{
-		for (int j = 0; j < i_factories_count; j++)
-		{
-			fprintf(pf_file, "%lf ", cm_delivery_matrix->dGet(i, j));
-		}
-		fprintf(pf_file, "\n");
-	}
-	fprintf(pf_file, "cf\n");
-	for (int i = 0; i < i_factories_count; i++)
-	{
-		for (int j = 0; j < i_warehouses_count; j++)
-		{
-			fprintf(pf_file, "%lf ", cm_factory_matrix->dGet(i, j));
-		}
-		fprintf(pf_file, "\n");
-	}
-	fprintf(pf_file, "cm\n");
-	for (int i = 0; i < i_warehouses_count; i++)
-	{
-		for (int j = 0; j < i_sellers_count; j++)
-		{
-			fprintf(pf_file, "%lf ", cm_warehouse_matrix->dGet(i, j));
-		}
-		fprintf(pf_file, "\n");
-	}*/
->>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
+
 	return true;
 
 }//bool CMscnProblem::bWriteTransportMatrixesToProblemFile(FILE * pfFile)
