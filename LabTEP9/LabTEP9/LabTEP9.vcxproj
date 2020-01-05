@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="CMatrix.h" />
     <ClInclude Include="CMscnProblem.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="CRandom.h" />
     <ClInclude Include="CSolution.h" />
     <ClInclude Include="CTable.h" />

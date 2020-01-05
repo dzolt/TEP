@@ -225,7 +225,6 @@ bool CMscnProblem::bSetWarehousesCount(unsigned int iNewCount)
 
 bool CMscnProblem::bGetQuality(CSolution& pcSolution, double& profit)
 {
-
 	//if (bConstraintsSatisfied(pdSolution, iSize) == false) return false;
 	double shopIncome = 0;
 	double totalDeliveryCost = 0;
@@ -353,24 +352,22 @@ bool CMscnProblem::bCheckSolutionForNegativeNumbers(CSolution& pcSolution)
 }//bool CMscnProblem::bCheckSolutionForNegativeNumbers(double * pdSolution)
 
 bool CMscnProblem::bCheckMaxCapacityOverload(CSolution& pcSolution)
-{
+{	
+	double orderedAmmount = 0;
 	for (int i = 0; i < i_suppliers_count; i++)
 	{
-		double orderedAmmount = 0;
 		orderedAmmount = pcSolution.pmGetXdMatrix()->dSumInRowOrColumn('r', i);
 		if (orderedAmmount > ct_suppliers_capacity_ammount->dGet(i)) return false;
 	}//for (int i = 0; i < i_suppliers_count; i++)
 
 	for (int i = 0; i < i_factories_count; i++)
 	{
-		double orderedAmmount = 0;
 		orderedAmmount = pcSolution.pmGetXfMatrix()->dSumInRowOrColumn('r', i);
 		if (orderedAmmount > ct_factories_capacity_ammount->dGet(i)) return false;
 	}//for (int i = 0; i < i_factories_count; i++)
 
 	for (int i = 0; i < i_warehouses_count; i++)
 	{
-		double orderedAmmount = 0;
 		orderedAmmount = pcSolution.pmGetXmMatrix()->dSumInRowOrColumn('r', i);
 		if (orderedAmmount > ct_warehouses_capacity_ammount->dGet(i)) return false;
 	}//for (int i = 0; i < i_warehouses_count; i++)
@@ -378,7 +375,6 @@ bool CMscnProblem::bCheckMaxCapacityOverload(CSolution& pcSolution)
 	//warunek na sumaryczna ilosc przedmiotow do danego sklepu
 	for (int i = 0; i < i_sellers_count; i++)
 	{
-		double orderedAmmount = 0;
 		orderedAmmount = pcSolution.pmGetXmMatrix()->dSumInRowOrColumn('c', i);
 		if (orderedAmmount > ct_sellers_capacity_ammount->dGet(i)) return false;
 	}//for (int j = 0; j < i_sellers_count; j++)
@@ -387,37 +383,27 @@ bool CMscnProblem::bCheckMaxCapacityOverload(CSolution& pcSolution)
 
 bool CMscnProblem::bCheckSufficientProductAmmountDelivery(CSolution& pcSolution)
 {
-	double quantityOfItemsGoingToTheEnitity;
-	double quantityOfItemsGoingOutOfTheEnitity;
+	double quantityOfItemsGoingToTheEnitity = 0;
+	double quantityOfItemsGoingOutOfTheEnitity = 0;
 
 	//przechodzimy najpierw po danej fabryce i sprawdzamy ile dostala przedmiorow od dostawcow potem przehcodzimy po magazynach i sprawdzamy ile przedmiotow zostalo wyslanych z fabryki j
 	for (int j = 0; j < i_factories_count; j++)
 	{
-		quantityOfItemsGoingToTheEnitity = 0;
-		quantityOfItemsGoingOutOfTheEnitity = 0;
-
 		quantityOfItemsGoingToTheEnitity = pcSolution.pmGetXdMatrix()->dSumInRowOrColumn('c', j);
-
 		quantityOfItemsGoingOutOfTheEnitity = pcSolution.pmGetXfMatrix()->dSumInRowOrColumn('r', j);
-
 		if (quantityOfItemsGoingOutOfTheEnitity > quantityOfItemsGoingToTheEnitity) return false;
 	}//for (int i = 0; i < i_factories_count; i++)
 
 	//przechodzimy najpierw po danym magazynie i sprawdzamy ile dostal przedmiotow od fabryki potem przehcodzimy po sklepach i sprawdzamy ile przedmiotow zostalo wyslanych z fabryki j
 	for (int j = 0; j < i_warehouses_count; j++)
 	{
-		quantityOfItemsGoingToTheEnitity = 0;
-		quantityOfItemsGoingOutOfTheEnitity = 0;
-
 		quantityOfItemsGoingToTheEnitity = pcSolution.pmGetXfMatrix()->dSumInRowOrColumn('c', j);
-
 		quantityOfItemsGoingOutOfTheEnitity = pcSolution.pmGetXmMatrix()->dSumInRowOrColumn('r', j);
-
 		if (quantityOfItemsGoingOutOfTheEnitity > quantityOfItemsGoingToTheEnitity) return false;
 	}//for (int i = 0; i < i_suppliers_count; i++)
 	return true;
 }//bool CMscnProblem::bCheckSufficientProductAmmountDelivery(double* pdSolution)
-
+//USUNAC TO??????
 double CMscnProblem::dGetMinValueAt(double* pdSolution, int iIndex)
 {
 	if (iIndex < 0 || iIndex >= i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count) return -1;
@@ -784,7 +770,7 @@ bool CMscnProblem::bWriteTransportMatrixesToProblemFile(FILE * pfFile)
 
 	fprintf(pfFile, "cm\n");
 	bWriteMatrixToFile(pfFile, cm_warehouse_matrix);
-
+	
 	return true;
 
 }//bool CMscnProblem::bWriteTransportMatrixesToProblemFile(FILE * pfFile)
@@ -863,3 +849,20 @@ bool CMscnProblem::bWriteMatrixToFile(FILE* pfFile, CMatrix* pcMatrix)
 	}
 	return true;
 }//bool CSolution::bWriteMatrixToFile(FILE* pfFile, CMatrix* pcMatrix)
+
+void CMscnProblem::vGenerateInstance(CRandom& cRandom)
+{
+	ct_suppliers_capacity_ammount->vRandomizeValues(cRandom.vSetRange(MINIMAL_CAPACITY_AMMOUNT, MAXIMAL_SUPPLIER_CAPACITY_AMMOUNT));
+	ct_factories_capacity_ammount->vRandomizeValues(cRandom.vSetRange(MINIMAL_CAPACITY_AMMOUNT, MAXIMAL_FACTORY_CAPACITY_AMMOUNT));
+	ct_warehouses_capacity_ammount->vRandomizeValues(cRandom.vSetRange(MINIMAL_CAPACITY_AMMOUNT,MAXIMAL_WAREHOUSE_CAPACITY_AMMOUNT));
+	ct_sellers_capacity_ammount->vRandomizeValues(cRandom.vSetRange(MINIMAL_CAPACITY_AMMOUNT, MAXIMAL_SELLER_CAPACITY_AMMOUNT));
+
+	ct_suppliers_contract_prices->vRandomizeValues(cRandom.vSetRange(MINIMAL_SUPPLIER_CONTRACT_PRICE_VALUE, MAXIMAL_SUPPLIER_CONTRACT_PRICE_VALUE));
+	ct_factories_contract_prices->vRandomizeValues(cRandom.vSetRange(MINIMAL_FACTORY_CONTRACT_PRICE_VALUE, MAXIMAL_FACTORY_CONTRACT_PRICE_VALUE));
+	ct_warehouses_contract_prices->vRandomizeValues(cRandom.vSetRange(MINIMAL_WAREHOUSE_CONTRACT_PRICE_VALUE, MAXIMAL_WAREHOUSE_CONTRACT_PRICE_VALUE));
+	ct_sellers_income_value->vRandomizeValues(cRandom.vSetRange(MINIMAL_SELLER_CONTRACT_PRICE_VALUE, MAXIMAL_SELLER_CONTRACT_PRICE_VALUE));
+
+	cm_delivery_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CD_VALUE, MAXIMAL_CD_VALUE));
+	cm_factory_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CF_VALUE, MAXIMAL_CF_VALUE));
+	cm_warehouse_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CM_VALUE, MAXIMAL_CM_VALUE));
+}//void CMscnProblem::vGenerateInstance(int iInstanceSeed)

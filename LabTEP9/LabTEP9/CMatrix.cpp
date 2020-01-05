@@ -5,7 +5,6 @@ CMatrix::CMatrix()
 	i_size_x = DEFAULT_MATRIX_SIZE;
 	i_size_y = DEFAULT_MATRIX_SIZE;
 	bCreateMatrix(&pd_matrix, i_size_x, i_size_y);
-	//vInitializeMatrixWithInitialValue(&pd_matrix, i_size_x, i_size_y);
 }//CMatrix::CMatrix()
 
 CMatrix::CMatrix(unsigned int iSizeX, unsigned int iSizeY, bool& bSuccess)
@@ -20,7 +19,6 @@ CMatrix::CMatrix(unsigned int iSizeX, unsigned int iSizeY, bool& bSuccess)
 		i_size_x = iSizeX;
 		i_size_y = iSizeY;
 		bCreateMatrix(&pd_matrix, i_size_x, i_size_y);
-		//vInitializeMatrixWithInitialValue(&pd_matrix, i_size_x, i_size_y);
 	}//else if (iSizeX < 0 || iSizeY < 0)
 }//CMatrix::CMatrix(unsigned int iSizeX, unsigned int iSizeY)
 
@@ -58,20 +56,6 @@ double CMatrix::dGet(int iSizeX, int iSizeY)
 	return pd_matrix[iSizeX][iSizeY];
 }//double CMatrix::vGet(int iSizeX, int iSizeY)
 
-bool CMatrix::bInitializeMatrixWithValue(double** pdMatrix, int iSizeX, int iSizeY, double dValue)
-{	
-	if (iSizeX < 1 || iSizeY < 1 || dValue < 0) return false;
-
-	for (int i = 0; i < i_size_x; i++)
-	{
-		for (int j = 0; j < i_size_y; j++)
-		{
-			(pdMatrix)[i][j] = dValue;
-		}//for (int j = 0; j < iSizeY; j++)
-	}//for (int i = 0; i < iSizeX; i++)
-	return true;
-}//void CMatrix::vInitializeMatrix(double dValue)
-
 bool CMatrix::vInitializeMatrixWithInitialValue(double** pdMatrix, int iSizeX, int iSizeY)
 {
 	if (iSizeX < 1 || iSizeY < 1) return false;
@@ -84,20 +68,6 @@ bool CMatrix::vInitializeMatrixWithInitialValue(double** pdMatrix, int iSizeX, i
 	}//for (int i = 0; i < iSizeX; i++)
 	return true;
 }//bool CMatrix::vInitializeMatrixWithInitialValue(double*** pdMatrix, int iSizeX, int iSizeY)
-
-bool CMatrix::vInitializeMatrixWithValue(int iSizeX, int iSizeY, double dValue)
-{
-	if (iSizeX < 1 || iSizeY < 1 || dValue < 0) return false;
-
-	for (int i = 0; i < i_size_x; i++)
-	{
-		for (int j = 0; j < i_size_y; j++)
-		{
-			pd_matrix[i][j] = dValue;
-		}//for (int j = 0; j < iSizeY; j++)
-	}//for (int i = 0; i < iSizeX; i++)
-	return true;
-}//bool CMatrix::vInitializeMatrixWithInitialValue(int iSizeX, int iSizeY, double dValue)
 
 void CMatrix::operator=(const CMatrix& pcOther)
 {	
@@ -190,7 +160,13 @@ double CMatrix::dSumInRowOrColumn(char cFlag, int iRowOrColumnIndex)
 	else return -1;
 }//double CMatrix::dSumInRowOrColumn(char cFlag, int irowOrColumnIndex)
 
-
-
-
-
+void CMatrix::vRandomizeValues(CRandom& cRandom)
+{
+	for (int i = 0; i < i_size_x; i++)
+	{
+		for (int j = 0; j < i_size_y; j++)
+		{
+			pd_matrix[i][j] = cRandom.dGenerateNumber();
+		}
+	}
+}//void CMatrix::vRandomizeValues(CRandom& cRandom)

@@ -2,9 +2,7 @@
 #include"CMatrix.h"
 #include "CTable.h"
 #include <iostream>
-
-#define DEFAULT_ENTITY_NUMBER 1
-#define MAX_CHARACTER_NUMBER 1000
+#include "Constants.h"
 
 class CSolution {
 
@@ -21,6 +19,7 @@ public:
 
 	bool bWriteSolutionToFile(std::string sFileName);
 	bool bReadSolutionFromFile(std::string sFileName);
+
 private:
 	bool bReadEntitiesFromSolutionFile(FILE* pfFile);
 	bool bReadSolutionValuesFromSolutionFile(FILE* pfFile);
@@ -28,7 +27,6 @@ private:
 	bool bWriteEntitiesToSolutionFile(FILE* pfFile);
 	bool bWriteSolutionValuesToSolutionFile(FILE* pfFile);
 	bool bWriteSolutionMatrixToFile(FILE* pfFile, CMatrix* pcMatrix);
-
 	void vFillMatrixes();
 	void vFillMatrixWithSolutionValues(CMatrix* cmMatrix, int iSolutionStartingIndex);
 

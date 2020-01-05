@@ -1,6 +1,6 @@
 #pragma once
-#define INITIAL_MATRIX_VALUE -1
-#define DEFAULT_MATRIX_SIZE 1
+#include "Constants.h"
+#include "CRandom.h"
 #include <iostream>
 
 class CMatrix
@@ -20,10 +20,8 @@ public:
 	bool bSet(double dValue, int i_xIndex, int i_yIndex);
 	bool bSetSize(int iNewSizeX, int iNewSizeY);
 	
-	bool bInitializeMatrixWithValue(double** pdMatrix, int iSizeX, int iSizeY, double dValue);
 	bool vInitializeMatrixWithInitialValue(double** pdMatrix, int iSizeX, int iSizeY);
-	bool vInitializeMatrixWithValue(int iSizeX, int iSizeY, double dValue);
-
+	void vRandomizeValues(CRandom& cRandom);
 	void operator=(const CMatrix& pcOther);
 	void vCopy(const CMatrix& pcOther);
 

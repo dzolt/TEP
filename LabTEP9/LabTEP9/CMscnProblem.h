@@ -2,9 +2,9 @@
 #include "CMatrix.h"
 #include "CTable.h"
 #include "CSolution.h"
+#include "Constants.h"
 #include <iostream>
 
-#define MAX_CHARACTER_NUMBER 1000
 
 class CMscnProblem
 {
@@ -67,6 +67,7 @@ public:
 	bool bReadProblemFromFile(std::string sFileName);
 
 	void vSetSolution(CSolution* pcSolution) { pc_solution = pcSolution; };
+	void vGenerateInstance(CRandom& cRandom);
 private:
 
 	inline bool bInitTables();	

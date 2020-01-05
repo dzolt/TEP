@@ -77,38 +77,21 @@ void vTest()
 
 int main()
 {
-	int iSuppliers = 2;
-	int iFactories = 3;
-	int iWarehouses = 3;
-	int iSellers = 2;
-	bool bsucc = true;
-
 	CMscnProblem problem;
 	CSolution* pcSolution;
-	
+	CRandom random;
 	double result = 0;
 	pcSolution = new CSolution();
 	pcSolution->bReadSolutionFromFile("Solution.txt");
-		
+	//problem.vGenerateInstance(random);
 	problem.bReadProblemFromFile("Problem.txt");
 	problem.vSetSolution(pcSolution);
 
 	problem.bGetQuality(*pcSolution, result);
 	std::cout << "bGetQuality = " << result << std::endl;
 	std::cout << "bConstraintsSatisfied: " << std::boolalpha << problem.bConstraintsSatisfied(*pcSolution);
-	//delete pcSolution;
 	//problem.bWriteProblemToFile("Problem.txt");
 	
 	//vTest();
-	CRandom random;
-	std::cout << "\n";
-	for (int i = 0; i < 20; i++) {
-		std::cout << random.dGenerateNumber() << " ";
-	}
-	random.vSetRange(-5.0, 30.0);
-	for (int i = 0; i < 30; i++) {
-		std::cout << random.dGenerateNumber() << " ";
-	}
 	return 0;
-
 }
