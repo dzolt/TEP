@@ -1,7 +1,7 @@
 #pragma once
 #define INITIAL_MATRIX_VALUE -1
 #define DEFAULT_MATRIX_SIZE 1
-
+#include <iostream>
 
 class CMatrix
 {
@@ -27,7 +27,20 @@ public:
 	void operator=(const CMatrix& pcOther);
 	void vCopy(const CMatrix& pcOther);
 
-	bool bGetWholeDeliveryCost(double* pdSolution, int iStartIndex, double& dDeliveryCost);
+	double dMultiplyMatrixProduct(const CMatrix& cmOtherMatrix);
+	double dSumInRowOrColumn(char cFlag, int irowOrColumnIndex);
+
+	void vPrint()
+	{
+		for (int i = 0; i < i_size_x; i++)
+		{
+			for (int j = 0; j < i_size_y; j++)
+			{
+				std::cout << pd_matrix[i][j] << " ";
+			}
+			std::cout << "\n";
+		}
+	}
 private:
 	double** pd_matrix;
 	unsigned int i_size_x;

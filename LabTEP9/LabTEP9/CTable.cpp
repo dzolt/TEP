@@ -1,4 +1,4 @@
-#include "CTable.h"
+ #include "CTable.h"
 
 CTable::CTable()
 {
@@ -24,7 +24,7 @@ CTable::CTable(int iSize, bool& bSuccess)
 
 CTable::~CTable()
 {
-	delete[] pd_table;
+	delete pd_table;
 }//CTable::~CTable()
 
 bool CTable::bFillTableWithValue(double dValue)

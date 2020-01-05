@@ -1,10 +1,11 @@
 #include <iostream>
 #include "CMscnProblem.h"
+#include "CRandom.h"
 #include <random>
 
 void vTest()
 {
-	int iSuppliers = 2;
+	/*int iSuppliers = 2;
 	int iFactories = 3;
 	int iWarehouses = 3;
 	int iSellers = 2;
@@ -65,12 +66,13 @@ void vTest()
 		std::cout << result << std::endl;
 		std::cout << "Satisfied: " << problem.bConstraintsSatisfied(pdSolution, iSize);
 		problem.bWriteProblemToFile("Problem.txt");
+		problem.bWriteSolutionToFile("Solution.txt", pdSolution);
 	}
 	else 
 	{ 
 		std::cout << "error"; 
 	}
-
+	*/
 }
 
 int main()
@@ -82,22 +84,30 @@ int main()
 	bool bsucc = true;
 
 	CMscnProblem problem;
-	if (bsucc == true)
-	{	
-		int iSize = 0;
-		double result = 0;
-		double* pdSolution;
+	CSolution* pcSolution;
+	
+	double result = 0;
+	pcSolution = new CSolution();
+	pcSolution->bReadSolutionFromFile("Solution.txt");
+		
+	problem.bReadProblemFromFile("Problem.txt");
+	problem.vSetSolution(pcSolution);
 
-		problem.bReadProblemFromFile("Problem.txt");
-		problem.bReadSolutionFromFile("Solution.txt",&pdSolution,iSize);
-
-		problem.bGetQuality(pdSolution, iSize, result);
-		std::cout << "bGetQuality = " << result << std::endl;
-		std::cout << "bConstraintsSatisfied: " << std::boolalpha << problem.bConstraintsSatisfied(pdSolution, iSize);
-		//problem.bWriteProblemToFile("Problem.txt");
-	}
-	else { std::cout << "error"; }
-
+	problem.bGetQuality(*pcSolution, result);
+	std::cout << "bGetQuality = " << result << std::endl;
+	std::cout << "bConstraintsSatisfied: " << std::boolalpha << problem.bConstraintsSatisfied(*pcSolution);
+	//delete pcSolution;
+	//problem.bWriteProblemToFile("Problem.txt");
+	
 	//vTest();
+	CRandom random;
+	std::cout << "\n";
+	for (int i = 0; i < 20; i++) {
+		std::cout << random.dGenerateNumber() << " ";
+	}
+	random.vSetRange(-5.0, 30.0);
+	for (int i = 0; i < 30; i++) {
+		std::cout << random.dGenerateNumber() << " ";
+	}
 	return 0;
 }

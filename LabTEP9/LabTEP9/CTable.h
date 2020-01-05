@@ -1,7 +1,7 @@
 #pragma once
 #define DEFAULT_TAB_LENGTH 1
 #define INITIAL_TAB_VALUE -1
-
+#include<iostream>
 class CTable
 {
 public:
@@ -21,7 +21,12 @@ public:
 
 	void operator=(const CTable& pcOther);
 	void vCopy(const CTable& pcOther);
-
+	void vPrint() {
+		for (int i = 0; i < i_size; i++)
+		{
+			std::cout << pd_table[i] << " ";
+		}
+	}
 private:
 	double* pd_table;
 	int i_size;

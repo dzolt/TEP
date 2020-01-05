@@ -151,20 +151,45 @@ bool CMatrix::bSetSize(int iNewSizeX, int iNewSizeY)
 	return true;
 }//bool CMatrix::bSetSize(int iNewSizeX, int iNewSizeY)
 
-bool CMatrix::bGetWholeDeliveryCost(double* pdSolution, int iStartIndex, double& dDeliveryCost)
-{
-	if (pdSolution == nullptr || iStartIndex < 0 || dDeliveryCost < 0 ) return false;
-	int iCurrrentIndex = 0;
+double CMatrix::dMultiplyMatrixProduct(const CMatrix& cmOtherMatrix) {
+	if (i_size_x != cmOtherMatrix.i_size_x || i_size_y != cmOtherMatrix.i_size_y) return -1;
+	double dResult = 0;
 	for (int i = 0; i < i_size_x; i++)
 	{
 		for (int j = 0; j < i_size_y; j++)
 		{	
-			iCurrrentIndex = i * i_size_y + j;
-			dDeliveryCost += pd_matrix[i][j] * pdSolution[iStartIndex + iCurrrentIndex];
+			dResult += pd_matrix[i][j] * cmOtherMatrix.pd_matrix[i][j];
 		}//for (int j = 0; j < i_size_y; j++)
 	}//for (int i = 0; i < i_size_x; i++)
-	return true;
-}//double CMatrix::dGetWholeDeliveryCost(double* pdSolution, int iStartIndex)
+	return dResult;
+}//dMultiplyTwoMatrixesProduct(const CMatrix& cmMatrix1 ,const CMatrix& cmMatrix2);
+
+double CMatrix::dSumInRowOrColumn(char cFlag, int iRowOrColumnIndex)
+{
+	double result = 0;
+	if (iRowOrColumnIndex < 0) return -1;
+
+	if (cFlag == 'c')
+	{	
+		if (iRowOrColumnIndex >= i_size_x) return -1;
+		for (int i = 0; i < i_size_x; i++)
+		{
+			result += pd_matrix[i][iRowOrColumnIndex];
+		}//for (int i = 0; i < i_size_x; i++)
+		return result;
+	}//	if (cFlag == 'c')
+	else if (cFlag == 'r')
+	{
+		if (iRowOrColumnIndex >= i_size_y) return -1;
+		for (int i = 0; i < i_size_y; i++)
+		{
+			result += pd_matrix[iRowOrColumnIndex][i];
+		}//for (int i = 0; i < i_size_y; i++)
+		return result;
+	}//	else if (cFlag == 'r')
+	else return -1;
+}//double CMatrix::dSumInRowOrColumn(char cFlag, int irowOrColumnIndex)
+
 
 
 
