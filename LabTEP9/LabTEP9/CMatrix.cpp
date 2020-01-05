@@ -151,23 +151,14 @@ bool CMatrix::bSetSize(int iNewSizeX, int iNewSizeY)
 	return true;
 }//bool CMatrix::bSetSize(int iNewSizeX, int iNewSizeY)
 
-<<<<<<< HEAD
 double CMatrix::dMultiplyMatrixProduct(const CMatrix& cmOtherMatrix) {
 	if (i_size_x != cmOtherMatrix.i_size_x || i_size_y != cmOtherMatrix.i_size_y) return -1;
-=======
-double CMatrix::dMultiplyMatrixProduct(CMatrix& cmOtherMatrix) {
-	if (i_size_x != cmOtherMatrix.iGetSizeX() || i_size_y != cmOtherMatrix.iGetSizeY()) return -1;
->>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
 	double dResult = 0;
 	for (int i = 0; i < i_size_x; i++)
 	{
 		for (int j = 0; j < i_size_y; j++)
 		{	
-<<<<<<< HEAD
 			dResult += pd_matrix[i][j] * cmOtherMatrix.pd_matrix[i][j];
-=======
-			dResult += pd_matrix[i][j] * cmOtherMatrix.dGet(i, j);
->>>>>>> bf207b95ddbb7d623144108150addb7e6039bb6e
 		}//for (int j = 0; j < i_size_y; j++)
 	}//for (int i = 0; i < i_size_x; i++)
 	return dResult;
