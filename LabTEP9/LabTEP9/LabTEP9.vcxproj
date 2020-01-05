@@ -153,12 +153,14 @@
   <ItemGroup>
     <ClCompile Include="CMatrix.cpp" />
     <ClCompile Include="CMscnProblems.cpp" />
+    <ClCompile Include="CSolution.cpp" />
     <ClCompile Include="CTable.cpp" />
     <ClCompile Include="LabTEP9.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMatrix.h" />
     <ClInclude Include="CMscnProblem.h" />
+    <ClInclude Include="CSolution.h" />
     <ClInclude Include="CTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

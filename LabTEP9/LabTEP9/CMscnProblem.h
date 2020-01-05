@@ -1,6 +1,7 @@
 #pragma warning(disable:4996)
 #include "CMatrix.h"
 #include "CTable.h"
+#include "CSolution.h"
 #include <iostream>
 
 #define MAX_CHARACTER_NUMBER 1000
@@ -39,9 +40,9 @@ public:
 	bool bSetFactoryContractPriceAt(double dVal, int iIndex);
 	bool bSetWarehouseContractPriceAt(double dVal, int iIndex);
 
-	bool bGetQuality(double* pdSolution, int iSize, double& profit);
+	bool bGetQuality(CSolution& pcSolution, double& profit);
 
-	bool bConstraintsSatisfied(double* pdSolution, int iSize);
+	bool bConstraintsSatisfied(CSolution& pcSolution);
 
 	double dGetMinValueAt(double* pdSolution, int iIndex);
 	double dGetMaxValueAt(double* pdSolution, int iIndex);
@@ -65,8 +66,7 @@ public:
 	bool bWriteProblemToFile(std::string sFileName);
 	bool bReadProblemFromFile(std::string sFileName);
 
-	bool bWriteSolutionToFile(std::string sFileName, double* pdSolution);
-	bool bReadSolutionFromFile(std::string sFileName, double** pdSolution, int& iSize);
+	void vSetSolution(CSolution* pcSolution) { pc_solution = pcSolution; };
 private:
 
 	inline bool bInitTables();	
@@ -75,14 +75,14 @@ private:
 
 	inline bool bSetEveryMinimalCostTo(CMatrix** pdMatrix, int iSizex, int iSizeY, double dValue);
 	
-	inline bool bCheckMinMaxConstraint(double* pdSolution);
-	inline bool bCheckSolutionForNegativeNumbers(double* pdSolution, int iSize);
-	inline bool bCheckMaxCapacityOverload(double* pdSolution);
-	inline bool bCheckSufficientProductAmmountDelivery(double* pdSolution);
+	inline bool bCheckMinMaxConstraint(CSolution& pcSolution);
+	inline bool bCheckSolutionForNegativeNumbers(CSolution& pcSolution);
+	inline bool bCheckMaxCapacityOverload(CSolution& pcSolution);
+	inline bool bCheckSufficientProductAmmountDelivery(CSolution& pdSolution);
 
-	double dMultiplyDeliveryCostPerItemsOrdered(double** pdSolution);
-	double dCalculateTotalContractPrice(double** pdSolution);
-	double dCalculateTotalIncomeFromSellers(double** pdSolution, int iSize);
+	double dMultiplyDeliveryCostPerItemsOrdered(CSolution& pcSolution);
+	double dCalculateTotalContractPrice(CSolution& pcSolution);
+	double dCalculateTotalIncomeFromSellers(CSolution& pcSolution);
 
 	bool bReadEntitiesFromProblemFile(FILE* pfFile);
 	bool bReadCapacitiesFromProblemFile(FILE* pfFile);
@@ -95,13 +95,9 @@ private:
 	bool bWriteTransportMatrixesToProblemFile(FILE* pfFile);
 	bool bWriteContractValuesToProblemFile(FILE* pfFile);
 	bool bWriteMinMaxValuesToProblemFile(FILE* pfFile);
+	bool bWriteMatrixToFile(FILE* pfFile, CMatrix* cmMatrix);
 
-	bool bReadEntitiesFromSolutionFile(FILE* pfFile, int& iSize);
-	bool bReadSolutionValuesFromSolutionFile(FILE* pfFile, double* pdSolution);
-
-	bool bWriteEntitiesToSolutionFile(FILE* pfFile);
-	bool bWriteSolutionValuesToSolutionFile(FILE* pfFile, double* pdSolution);
-
+	
 	unsigned int i_suppliers_count;
 	unsigned int i_factories_count;
 	unsigned int i_sellers_count;
@@ -130,6 +126,8 @@ private:
 	CMatrix* cm_delivery_matrix;
 	CMatrix* cm_factory_matrix;
 	CMatrix* cm_warehouse_matrix;
+
+	CSolution* pc_solution;
 
 	FILE* pf_file;
 };

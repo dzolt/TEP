@@ -4,7 +4,7 @@
 
 void vTest()
 {
-	int iSuppliers = 2;
+	/*int iSuppliers = 2;
 	int iFactories = 3;
 	int iWarehouses = 3;
 	int iSellers = 2;
@@ -65,12 +65,13 @@ void vTest()
 		std::cout << result << std::endl;
 		std::cout << "Satisfied: " << problem.bConstraintsSatisfied(pdSolution, iSize);
 		problem.bWriteProblemToFile("Problem.txt");
+		problem.bWriteSolutionToFile("Solution.txt", pdSolution);
 	}
 	else 
 	{ 
 		std::cout << "error"; 
 	}
-
+	*/
 }
 
 int main()
@@ -86,18 +87,21 @@ int main()
 	{	
 		int iSize = 0;
 		double result = 0;
-		double* pdSolution;
-
+		CSolution* pcSolution;
+		pcSolution = new CSolution();
+		pcSolution->bReadSolutionFromFile("Solution.txt");
+		
 		problem.bReadProblemFromFile("Problem.txt");
-		problem.bReadSolutionFromFile("Solution.txt",&pdSolution,iSize);
+		problem.vSetSolution(pcSolution);
 
-		problem.bGetQuality(pdSolution, iSize, result);
+		problem.bGetQuality(*pcSolution, result);
 		std::cout << "bGetQuality = " << result << std::endl;
-		std::cout << "bConstraintsSatisfied: " << std::boolalpha << problem.bConstraintsSatisfied(pdSolution, iSize);
+		std::cout << "bConstraintsSatisfied: " << std::boolalpha << problem.bConstraintsSatisfied(*pcSolution);
 		//problem.bWriteProblemToFile("Problem.txt");
 	}
 	else { std::cout << "error"; }
 
-	//vTest();
+
+	vTest();
 	return 0;
 }
