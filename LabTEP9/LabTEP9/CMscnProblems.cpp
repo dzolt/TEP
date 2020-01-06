@@ -413,90 +413,70 @@ double CMscnProblem::dGetMinValueAt(CSolution& pcSolution, int iIndex)
 {
 	if (iIndex < 0 || iIndex >= pcSolution.iGetSize()) return -1;
 
-	int iCurrentIndex = 0;
-	int LastIdx = 0;
-	if (iIndex >= i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count)
-	{	
-		LastIdx = i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count;
-		for (int i = 0; i < i_warehouses_count; i++)
-		{
-			for (int j = 0; j < i_sellers_count; j++)
-			{
-				iCurrentIndex = i * i_sellers_count + j;
-				if (LastIdx + iCurrentIndex == iIndex) return cm_min_items_sent_from_warehouse->dGet(i, j);
-			}//for (int j = 0; j < i_sellers_count; j++)
-		}//for (int i = 0; i < i_warehouses_count; i++)
-	}//if (iIndex >= i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count)
-	else if (iIndex >= i_suppliers_count * i_factories_count)
-	{
-		LastIdx = i_suppliers_count * i_factories_count;
-		for (int i = 0; i < i_factories_count; i++)
-		{
-			for (int j = 0; j < i_warehouses_count; j++)
-			{
-				iCurrentIndex = i * i_warehouses_count + j;
-				if (LastIdx + iCurrentIndex == iIndex) return cm_min_items_sent_from_factory->dGet(i, j);
-			}//for (int j = 0; j < i_warehouses_count; j++)
-		}//for (int i = 0; i < i_factories_count; i++)
-	}//else if (iIndex >= i_suppliers_count * i_factories_count)
-	else
-	{
-		for (int i = 0; i < i_suppliers_count; i++)
-		{
-			for (int j = 0; j < i_factories_count; j++)
-			{
-				iCurrentIndex = i * i_factories_count + j;
-				if (LastIdx + iCurrentIndex == iIndex) return cm_min_items_sent_from_supplier->dGet(i, j);
-			}//for (int j = 0; j < i_factories_count; j++)
-		}//for (int i = 0; i < i_suppliers_count; i++)
-	}//else
+	if (iIndex < (i_suppliers_count*i_factories_count)) {
 
-	return -1;
+		int d = iIndex / i_factories_count;
+		int f = iIndex % i_factories_count;
+
+		return cm_min_items_sent_from_supplier->dGet(d,f);
+	}
+
+	iIndex -= i_suppliers_count * i_factories_count;
+
+	if (iIndex < (i_factories_count * i_warehouses_count)) {
+
+		int f = iIndex / i_warehouses_count;
+		int m = iIndex % i_warehouses_count;
+
+		return cm_min_items_sent_from_factory->dGet(f,m);
+	}
+
+	iIndex -= i_factories_count * i_warehouses_count;
+
+	if (iIndex < (i_warehouses_count* i_sellers_count)) {
+
+		int m = iIndex / i_sellers_count;
+		int s = iIndex % i_sellers_count;
+
+		return cm_min_items_sent_from_warehouse->dGet(m,s);
+	}
+
+	return cm_min_items_sent_from_warehouse->dGet(0,0);
 }//double CMscnProblem::dGetMinValueAt(double* pdSolution, int iIndex)
 
 double CMscnProblem::dGetMaxValueAt(CSolution& pcSolution, int iIndex)
 {
 	if (iIndex < 0 || iIndex >= pcSolution.iGetSize()) return -1;
 
-	int iCurrentIndex = 0;
-	int iStartingIndex = 0;
-	//if zeby zminimalizowtac przejscia
-	if (iIndex >= i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count)
-	{
-		iStartingIndex = i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count;
-		for (int i = 0; i < i_warehouses_count; i++)
-		{
-			for (int j = 0; j < i_sellers_count; j++)
-			{
-				iCurrentIndex = i * i_sellers_count + j;
-				if (iStartingIndex + iCurrentIndex == iIndex) return cm_max_items_sent_from_warehouse->dGet(i, j);
-			}//for (int j = 0; j < i_sellers_count; j++)
-		}//for (int i = 0; i < i_warehouses_count; i++)
-	}//if (iIndex >= i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count)
-	else if (iIndex >= i_suppliers_count * i_factories_count)
-	{
-		iStartingIndex = i_suppliers_count * i_factories_count;
-		for (int i = 0; i < i_factories_count; i++)
-		{
-			for (int j = 0; j < i_warehouses_count; j++)
-			{
-				iCurrentIndex = i * i_warehouses_count + j;
-				if (iStartingIndex + iCurrentIndex == iIndex) return cm_max_items_sent_from_factory->dGet(i, j);
-			}//for (int j = 0; j < i_warehouses_count; j++)
-		}//for (int i = 0; i < i_factories_count; i++)
-	}//else if (iIndex >= i_suppliers_count * i_factories_count)
-	else
-	{
-		for (int i = 0; i < i_suppliers_count; i++)
-		{
-			for (int j = 0; j < i_factories_count; j++)
-			{
-				iCurrentIndex = i * i_factories_count + j;
-				if (iStartingIndex + iCurrentIndex == iIndex) return cm_max_items_sent_from_supplier->dGet(i, j);
-			}//for (int j = 0; j < i_factories_count; j++)
-		}//for (int i = 0; i < i_suppliers_count; i++)
-	}//else
-	return -1;
+	if (iIndex < (i_suppliers_count*i_factories_count)) {
+
+		int d = iIndex / i_factories_count;
+		int f = iIndex % i_factories_count;
+
+		return cm_max_items_sent_from_supplier->dGet(d,f);
+	}
+
+	iIndex -= i_suppliers_count * i_factories_count;
+
+	if (iIndex < (i_factories_count * i_warehouses_count)) {
+
+		int f = iIndex / i_warehouses_count;
+		int m = iIndex % i_warehouses_count;
+
+		return cm_max_items_sent_from_factory->dGet(f,m);
+	}
+
+	iIndex -= i_factories_count * i_warehouses_count;
+
+	if (iIndex < (i_warehouses_count* i_sellers_count)) {
+
+		int m = iIndex / i_sellers_count;
+		int s = iIndex % i_sellers_count;
+
+		return cm_max_items_sent_from_warehouse->dGet(m,s);
+	}
+
+	return cm_max_items_sent_from_warehouse->dGet(0,0);
 }//double CMscnProblem::dGetMaxValueAt(double* pdSolution, int iIndex)
 
 bool CMscnProblem::bReadProblemFromFile(std::string sFileName)
@@ -875,16 +855,6 @@ void CMscnProblem::vRandomize(CRandom& cRandom)
 	cm_delivery_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CD_VALUE, MAXIMAL_CD_VALUE));
 	cm_factory_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CF_VALUE, MAXIMAL_CF_VALUE));
 	cm_warehouse_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CM_VALUE, MAXIMAL_CM_VALUE));
-
-	/*cm_min_items_sent_from_supplier->vRandomizeValues(cRandom.vSetRange(MINIMAL_XD_VALUE, MAXIMAL_XD_VALUE / 2));
-	cm_max_items_sent_from_supplier->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XD_VALUE / 2, MAXIMAL_XD_VALUE));
-
-	cm_min_items_sent_from_factory->vRandomizeValues(cRandom.vSetRange(MINIMAL_XF_VALUE, MAXIMAL_XF_VALUE / 2));
-	cm_max_items_sent_from_factory->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XF_VALUE / 2, MAXIMAL_XF_VALUE));
-
-	cm_min_items_sent_from_warehouse->vRandomizeValues(cRandom.vSetRange(MINIMAL_XM_VALUE, MAXIMAL_XM_VALUE / 2));
-	cm_max_items_sent_from_warehouse->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XM_VALUE / 2, MAXIMAL_XM_VALUE));*/
-
 
 	cm_min_items_sent_from_supplier->bInitializeMatrixWithValue(MINIMAL_XD_VALUE);
 	cm_max_items_sent_from_supplier->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XD_VALUE / 2, MAXIMAL_XD_VALUE));
