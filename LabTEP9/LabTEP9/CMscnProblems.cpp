@@ -867,4 +867,6 @@ void CMscnProblem::vGenerateInstance(CRandom& cRandom)
 	cm_delivery_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CD_VALUE, MAXIMAL_CD_VALUE));
 	cm_factory_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CF_VALUE, MAXIMAL_CF_VALUE));
 	cm_warehouse_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CM_VALUE, MAXIMAL_CM_VALUE));
+
+	bInitMinMaxMatrixes();
 }//void CMscnProblem::vGenerateInstance(int iInstanceSeed)
