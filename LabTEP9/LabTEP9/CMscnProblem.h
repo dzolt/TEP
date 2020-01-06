@@ -46,6 +46,7 @@ public:
 	bool bSetWarehouseContractPriceAt(double dVal, int iIndex);
 
 	bool bGetQuality(CSolution& pcSolution, double& profit);
+	bool bGetQuality(double& profit);
 
 	bool bConstraintsSatisfied(CSolution& pcSolution);
 
@@ -72,7 +73,9 @@ public:
 	bool bReadProblemFromFile(std::string sFileName);
 
 	void vSetSolution(CSolution* pcSolution) { pc_solution = pcSolution; };
-	void vGenerateInstance(CRandom& cRandom);
+	CSolution* pcGetSolution() { return pc_solution; };
+	void vGenerateInstance(int iSeed);
+	void vRandomize(CRandom& cRandom);
 private:
 
 	inline bool bInitTables();	

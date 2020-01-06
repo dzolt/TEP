@@ -35,6 +35,16 @@ bool CTable::bFillTableWithInitialValue(double** pdTable, int iSize)
 	return true;
 }//bool CTable::bFillTableWithInitialValue(double** pdTable, int iSize)
 
+bool CTable::bFillTableWithValue(double dValue)
+{
+	if (dValue < 0) return false;
+	for (int i = 0; i < i_size; i++)
+	{
+		pd_table[i] = dValue;
+	}
+	return true;
+}
+
 bool CTable::bSetSize(int iNewSize)
 {
 	if (iNewSize < 1) return false;

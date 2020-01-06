@@ -17,7 +17,7 @@ public:
 	CMatrix* pmGetXfMatrix() { return(cm_xfMatrix); };
 	CMatrix* pmGetXmMatrix() { return(cm_xmMatrix); };
 	int iGetXfMatrixFirstIndex() { return i_suppliers_count * i_factories_count; };
-	int iGetXmMatrixFirstIndex() { return i_suppliers_count * i_factories_count + i_factories_count + i_sellers_count; };
+	int iGetXmMatrixFirstIndex() { return i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count; };
 
 	bool bWriteSolutionToFile(std::string sFileName);
 	bool bReadSolutionFromFile(std::string sFileName);

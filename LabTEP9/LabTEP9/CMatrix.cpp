@@ -141,7 +141,7 @@ double CMatrix::dSumInRowOrColumn(char cFlag, int iRowOrColumnIndex)
 
 	if (cFlag == 'c')
 	{	
-		if (iRowOrColumnIndex >= i_size_x) return -1;
+		if (iRowOrColumnIndex >= i_size_y) return -1;
 		for (int i = 0; i < i_size_x; i++)
 		{
 			result += pd_matrix[i][iRowOrColumnIndex];
@@ -149,8 +149,8 @@ double CMatrix::dSumInRowOrColumn(char cFlag, int iRowOrColumnIndex)
 		return result;
 	}//	if (cFlag == 'c')
 	else if (cFlag == 'r')
-	{
-		if (iRowOrColumnIndex >= i_size_y) return -1;
+	{	
+		if(iRowOrColumnIndex >= i_size_x) return -1;
 		for (int i = 0; i < i_size_y; i++)
 		{
 			result += pd_matrix[iRowOrColumnIndex][i];

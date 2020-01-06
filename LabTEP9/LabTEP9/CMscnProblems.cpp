@@ -75,7 +75,7 @@ bool CMscnProblem::bInitTables()
 
 	ct_suppliers_capacity_ammount = new CTable(i_suppliers_count, bSuccess);
 	ct_warehouses_capacity_ammount = new CTable(i_warehouses_count, bSuccess);
-	ct_factories_capacity_ammount = new CTable(i_warehouses_count, bSuccess);
+	ct_factories_capacity_ammount = new CTable(i_factories_count, bSuccess);
 	ct_sellers_capacity_ammount = new CTable(i_sellers_count, bSuccess);
 	if (bSuccess == false) return false;
 	return true;
@@ -310,8 +310,8 @@ double CMscnProblem::dCalculateTotalContractPrice(CSolution& pcSolution)
 bool CMscnProblem::bConstraintsSatisfied(CSolution& pcSolution)
 {
 	if (pcSolution.pdGetPdSolution() == NULL|| pcSolution.iGetSize() != i_suppliers_count * i_factories_count + i_factories_count * i_warehouses_count + i_warehouses_count * i_sellers_count
-		|| bCheckMinMaxConstraint(pcSolution) == false || bCheckSolutionForNegativeNumbers(pcSolution) == false
-		|| bCheckMaxCapacityOverload(pcSolution) == false || bCheckSufficientProductAmmountDelivery(pcSolution) == false) return false;
+		|| bCheckMaxCapacityOverload(pcSolution) == false || bCheckSufficientProductAmmountDelivery(pcSolution) == false
+		|| bCheckMinMaxConstraint(pcSolution) == false || bCheckSolutionForNegativeNumbers(pcSolution) == false) return false;
 	return true;
 }//bool CMscnProblem::bConstraintsSatisfied(double * pdSolution, int iSize)
 
@@ -406,7 +406,9 @@ bool CMscnProblem::bCheckSufficientProductAmmountDelivery(CSolution& pcSolution)
 	}//for (int i = 0; i < i_suppliers_count; i++)
 	return true;
 }//bool CMscnProblem::bCheckSufficientProductAmmountDelivery(double* pdSolution)
-//USUNAC TO??????
+
+ //USUNAC TO?????? poprawic jak u raszczuka? 
+
 double CMscnProblem::dGetMinValueAt(CSolution& pcSolution, int iIndex)
 {
 	if (iIndex < 0 || iIndex >= pcSolution.iGetSize()) return -1;
@@ -852,7 +854,13 @@ bool CMscnProblem::bWriteMatrixToFile(FILE* pfFile, CMatrix* pcMatrix)
 	return true;
 }//bool CSolution::bWriteMatrixToFile(FILE* pfFile, CMatrix* pcMatrix)
 
-void CMscnProblem::vGenerateInstance(CRandom& cRandom)
+void CMscnProblem::vGenerateInstance(int iSeed)
+{	
+	CRandom cRandom(iSeed);
+	vRandomize(cRandom);
+}//void CMscnProblem::vGenerateInstance(int iInstanceSeed)
+
+void CMscnProblem::vRandomize(CRandom& cRandom)
 {
 	ct_suppliers_capacity_ammount->vRandomizeValues(cRandom.vSetRange(MINIMAL_CAPACITY_AMMOUNT, MAXIMAL_SUPPLIER_CAPACITY_AMMOUNT));
 	ct_factories_capacity_ammount->vRandomizeValues(cRandom.vSetRange(MINIMAL_CAPACITY_AMMOUNT, MAXIMAL_FACTORY_CAPACITY_AMMOUNT));
@@ -862,11 +870,23 @@ void CMscnProblem::vGenerateInstance(CRandom& cRandom)
 	ct_suppliers_contract_prices->vRandomizeValues(cRandom.vSetRange(MINIMAL_SUPPLIER_CONTRACT_PRICE_VALUE, MAXIMAL_SUPPLIER_CONTRACT_PRICE_VALUE));
 	ct_factories_contract_prices->vRandomizeValues(cRandom.vSetRange(MINIMAL_FACTORY_CONTRACT_PRICE_VALUE, MAXIMAL_FACTORY_CONTRACT_PRICE_VALUE));
 	ct_warehouses_contract_prices->vRandomizeValues(cRandom.vSetRange(MINIMAL_WAREHOUSE_CONTRACT_PRICE_VALUE, MAXIMAL_WAREHOUSE_CONTRACT_PRICE_VALUE));
-	ct_sellers_income_value->vRandomizeValues(cRandom.vSetRange(MINIMAL_SELLER_CONTRACT_PRICE_VALUE, MAXIMAL_SELLER_CONTRACT_PRICE_VALUE));
+	ct_sellers_income_value->vRandomizeValues(cRandom.vSetRange(MINIMAL_SELLER_INCOME_VALUE, MAXIMAL_SELLER_INCOME_VALUE));
 
 	cm_delivery_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CD_VALUE, MAXIMAL_CD_VALUE));
 	cm_factory_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CF_VALUE, MAXIMAL_CF_VALUE));
 	cm_warehouse_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CM_VALUE, MAXIMAL_CM_VALUE));
 
-	bInitMinMaxMatrixes();
-}//void CMscnProblem::vGenerateInstance(int iInstanceSeed)
+	cm_min_items_sent_from_supplier->vRandomizeValues(cRandom.vSetRange(MINIMAL_XD_VALUE, MAXIMAL_XD_VALUE / 2));
+	cm_max_items_sent_from_supplier->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XD_VALUE / 2, MAXIMAL_XD_VALUE));
+
+	cm_min_items_sent_from_factory->vRandomizeValues(cRandom.vSetRange(MINIMAL_XF_VALUE, MAXIMAL_XF_VALUE / 2));
+	cm_max_items_sent_from_factory->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XF_VALUE / 2, MAXIMAL_XF_VALUE));
+
+	cm_min_items_sent_from_warehouse->vRandomizeValues(cRandom.vSetRange(MINIMAL_XM_VALUE, MAXIMAL_XM_VALUE / 2));
+	cm_max_items_sent_from_warehouse->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XM_VALUE / 2, MAXIMAL_XM_VALUE));
+}
+
+bool CMscnProblem::bGetQuality(double& dResult)
+{
+	return bGetQuality(*pc_solution, dResult);
+}

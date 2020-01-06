@@ -13,6 +13,7 @@ public:
 	int iGetSize() { return i_size; };
 	double dGetEX();
 	bool bFillTableWithInitialValue(double** pdTable, int iSize);
+	bool bFillTableWithValue(double dValue);
 	bool bSetSize(int iNewSize);
 	bool bSet(double dValue, int iIndex);
 	
