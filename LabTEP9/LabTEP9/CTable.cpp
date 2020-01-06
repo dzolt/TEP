@@ -90,3 +90,13 @@ void CTable::vRandomizeValues(CRandom& cRandom)
 		pd_table[i] = cRandom.dGenerateNumber();
 	}
 }//void CTable::vRandomizeValues(CRandom& cRandom)
+
+double CTable::dGetEX()
+{
+	double result = 0;
+	for (int i = 0; i < i_size; i++)
+	{
+		result += pd_table[i];
+	}
+	return result / i_size;
+}

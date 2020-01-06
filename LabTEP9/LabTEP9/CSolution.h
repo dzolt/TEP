@@ -16,10 +16,13 @@ public:
 	CMatrix* pmGetXdMatrix() { return(cm_xdMatrix); };
 	CMatrix* pmGetXfMatrix() { return(cm_xfMatrix); };
 	CMatrix* pmGetXmMatrix() { return(cm_xmMatrix); };
+	int iGetXfMatrixFirstIndex() { return i_suppliers_count * i_factories_count; };
+	int iGetXmMatrixFirstIndex() { return i_suppliers_count * i_factories_count + i_factories_count + i_sellers_count; };
 
 	bool bWriteSolutionToFile(std::string sFileName);
 	bool bReadSolutionFromFile(std::string sFileName);
 
+	void vFillMatrixes();
 private:
 	bool bReadEntitiesFromSolutionFile(FILE* pfFile);
 	bool bReadSolutionValuesFromSolutionFile(FILE* pfFile);
@@ -27,7 +30,6 @@ private:
 	bool bWriteEntitiesToSolutionFile(FILE* pfFile);
 	bool bWriteSolutionValuesToSolutionFile(FILE* pfFile);
 	bool bWriteSolutionMatrixToFile(FILE* pfFile, CMatrix* pcMatrix);
-	void vFillMatrixes();
 	void vFillMatrixWithSolutionValues(CMatrix* cmMatrix, int iSolutionStartingIndex);
 
 	unsigned int i_suppliers_count;

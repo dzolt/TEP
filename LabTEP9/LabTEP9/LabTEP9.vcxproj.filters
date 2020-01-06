@@ -33,6 +33,9 @@
     <ClCompile Include="CRandom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CRandomSearch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMscnProblem.h">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CRandomSearch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

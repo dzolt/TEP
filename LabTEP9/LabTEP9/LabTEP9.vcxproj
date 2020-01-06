@@ -154,6 +154,7 @@
     <ClCompile Include="CMatrix.cpp" />
     <ClCompile Include="CMscnProblems.cpp" />
     <ClCompile Include="CRandom.cpp" />
+    <ClCompile Include="CRandomSearch.cpp" />
     <ClCompile Include="CSolution.cpp" />
     <ClCompile Include="CTable.cpp" />
     <ClCompile Include="LabTEP9.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="CMscnProblem.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CRandom.h" />
+    <ClInclude Include="CRandomSearch.h" />
     <ClInclude Include="CSolution.h" />
     <ClInclude Include="CTable.h" />
   </ItemGroup>

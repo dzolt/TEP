@@ -13,6 +13,11 @@ public:
 	CMscnProblem(unsigned int iSuppliersCount, unsigned int iFactoriesCount, unsigned int iWarehousesCount, unsigned int iSellersCount, bool& bSuccess);
 	~CMscnProblem();
 
+	int iGetSuppliersCount() { return i_suppliers_count; }
+	int iGetFactoriesCount() { return i_factories_count; }
+	int iGetWarehousesCount() { return i_warehouses_count; }
+	int iGetSellersCount() { return i_sellers_count; }
+
 	bool bSetSuppliersCount(unsigned int iNewValue);
 	bool bSetWarehousesCount(unsigned int iNewValue);
 	bool bSetFactoriesCount(unsigned int iNewValue);
@@ -44,8 +49,8 @@ public:
 
 	bool bConstraintsSatisfied(CSolution& pcSolution);
 
-	double dGetMinValueAt(double* pdSolution, int iIndex);
-	double dGetMaxValueAt(double* pdSolution, int iIndex);
+	double dGetMinValueAt(CSolution& pcSolution, int iIndex);
+	double dGetMaxValueAt(CSolution& pcSolution, int iIndex);
 
 	bool bSetMinValueForSupplierItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
 	bool bSetMinValueForFactoryItemQuantityAt(double dValue, int i_xIndex, int i_yIndex);
