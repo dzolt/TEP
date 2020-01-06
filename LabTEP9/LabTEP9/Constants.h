@@ -1,6 +1,6 @@
 #pragma once
 
-#define TIMES_TO_RUN_ALGORITHM 100
+#define TIMES_TO_RUN_ALGORITHM 1000000
 
 #define DEFAULT_ENTITY_NUMBER 1
 

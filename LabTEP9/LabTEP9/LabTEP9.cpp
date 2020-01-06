@@ -10,8 +10,9 @@ void vTestRandomSearch()
 	if (bSuccess == true) {
 		CRandom random;
 		double result = 0;
-		problem->vGenerateInstance(5);
-		
+		problem->vGenerateInstance(200);
+		//problem->bReadProblemFromFile("Problem.txt");
+
 		CRandomSearch cRandomSearch(problem);
 		problem->vSetSolution(cRandomSearch.pcGetBestSolution());//retruns best solution from 100 attempts
 		
@@ -23,6 +24,7 @@ void vTestRandomSearch()
 	
 	}
 	else std::cout << "ERROR";
+	
 }
 
 int main()

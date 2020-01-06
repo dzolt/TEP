@@ -876,13 +876,23 @@ void CMscnProblem::vRandomize(CRandom& cRandom)
 	cm_factory_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CF_VALUE, MAXIMAL_CF_VALUE));
 	cm_warehouse_matrix->vRandomizeValues(cRandom.vSetRange(MINIMAL_CM_VALUE, MAXIMAL_CM_VALUE));
 
-	cm_min_items_sent_from_supplier->vRandomizeValues(cRandom.vSetRange(MINIMAL_XD_VALUE, MAXIMAL_XD_VALUE / 2));
+	/*cm_min_items_sent_from_supplier->vRandomizeValues(cRandom.vSetRange(MINIMAL_XD_VALUE, MAXIMAL_XD_VALUE / 2));
 	cm_max_items_sent_from_supplier->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XD_VALUE / 2, MAXIMAL_XD_VALUE));
 
 	cm_min_items_sent_from_factory->vRandomizeValues(cRandom.vSetRange(MINIMAL_XF_VALUE, MAXIMAL_XF_VALUE / 2));
 	cm_max_items_sent_from_factory->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XF_VALUE / 2, MAXIMAL_XF_VALUE));
 
 	cm_min_items_sent_from_warehouse->vRandomizeValues(cRandom.vSetRange(MINIMAL_XM_VALUE, MAXIMAL_XM_VALUE / 2));
+	cm_max_items_sent_from_warehouse->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XM_VALUE / 2, MAXIMAL_XM_VALUE));*/
+
+
+	cm_min_items_sent_from_supplier->bInitializeMatrixWithValue(MINIMAL_XD_VALUE);
+	cm_max_items_sent_from_supplier->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XD_VALUE / 2, MAXIMAL_XD_VALUE));
+
+	cm_min_items_sent_from_factory->bInitializeMatrixWithValue(MINIMAL_XF_VALUE);
+	cm_max_items_sent_from_factory->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XF_VALUE / 2, MAXIMAL_XF_VALUE));
+
+	cm_min_items_sent_from_warehouse->bInitializeMatrixWithValue(MINIMAL_XM_VALUE);
 	cm_max_items_sent_from_warehouse->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XM_VALUE / 2, MAXIMAL_XM_VALUE));
 }
 

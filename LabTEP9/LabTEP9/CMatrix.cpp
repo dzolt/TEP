@@ -69,6 +69,19 @@ bool CMatrix::vInitializeMatrixWithInitialValue(double** pdMatrix, int iSizeX, i
 	return true;
 }//bool CMatrix::vInitializeMatrixWithInitialValue(double*** pdMatrix, int iSizeX, int iSizeY)
 
+bool CMatrix::bInitializeMatrixWithValue(double dValue)
+{
+	if (dValue < 0 ) return false;
+	for (int i = 0; i < i_size_x; i++)
+	{
+		for (int j = 0; j < i_size_y; j++)
+		{
+			pd_matrix[i][j] = dValue;
+		}//for (int j = 0; j < iSizeY; j++)
+	}//for (int i = 0; i < iSizeX; i++)
+	return true;
+}//bool CMatrix::vInitializeMatrixWithInitialValue(double*** pdMatrix, int iSizeX, int iSizeY)
+
 void CMatrix::operator=(const CMatrix& pcOther)
 {	
 	vDelete();

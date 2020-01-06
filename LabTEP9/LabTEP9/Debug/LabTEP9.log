@@ -1,1 +1,4 @@
-﻿  LabTEP9.vcxproj -> C:\Users\Damian\source\repos\TEP\LabTEP9\Debug\LabTEP9.exe
+﻿  LabTEP9.cpp
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.h(34): warning C4018: '<': signed/unsigned mismatch
+c:\users\damian\source\repos\tep\labtep9\labtep9\cmatrix.h(36): warning C4018: '<': signed/unsigned mismatch
+  LabTEP9.vcxproj -> C:\Users\Damian\source\repos\TEP\LabTEP9\Debug\LabTEP9.exe

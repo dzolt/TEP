@@ -21,6 +21,7 @@ public:
 	bool bSetSize(int iNewSizeX, int iNewSizeY);
 	
 	bool vInitializeMatrixWithInitialValue(double** pdMatrix, int iSizeX, int iSizeY);
+	bool bInitializeMatrixWithValue(double dValue);
 	void vRandomizeValues(CRandom& cRandom);
 	void operator=(const CMatrix& pcOther);
 	void vCopy(const CMatrix& pcOther);

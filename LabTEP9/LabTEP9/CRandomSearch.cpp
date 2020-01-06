@@ -23,32 +23,26 @@ CRandomSearch::~CRandomSearch()
 CSolution* CRandomSearch::pcGenerateSolution(CRandom& cRandom)
 {
 	CSolution* pcSolution;
-	pcSolution = new CSolution(pc_problem->iGetSuppliersCount(), pc_problem->iGetFactoriesCount(), pc_problem->iGetWarehousesCount(),
-		pc_problem->iGetSellersCount());
+	pcSolution = new CSolution(pc_problem->iGetSuppliersCount(), pc_problem->iGetFactoriesCount(), pc_problem->iGetWarehousesCount(), pc_problem->iGetSellersCount());
 	double dRandom = 0;
-	//double currentAmmountSent = 0; // dodalem current ammount sent mozne zle??
 	for (int i = 0; i < pcSolution->iGetSize(); i++)
 	{	
-		//if (i == pcSolution->iGetXfMatrixFirstIndex() || i == pcSolution->iGetXmMatrixFirstIndex()) currentAmmountSent = 0;
 
-		if (i < pcSolution->iGetXfMatrixFirstIndex())
+		/*if (i < pcSolution->iGetXfMatrixFirstIndex())
 		{	
 			dRandom = cRandom.vSetRange(pc_problem->dGetMinValueAt(*pcSolution, i), pc_problem->dGetMaxValueAt(*pcSolution, i)).dGenerateNumber();
 			pcSolution->pdGetPdSolution()->bSet(dRandom,i);
-			//currentAmmountSent += pcSolution->pdGetPdSolution()->dGet(i);
 		}
 		else if (i < pcSolution->iGetXmMatrixFirstIndex())
 		{
 			dRandom = cRandom.vSetRange(pc_problem->dGetMinValueAt(*pcSolution, i), pc_problem->dGetMaxValueAt(*pcSolution, i)).dGenerateNumber();
 			pcSolution->pdGetPdSolution()->bSet(dRandom, i);
-			//currentAmmountSent += pcSolution->pdGetPdSolution()->dGet(i);
 		}
 		else
-		{
+		{*/
 			dRandom = cRandom.vSetRange(pc_problem->dGetMinValueAt(*pcSolution, i), pc_problem->dGetMaxValueAt(*pcSolution, i)).dGenerateNumber();
 			pcSolution->pdGetPdSolution()->bSet(dRandom, i);
-			//currentAmmountSent += pcSolution->pdGetPdSolution()->dGet(i) -20;
-		}
+		//}
 	}
 
 	pcSolution->vFillMatrixes();
@@ -85,6 +79,7 @@ CSolution* CRandomSearch::pcGetBestSolution()
 				 pc_best_solution = pc_current_solution;
 			 }
 		 }
+		 
 		//i warunek na sprawdzenie ktore jest lepsze
 	}
 	return pc_best_solution;
