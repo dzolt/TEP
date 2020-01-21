@@ -1,14 +1,18 @@
 #pragma once
 #include "Constants.h"
 #include "CRandomSearch.h"
-class CDiffEvol
+#include "COptimizer.h"
+class CDiffEvol : public COptimizer
 {
 public:
-	CDiffEvol(CMscnProblem& pcProblem, int iPopulationSize);
+	CDiffEvol(int iPopulationSize);
 	~CDiffEvol();
-	CSolution* pcGetBestSolutionFromPopulation(CMscnProblem& pcProblem);
+	bool bInitialize(CProblem& pcProblem);
 
-	void vPrintPopulation(CMscnProblem& pcProblem)
+	void vSetConstants(double dCrossProb, double dDiffWeight);
+	void vSetPopulationSize(int iPopulationSize) { i_population_size = iPopulationSize; };
+
+	void vPrintPopulation(CProblem& pcProblem)
 	{
 		double result;
 		for (int i = 0; i < pv_population.size(); i++)
@@ -20,14 +24,19 @@ public:
 			std::cout << "Constraints satisfied: " << std::boolalpha << pcProblem.bConstraintsSatisfied(*pv_population.at(i)) << std::endl;
 		}
 	}
+	CSolution* pcGetBestSolution();
 private:
-	bool bInitPopulation(int iPopulationSize);
+	bool bInitPopulation();
 	double dGetRandomReal(double dFrom, double dTo);
 	bool bIndividualsAreDifferent(CSolution* pcInd, CSolution* pcBaseInd, CSolution* pcAddInd0, CSolution* pcAddInd1);
 	CSolution* pcGetRandomInd();
-	void vCorrectGenotype();
-	std::vector<CSolution*> pv_population;
-	CMscnProblem* pc_problem;
+	bool bRunAlgorithm();
 
+	std::vector<CSolution*> pv_population;
+	//CProblem* pc_problem;
 	CRandom c_random;
+
+	int i_population_size;
+	double d_cross_probability;
+	double d_diff_weight;
 };

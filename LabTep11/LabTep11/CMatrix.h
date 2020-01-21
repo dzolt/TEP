@@ -28,6 +28,8 @@ public:
 
 	double dMultiplyMatrixProduct(const CMatrix& cmOtherMatrix);
 	double dSumInRowOrColumn(char cFlag, int irowOrColumnIndex);
+	bool bSubtractFromRow(int iRowNumber, double dValueToSubtract);
+	bool bSubtractFromColumn(int iColumnNumber, double dValueToSubtract);
 
 	void vPrint()
 	{

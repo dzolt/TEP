@@ -30,6 +30,9 @@ public:
 
 	void vCopySizes(const CSolution& pcOther);
 
+	void vFillTableFromMatrixes();
+	void vInitTableWithMatrix(CMatrix& mMatrix, int i_xIndex, int i_yIndex, int& iSolutionIndex);
+
 private:
 	bool bReadEntitiesFromSolutionFile(FILE* pfFile);
 	bool bReadSolutionValuesFromSolutionFile(FILE* pfFile);

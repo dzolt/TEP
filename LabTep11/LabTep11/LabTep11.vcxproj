@@ -23,10 +23,13 @@
     <ClInclude Include="CMatrix.h" />
     <ClInclude Include="CMscnProblem.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="COptimizer.h" />
+    <ClInclude Include="CProblem.h" />
     <ClInclude Include="CRandom.h" />
     <ClInclude Include="CRandomSearch.h" />
     <ClInclude Include="CSolution.h" />
     <ClInclude Include="CTable.h" />
+    <ClInclude Include="CTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CDiffEvol.cpp" />
@@ -36,6 +39,7 @@
     <ClCompile Include="CRandomSearch.cpp" />
     <ClCompile Include="CSolution.cpp" />
     <ClCompile Include="CTable.cpp" />
+    <ClCompile Include="CTimer.cpp" />
     <ClCompile Include="LabTEP9.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

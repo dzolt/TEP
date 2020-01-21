@@ -75,6 +75,26 @@ void CSolution::vFillMatrixWithSolutionValues(CMatrix* cmMatrix, int iSolutionSt
 	}//	for (int i = 0; i < cmMatrix->iGetSizeX(); i++)
 }//void CSolution::vFillMatrixWithSolutionValues(CMatrix* cmMatrix, int iSolutionStartingIndex)
 
+void CSolution::vFillTableFromMatrixes()
+{
+	int iSolutionIndex = 0;
+	vInitTableWithMatrix(*cm_xdMatrix, i_suppliers_count, i_factories_count, iSolutionIndex);
+	vInitTableWithMatrix(*cm_xfMatrix, i_factories_count, i_warehouses_count, iSolutionIndex);
+	vInitTableWithMatrix(*cm_xmMatrix, i_warehouses_count, i_sellers_count, iSolutionIndex);
+}
+
+void CSolution::vInitTableWithMatrix(CMatrix& mMatrix, int i_xIndex, int i_yIndex, int& iSolutionIndex)
+{
+	for (int i = 0; i < i_xIndex; i++)
+	{
+		for (int j = 0; j < i_yIndex; j++)
+		{
+			pd_solution->bSet(mMatrix.dGet(i, j), iSolutionIndex);
+			iSolutionIndex++;
+		}
+	}
+}
+
 void CSolution::vFillMatrixes()
 {
 	int iStartingIndexOfFactoryMatrix = i_suppliers_count * i_factories_count;

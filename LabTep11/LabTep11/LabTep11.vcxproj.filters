@@ -39,6 +39,15 @@
     <ClInclude Include="CRandomSearch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="COptimizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CProblem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CDiffEvol.cpp">
@@ -63,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LabTEP9.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

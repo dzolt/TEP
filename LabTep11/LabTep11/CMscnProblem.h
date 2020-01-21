@@ -1,12 +1,12 @@
-#pragma warning(disable:4996)
+#pragma once
 #include "CMatrix.h"
 #include "CTable.h"
-#include "CSolution.h"
 #include "Constants.h"
+#include "CProblem.h"
 #include <iostream>
 
 
-class CMscnProblem
+class CMscnProblem: public CProblem
 {
 public:
 	CMscnProblem();
@@ -83,7 +83,13 @@ public:
 
 	void vGenerateInstance(int iSeed);
 	void vRandomize(CRandom& cRandom);
+
+	bool bRepairSolution(CSolution& pcSolution);
 private:
+	bool bFixCapacity(int iCount, CMatrix& firstMatrix, CTable& tCapacityTab);
+	bool bFixCapacityShop(int iCount, CMatrix& firstMatrix, CTable& tCapacityTab);
+	bool bFixInsufficientAmmount(int iCount, CMatrix& mFirstMatrix, CMatrix& mSecondMatrix);
+
 
 	inline bool bInitTables();
 	inline bool bInitMatrixes();

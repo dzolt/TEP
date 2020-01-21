@@ -173,6 +173,30 @@ double CMatrix::dSumInRowOrColumn(char cFlag, int iRowOrColumnIndex)
 	else return -1;
 }//double CMatrix::dSumInRowOrColumn(char cFlag, int irowOrColumnIndex)
 
+bool CMatrix::bSubtractFromRow(int iRowNumber, double dValueToSubtract)
+{
+	if (iRowNumber < 0 || iRowNumber >= i_size_x) return false;
+
+	for (int i = 0; i < i_size_y; i++)
+	{
+		if (pd_matrix[iRowNumber][i] - dValueToSubtract > 0) pd_matrix[iRowNumber][i] -= dValueToSubtract;
+		else pd_matrix[iRowNumber][i] = 0;
+	}
+	return true;
+}
+
+bool CMatrix::bSubtractFromColumn(int iColumnNumber, double dValueToSubtract)
+{
+	if (iColumnNumber < 0 || iColumnNumber >= i_size_y) return false;
+
+	for (int i = 0; i < i_size_x; i++)
+	{
+		if (pd_matrix[i][iColumnNumber] - dValueToSubtract > 0) pd_matrix[i][iColumnNumber] -= dValueToSubtract;
+		else pd_matrix[i][iColumnNumber] = 0;
+	}
+	return true;
+}
+
 void CMatrix::vRandomizeValues(CRandom& cRandom)
 {
 	for (int i = 0; i < i_size_x; i++)

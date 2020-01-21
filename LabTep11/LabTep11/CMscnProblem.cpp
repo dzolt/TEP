@@ -862,3 +862,76 @@ void CMscnProblem::vRandomize(CRandom& cRandom)
 	cm_min_items_sent_from_warehouse->bInitializeMatrixWithValue(MINIMAL_XM_VALUE);
 	cm_max_items_sent_from_warehouse->vRandomizeValues(cRandom.vSetRange(MAXIMAL_XM_VALUE / 2, MAXIMAL_XM_VALUE));
 }
+
+bool CMscnProblem::bRepairSolution(CSolution& pcSolution)
+{
+	bFixCapacity(i_suppliers_count, *pcSolution.pmGetXdMatrix(), *ct_suppliers_capacity_ammount);
+	bFixCapacity(i_factories_count, *pcSolution.pmGetXfMatrix(), *ct_factories_capacity_ammount);
+	bFixCapacity(i_warehouses_count, *pcSolution.pmGetXmMatrix(), *ct_warehouses_capacity_ammount);
+	bFixCapacityShop(i_sellers_count, *pcSolution.pmGetXmMatrix(), *ct_sellers_capacity_ammount);
+
+	bFixInsufficientAmmount(i_factories_count, *pcSolution.pmGetXdMatrix(), *pcSolution.pmGetXfMatrix());
+	bFixInsufficientAmmount(i_warehouses_count, *pcSolution.pmGetXfMatrix(), *pcSolution.pmGetXmMatrix());
+
+	pcSolution.vFillTableFromMatrixes();
+	return true;
+}
+
+bool CMscnProblem::bFixCapacity(int iCount, CMatrix& mMatrix, CTable& tCapacityTable)
+{
+	double dProductQuantityGoingFromTheEnitity;
+	int iCounter = 0;
+
+	for (int i = 0; i < iCount; i++)
+	{
+		dProductQuantityGoingFromTheEnitity = mMatrix.dSumInRowOrColumn('r', i);
+		while (dProductQuantityGoingFromTheEnitity > tCapacityTable.dGet(i))
+		{
+			if (iCounter >= MAX_TIMES_TILL_FALLBACK) return false;
+			mMatrix.bSubtractFromRow(i, DEFAULT_SUBTRACTION_VALUE);
+			dProductQuantityGoingFromTheEnitity = mMatrix.dSumInRowOrColumn('r', i);
+			iCounter++;
+		}
+	}
+	return true;
+}
+
+bool CMscnProblem::bFixCapacityShop(int iCount, CMatrix& mMatrix, CTable& tCapacityTable)
+{
+	double dProductQuantityGoingToTheEnitity;
+	int iCounter = 0;
+
+	for (int i = 0; i < iCount; i++)
+	{
+		dProductQuantityGoingToTheEnitity = mMatrix.dSumInRowOrColumn('c', i);
+		while (dProductQuantityGoingToTheEnitity > tCapacityTable.dGet(i))
+		{
+			if (iCounter >= MAX_TIMES_TILL_FALLBACK) return false;
+			mMatrix.bSubtractFromColumn(i, DEFAULT_SUBTRACTION_VALUE);
+			dProductQuantityGoingToTheEnitity = mMatrix.dSumInRowOrColumn('c', i);
+			iCounter++;
+		}
+	}
+	return true;
+}
+
+bool CMscnProblem::bFixInsufficientAmmount(int iCount, CMatrix& mFirstMatrix, CMatrix& mSecondMatrix)
+{
+	double dProductQuantityGointToTheEntity = 0;
+	double dProductQuantityGointFromTheEntity = 0;
+	int iCounter = 0;
+
+	for (int i = 0; i < iCount; i++)
+	{
+		dProductQuantityGointToTheEntity = mFirstMatrix.dSumInRowOrColumn('c', i);
+		dProductQuantityGointFromTheEntity = mSecondMatrix.dSumInRowOrColumn('r', i);
+		while (dProductQuantityGointToTheEntity < dProductQuantityGointFromTheEntity)
+		{
+			if (iCounter >= MAX_TIMES_TILL_FALLBACK) return false;
+			mSecondMatrix.bSubtractFromRow(i, DEFAULT_SUBTRACTION_VALUE);
+			dProductQuantityGointFromTheEntity = mSecondMatrix.dSumInRowOrColumn('r', i);
+			iCounter++;
+		}
+	}
+	return true;
+}

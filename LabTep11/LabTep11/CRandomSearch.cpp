@@ -6,61 +6,40 @@ CRandomSearch::CRandomSearch()
 	pc_best_solution = NULL;
 }
 
-CRandomSearch::~CRandomSearch()
+bool CRandomSearch::bInitialize(CProblem& pcProblem)
 {
+	pc_problem = &pcProblem;
+	return true;
 }
 
-CSolution* CRandomSearch::pcGenerateSolution(CMscnProblem& cProblem)
+bool CRandomSearch::bRunAlgorithm()
 {
-	CRandom cRandom;
-	CSolution* pcSolution;
-	pcSolution = new CSolution(cProblem.iGetSuppliersCount(), cProblem.iGetFactoriesCount(), cProblem.iGetWarehousesCount(), cProblem.iGetSellersCount());
-	double dRandom = 0;
-	for (int i = 0; i < pcSolution->iGetSize(); i++)
+	if (pc_problem == NULL)
 	{
-		dRandom = cRandom.vSetRange(cProblem.dGetMinValueAt(i), cProblem.dGetMaxValueAt(i)).dGenerateNumber();
-		pcSolution->pdGetPdSolution()->bSet(dRandom, i);
+		std::cout << "ALGORITHM UNINITIALIZED! CANNOT PROCEEED!\n" << std::endl;
+		return false;
 	}
+	bool bSuccessfullFind = false;
 
-	pcSolution->vFillMatrixes();
-	return pcSolution;
-}
-
-CSolution* CRandomSearch::pcGetValidSolution(CMscnProblem& cProblem)
-{
-	CSolution* pcValidSolution;
-	for (int i = 0; i < TIMES_TO_VALIDATE_SOLUTION; i++)
-	{
-		pcValidSolution = pcGenerateSolution(cProblem);
-		if (cProblem.bConstraintsSatisfied(*pcValidSolution))
-		{
-			return pcValidSolution;
-		}
-		delete pcValidSolution;
-	}
-	return NULL;
-}
-
-CSolution* CRandomSearch::pcGetBestSolution(CMscnProblem& cProblem)
-{
-	int dupa = 0;
+	pc_best_solution = new CSolution(pc_problem->iGetSuppliersCount(), pc_problem->iGetFactoriesCount(), pc_problem->iGetWarehousesCount(), pc_problem->iGetSellersCount());
 	double dCurrentProfit = 0;
 	double dBestProfit = 0;
-	pc_best_solution = new CSolution(cProblem.iGetSuppliersCount(), cProblem.iGetFactoriesCount(), cProblem.iGetWarehousesCount(), cProblem.iGetSellersCount());
 
-	for (int i = 0; i < TIMES_TO_RUN_ALGORITHM; i++)
+	CTimer time;
+	time.vStart();
+
+	while (time.dCurrentTime() < TIMES_TO_RANDOM_ALGORITHM_TIMEOUT)
 	{
-		pc_current_solution = pcGenerateSolution(cProblem);
-		// bGetSolutionQualityToFile("SolutionsQuality.txt", dCurrentProfit);
-		if (cProblem.bConstraintsSatisfied(*pc_current_solution) == true)
+		pc_current_solution = pcGenerateSolution(*pc_problem);
+		if (pc_problem->bConstraintsSatisfied(*pc_current_solution) == true)
 		{
-			cProblem.bGetQuality(*pc_current_solution, dCurrentProfit);
+			pc_problem->bGetQuality(*pc_current_solution, dCurrentProfit);
 			if (dCurrentProfit > dBestProfit)
 			{
-				dupa++;
 				delete pc_best_solution;
 				dBestProfit = dCurrentProfit;
 				pc_best_solution = pc_current_solution;
+				bSuccessfullFind = true;
 			}
 			else
 			{
@@ -72,60 +51,44 @@ CSolution* CRandomSearch::pcGetBestSolution(CMscnProblem& cProblem)
 			delete pc_current_solution;
 		}
 	}
-	std::cout << "Ilosc rozwiazan dobrych: " << dupa << std::endl;
-	return pc_best_solution;
-}
-/*
-bool CRandomSearch::bGetSolutionQualityToFile(std::string sFileName, double dProfit)
-{
-	FILE* pfFile;
-	pfFile = fopen(sFileName.c_str(), "a");
-	if (pfFile == NULL) return false;
-	fprintf(pfFile, "\nxd\n");
-	for (int i = 0; i < pc_current_solution->pmGetXdMatrix()->iGetSizeX(); i++)
-	{
-		for (int j = 0; j < pc_current_solution->pmGetXdMatrix()->iGetSizeY(); j++)
-		{
-			double dMinRange = pc_problem->pmGetMinItemsSupplierMatrix()->dGet(i, j);
-			double dMaxRange = pc_problem->pmGetMaxItemsSupplierMatrix()->dGet(i, j);
-			double percantage = dCalculateRangePercentage(pc_current_solution->pmGetXdMatrix()->dGet(i, j), dMinRange, dMaxRange);
-			fprintf(pfFile, "%lf%% ", percantage);
-		}
-		fprintf(pfFile, "\n");
-	}
-
-	fprintf(pfFile, "\nxf\n");
-	for (int i = 0; i < pc_current_solution->pmGetXfMatrix()->iGetSizeX(); i++)
-	{
-		for (int j = 0; j < pc_current_solution->pmGetXfMatrix()->iGetSizeY(); j++)
-		{
-			double dMinRange = pc_problem->pmGetMinItemsFactoryMatrix()->dGet(i, j);
-			double dMaxRange = pc_problem->pmGetMaxItemsFactoryMatrix()->dGet(i, j);
-			double percantage = dCalculateRangePercentage(pc_current_solution->pmGetXfMatrix()->dGet(i, j), dMinRange, dMaxRange);
-			fprintf(pfFile, "%lf%% ", percantage);
-		}
-		fprintf(pfFile, "\n");
-	}
-
-	fprintf(pfFile, "\nxm\n");
-	for (int i = 0; i < pc_current_solution->pmGetXmMatrix()->iGetSizeX(); i++)
-	{
-		for (int j = 0; j < pc_current_solution->pmGetXmMatrix()->iGetSizeY(); j++)
-		{
-			double dMinRange = pc_problem->pmGetMinItemsWarehouseMatrix()->dGet(i, j);
-			double dMaxRange = pc_problem->pmGetMaxItemsWarehouseMatrix()->dGet(i, j);
-			double percantage = dCalculateRangePercentage(pc_current_solution->pmGetXmMatrix()->dGet(i, j), dMinRange, dMaxRange);
-			fprintf(pfFile, "%lf%% ", percantage);
-		}
-		fprintf(pfFile, "\n");
-	}
-	fprintf(pfFile, "\nprofit: ");
-	fprintf(pfFile, "%lf", dProfit);
-	return true;
+	time.vStop();
+	return bSuccessfullFind;
 }
 
-double CRandomSearch::dCalculateRangePercentage(double dValue, double dMinRange, double dMaxRange)
+CSolution* CRandomSearch::pcGenerateSolution(CProblem& pcProblem)
 {
-	double range = dMaxRange - dMinRange;
-	return ((dValue - dMinRange) / range) * 100;
-}*/
+	CRandom cRandom;
+	CSolution* pcSolution;
+	pcSolution = new CSolution(pcProblem.iGetSuppliersCount(), pcProblem.iGetFactoriesCount(), pcProblem.iGetWarehousesCount(), pcProblem.iGetSellersCount());
+	double dRandom = 0;
+
+	for (int i = 0; i < pcSolution->iGetSize(); i++)
+	{
+		dRandom = cRandom.vSetRange(pcProblem.dGetMinValueAt(i), pcProblem.dGetMaxValueAt(i)).dGenerateNumber();
+		pcSolution->pdGetPdSolution()->bSet(dRandom, i);
+	}
+
+	pcSolution->vFillMatrixes();
+	return pcSolution;
+}
+
+CSolution* CRandomSearch::pcGetValidSolution(CProblem& pcProblem)
+{
+	CSolution* pcValidSolution;
+	CTimer time;
+	time.vStart();
+	//for (int i = 0; i < TIMES_TO_VALIDATE_SOLUTION; i++){
+	while(time.dCurrentTime() < VALIDATE_SOLUTION_TIMEOUT)
+	{ 
+		pcValidSolution = pcGenerateSolution(pcProblem);
+		if (pcProblem.bConstraintsSatisfied(*pcValidSolution))
+		{	
+			time.vStop();
+			return pcValidSolution;
+		}
+		delete pcValidSolution;
+	}
+	time.vStop();
+	return NULL;
+}
+

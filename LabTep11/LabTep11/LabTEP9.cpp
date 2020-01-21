@@ -1,72 +1,70 @@
 #include <iostream>
 #include "CRandom.h"
-#include "CRandomSearch.h"
 #include "CDiffEvol.h"
+#include "CMscnProblem.h"
+#include "CRandomSearch.h"
 
 void vTestRandomSearch()
 {
 	bool bSuccess = true;
-	CMscnProblem problem(3, 2, 4, 2, bSuccess);
+	CProblem* pc_problem = new CMscnProblem(3, 2, 4, 2, bSuccess);
 	if (bSuccess == true) {
 		CSolution* pcSolution;
 		double result = 0;
-		problem.vGenerateInstance(200);
-		//problem->bReadProblemFromFile("Problem.txt");
 
-		CRandomSearch cRandomSearch;
-		pcSolution = cRandomSearch.pcGetBestSolution(problem);
+		pc_problem->vGenerateInstance(200);
 
-		problem.bGetQuality(*pcSolution, result);
+		COptimizer* pc_optimizer = new CRandomSearch();
+		pc_optimizer->bInitialize(*pc_problem);
+		pc_optimizer->bRunAlgorithm();
+
+		pcSolution = pc_optimizer->pcGetBestSolution();
+
+		pc_problem->bGetQuality(*pcSolution, result);
 		std::cout << "bGetQuality = " << result << std::endl;
-		std::cout << "bConstraintsSatisfied: " << std::boolalpha << problem.bConstraintsSatisfied(*pcSolution);
-		problem.bWriteProblemToFile("Problem.txt");
-
+		std::cout << "bConstraintsSatisfied: " << std::boolalpha << pc_problem->bConstraintsSatisfied(*pcSolution);
+		delete pc_optimizer;
 	}
 	else std::cout << "ERROR";
-
+	delete pc_problem;
 }
 
 void vDiffTest()
 {
 	bool bSuccess = true;
-	CMscnProblem problem(3, 2, 4, 2, bSuccess);
+	CProblem* pc_problem = new CMscnProblem(3, 2, 4, 2, bSuccess);
 	if (bSuccess == true)
-	{
-		double result = 0;
-		problem.vGenerateInstance(200);
-		CDiffEvol evolutionProblem(problem, 20);
+	{	
+		CDiffEvol diffEvol(10);
 		CSolution* pcSolution;
-		pcSolution = evolutionProblem.pcGetBestSolutionFromPopulation(problem);
-		problem.bGetQuality(*pcSolution, result);
+		double result = 0;
+		pc_problem->vGenerateInstance(200);
+
+		COptimizer* pc_optimizer = &diffEvol;
+		pc_optimizer->bInitialize(*pc_problem);
+		pcSolution = pc_optimizer->pcGetBestSolution();
+		pc_problem->bGetQuality(*pcSolution, result);
+		std::cout << "BEFORE OPTIMALIZATION: \n" << std::endl;
 		std::cout << "bGetQuality = " << result << std::endl;
-		std::cout << "bConstraintsSatisfied: " << std::boolalpha << problem.bConstraintsSatisfied(*pcSolution);
+		std::cout << "bConstraintsSatisfied: " << std::boolalpha << pc_problem->bConstraintsSatisfied(*pcSolution);
 		std::cout << "\n\n\n";
-		evolutionProblem.vPrintPopulation(problem);
+		diffEvol.vPrintPopulation(*pc_problem);
+		pc_optimizer->bRunAlgorithm();
+		pcSolution = pc_optimizer->pcGetBestSolution();
+		pc_problem->bGetQuality(*pcSolution, result);
+		std::cout << "AFTER OPTIMALIZATION: \n" << std::endl;
+		std::cout << "bGetQuality = " << result << std::endl;
+		std::cout << "bConstraintsSatisfied: " << std::boolalpha << pc_problem->bConstraintsSatisfied(*pcSolution);
+		std::cout << "\n\n\n";
+		diffEvol.vPrintPopulation(*pc_problem);
+
 	}
 	else std::cout << "ERROR";
+	delete pc_problem;
 }
+
 int main()
 {
-	/*bool bSuccess = true;
-	CMscnProblem problem(3, 1, 4, 1, bSuccess);
-	if (bSuccess == true) {
-		CSolution* pcSolution;
-		CRandom random;
-		CRandomSearch cRandomSearch(problem);
-		double result = 0;
-		pcSolution = new CSolution();
-		pcSolution->bReadSolutionFromFile("Solution.txt");
-		problem.bReadProblemFromFile("Problem.txt");
-		problem.vGenerateInstance(random);
-		problem.vSetSolution(pcSolution);
-
-		problem.bGetQuality(*pcSolution, result);
-		std::cout << "bGetQuality = " << result << std::endl;
-		std::cout << "bConstraintsSatisfied: " << std::boolalpha << problem.bConstraintsSatisfied(*pcSolution);
-		problem.bWriteProblemToFile("Problem.txt");
-	}
-	else std::cout << "ERROR";*/
-
 	//vTestRandomSearch();
 	vDiffTest();
 	return 0;
